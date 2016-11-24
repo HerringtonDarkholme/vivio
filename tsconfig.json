@@ -1,0 +1,20 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "target": "es5",
+        "noImplicitAny": true,
+        "noImplicitThis": true,
+        "noImplicitReturns": true,
+        "noUnusedLocals": true,
+        "strictNullChecks": true,
+        "sourceMap": false,
+        "suppressImplicitAnyIndexErrors": true,
+        "declaration": true,
+        "stripInternal": true,
+        "outDir": "./dist",
+        "lib": ["es5", "es2015.promise", "dom"]
+    },
+    "exclude": [
+        "node_modules", "dist"
+    ]
+}
