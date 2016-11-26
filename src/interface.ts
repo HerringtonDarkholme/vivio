@@ -3,6 +3,8 @@ export type BlockTags = 'div' | 'p'
 export type HTML = {
   [K in BlockTags]: Block<HTML, K>
   // img: () => HTML
+} & {
+  ul: Ul<HTML>
 }
 
 export type Literal<Tag> = {
@@ -15,10 +17,14 @@ export type WithElse<Parent> = {
   [K in keyof Parent]: Else<Parent[K]>
 }
 
+export type Close<Parent, End extends string> = {
+  [K in End]: () => Parent
+}
+
 export type Start<Tag, Parent, End extends string> = {
   class(nameHash: {[k: string]: boolean}): Start<Tag, Parent, End>
   on(handlerHash: {[k: string]: Function}): Start<Tag, Parent, End>
-  for<T>(list: T[], func: (t: T, i: number) => HTML): {[K in End]: () => Parent}
+  for(list: number[], func: (t: number, i: number) => HTML): {}
 } & Tag
 
 
@@ -28,11 +34,19 @@ export type Common<T, Parent, End extends string> = Literal<Start<T, Parent, End
 
 
 export type B<Parent, End extends string> =
-{[K in BlockTags]: Block<B<Parent, End>, K>}
-& {[K in End]: () => Parent }
+{[K in BlockTags]: Block<B<Parent, End>, K>} & Close<Parent, End>
+
+export type If<T, Parent, End extends string> = {
+  if(condition: boolean): Start<T, WithElse<Parent>, End>
+}
 
 export type Block<Parent, End extends string> =
-  Common<B<Parent, End> & { if(condition: boolean): Start<B<Parent, End>, WithElse<Parent>, End> } , Parent, End>
+  Common<B<Parent, End> & If<B<Parent, End>, Parent, End>, Parent, End>
+
+export type ulh<Parent> = {li: Block<ulh<Parent>, 'li'>, ul(): Parent}
+
+export type Ul<Parent> =
+  Common<ulh<Parent> & If<ulh<Parent>, Parent, 'ul'>, Parent, 'ul'>
 
 
 declare var h: HTML
@@ -69,20 +83,20 @@ h = h.div
 .div()
 
 
-// // h.div
-// //     .p
-// //     .div()
+h.div
+.for([], () => h)
 
-// var ul = h.ul
+var ul = h.ul
 
-// ul = h.ul
-//   .li
-//   .li()
+h = h.ul
+  .li
+  .li()
+  .ul()
 
-// ul.ul()
+h = ul.ul()
 
-// ul.li
-//   .div
+ul.li
+  .div
 
 // k = h.div
 //   .img()
