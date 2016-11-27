@@ -87,9 +87,11 @@ h
 
 
 
-h = h.div`.test`
-    .div()
-    .hr()
+h = h
+.div`.test`
+  .$`test inner text`
+.div()
+.hr()
 
 // k = h.div`.test`
 //     .ul`.test2`

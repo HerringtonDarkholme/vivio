@@ -1,7 +1,8 @@
 import {Literal, If, Common, WithElse} from './basic'
 
 export type VoidTags =
-  'area' | 'br' | 'embed' | 'hr' | 'img' | 'input' | 'link'
+  'br' | 'embed' | 'hr' | 'img' | 'input'
+  // | 'area'
 
 
 export type V<EndTag> = EndTag

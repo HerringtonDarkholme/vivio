@@ -4,10 +4,15 @@ import {ListTags, List} from './special'
 import {Literal, If, Common, Close, WithElse} from './basic'
 
 export type BlockTags =
-  'a' | 'address' | 'article' | 'aside' | 'blockquote' |
+  'a' | 'article' | 'aside' | 'blockquote' |
   'canvas' | 'div' | 'fieldset' | 'figure' | 'footer' |
   'form' | 'header' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' |
-  'h6' | 'iframe' | 'map' | 'nav' | 'p' | 's' | 'section' | 'u'
+  'h6' | 'iframe' | 'nav' | 'p' | 'section'
+   // |
+  // 's' |
+  // 'address' |
+  // 'map' |
+  // 'u'
 
 export type BB<EndTag> = {
   [K in BlockTags]: Block<B<EndTag>, K>

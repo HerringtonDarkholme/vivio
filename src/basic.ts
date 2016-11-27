@@ -28,6 +28,10 @@ export type If<Original, Enhanced> = {
   if(condition: boolean): Enhanced
 } & Original
 
+export type Interpolate<T> = T & {
+  $(str: TemplateStringsArray, ...args: any[]): Interpolate<T>
+}
+
 export type Common<T, EndTag> =
-  Start<For<T, EndTag>>
+  Start<For<Interpolate<T>, EndTag>>
 

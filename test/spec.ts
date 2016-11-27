@@ -12,31 +12,31 @@ var s = {
   select() {},
 }
 h.div`.el-autocomponet`
-  .elInput
-    .props(s.extract('value', 'disabled', 'placeholder', 'name', 'size'))
-    .on({change: s.handleChange, focus: s.handleFocus})
-    .nativeOn({
-      'keydown.up': () => s.highlight(s.highlightIndex - 1),
-      'keydown.down': () => s.highlight(s.highlightIndex + 1),
-      'keydown.enter': () => s.highlight(s.highlightIndex),
-    })()
-  .transition
+  // .elInput
+  //   .props(s.extract('value', 'disabled', 'placeholder', 'name', 'size'))
+  //   .on({change: s.handleChange, focus: s.handleFocus})
+  //   .nativeOn({
+  //     'keydown.up': () => s.highlight(s.highlightIndex - 1),
+  //     'keydown.down': () => s.highlight(s.highlightIndex + 1),
+  //     'keydown.enter': () => s.highlight(s.highlightIndex),
+  //   })()
+  // .transition
     .ul.if(s.suggestionVisible)
       .li.if(s.loading)
-        .i`.el-icon-loading`()
+        .i`.el-icon-loading`.i()
       .li()
-      .li.tag(s.customIndex)
-        .class({highlighted: s.highlightIndex === index})
+      .li
+        // .class({highlighted: s.highlightIndex === index})
         .on({click: s.select})
         .for(s.suggestions, (item, index) => h
-          .t(item.value).if(!s.customIndex)
-          .tag(s.customIndex).else
-            .class({highlighted: s.highlightIndex === index})
-            .on({click: s.select})
-            .props({item, index})
-          .tag()
+          // .$(item.value).if(!s.customIndex)
+          // .tag(s.customIndex).else
+          //   .class({highlighted: s.highlightIndex === index})
+          //   .on({click: s.select})
+          //   .props({item, index})
+          // .tag()
+        )
       .li()
-      ).template()
     .ul()
-  .transition()
+  // .transition()
 .div()
