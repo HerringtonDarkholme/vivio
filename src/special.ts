@@ -26,55 +26,86 @@ export type Media<Parent, End extends string> =
     >
   >
 
-export type ObjectTags = 'object'
 export type OV<EndTag> = { param: Void<O<EndTag>> } & EndTag
 export type O<EndTag> = OV<EndTag> & EndTag & {fallback(h: HTML): O<EndTag>}
-export type Object<Parent, End extends string> =
+export type Object<Parent> =
   Literal<
     If<
-      Common<O<Close<Parent, End>>, Close<Parent, End>>,
-      Common<O<Close<WithElse<Parent>, End>>, Close<WithElse<Parent>, End>>
+      Common<O<Close<Parent, 'object'>>, Close<Parent, 'object'>>,
+      Common<O<Close<WithElse<Parent>, 'object'>>, Close<WithElse<Parent>, 'object'>>
     >
   >
 
-export type Optgroup<EndTag> = {option: Text<Optgroup<EndTag>, 'option'>}
+export type _optgroup<EndTag> = {option: Text<Optgroup<EndTag>, 'option'>}
+export type Optgroup<Parent> =
+  Literal<
+    If<
+      Common<_optgroup<Close<Parent, 'optgroup'>>, Close<Parent, 'optgroup'>>,
+      Common<_optgroup<Close<WithElse<Parent>, 'optgroup'>>, Close<WithElse<Parent>, 'optgroup'>>
+    >
+  >
 export type S<EndTag> = {
   optgroup: Optgroup<EndTag>,
   option: Text<S<EndTag>, 'option'>
 } & EndTag
-export type Select<Parent, End extends string> =
+export type Select<Parent> =
   Literal<
     If<
-      Common<S<Close<Parent, End>>, Close<Parent, End>>,
-      Common<S<Close<WithElse<Parent>, End>>, Close<WithElse<Parent>, End>>
+      Common<S<Close<Parent, 'select'>>, Close<Parent, 'select'>>,
+      Common<S<Close<WithElse<Parent>, 'select'>>, Close<WithElse<Parent>, 'select'>>
     >
   >
 
-export type Tabel =
-'table' |
-'tr' |
-'tbody' |
-'thead' |
-'tfoot' |
-'td' |
-'th' |
-'colgroup' | // only col
-'col' // void
+export type CellTags = 'td' | 'th'
+export type TC<EndTag> = { [K in CellTags]: Block<TC<EndTag>, K>} & EndTag
+export type TR<Parent> =
+  Literal<
+    If<
+      Common<TC<Close<Parent, 'tr'>>, Close<Parent, 'tr'>>,
+      Common<TC<Close<WithElse<Parent>, 'tr'>>, Close<WithElse<Parent>, 'tr'>>
+    >
+  >
+export type TP<EndTag> = { tr: TR<TP<EndTag>>} & EndTag
+export type TabelPart<Parent, End extends string> =
+  Literal<
+    If<
+      Common<TP<Close<Parent, End>>, Close<Parent, End>>,
+      Common<TP<Close<WithElse<Parent>, End>>, Close<WithElse<Parent>, End>>
+    >
+  >
+export type TabelParts = 'thead' | 'tbody' | 'tfoot'
+export type T<EndTag> = {[K in TabelParts]: TabelPart<T<EndTag>, K>} & EndTag
+export type Table<Parent> =
+  Literal<
+    If<
+      Common<T<Close<Parent, 'table'>>, Close<Parent, 'tr'>>,
+      Common<T<Close<WithElse<Parent>, 'table'>>, Close<WithElse<Parent>, 'table'>>
+    >
+  >
 
-export type DL =
-'dialog' |
-'dl' |
-'dd' |
-'dt'
 
-export type datalist =
-  'datalist' | 'option'
-export type Menu =
-'menu' | 'menuitem' // void
+export type D<EndTag> = { dt: Block<L<EndTag>, 'dt'>, dd: Block<L<EndTag>, 'dd'>} & EndTag
+export type Dl<Parent> =
+  Literal<
+    If<
+      Common<D<Close<Parent, 'dl'>>, Close<Parent, 'dl'>>,
+      Common<D<Close<WithElse<Parent>, 'dl'>>, Close<WithElse<Parent>, 'dl'>>
+    >
+  >
+
+// 'colgroup' | // only col
+// 'col' // void
+
+// export type DL = 'dialog'
+
+// export type datalist =
+//   'datalist' | 'option'
+// export type Menu =
+// 'menu' | 'menuitem' // void
 
 
-// under head, void
-export type MetadataContent =
-  'base' | 'link' | 'meta' | 'title'
+// // under head, void
+// export type MetadataContent =
+//   'base' | 'link' | 'meta' | 'title'
 
 
