@@ -1,5 +1,6 @@
 import {VoidTags, Void} from './void'
 import {Literal, If, Common, Close, WithElse} from './basic'
+import {MediaTags, Media, ObjectP, Select} from './special'
 
 export type PhraseTags =
   'abbr' | 'b' | 'cite' | 'code' | 'em' | 'i' |
@@ -15,6 +16,13 @@ export type PP<EndTag> = {
 }
 export type PV<EndTag> = {
   [K in VoidTags]: Void<P<EndTag>>
+}
+
+export type PS<EndTag> = {
+  [K in MediaTags]: Media<P<EndTag>, K>
+} & {
+  object: ObjectP<P<EndTag>>,
+  select: Select<P<EndTag>>
 }
 export type P<EndTag> = PP<EndTag> & PV<EndTag> & EndTag
 

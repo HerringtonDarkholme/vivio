@@ -1,7 +1,7 @@
 import {PhraseTags, Phrase} from './phrase'
 import {VoidTags, Void} from './void'
-import {ListTags, List} from './special'
 import {Literal, If, Common, Close, WithElse} from './basic'
+import {ListTags, List, MediaTags, Media, ObjectP, Select, Table, Dl} from './special'
 
 export type BlockTags =
   'a' | 'article' | 'aside' | 'blockquote' |
@@ -26,9 +26,18 @@ export type BV<EndTag> = {
   [K in VoidTags]: Void<B<EndTag>>
 }
 
-export type B<EndTag> = BB<EndTag> & BP<EndTag> & BV<EndTag>  & {
+export type BS<EndTag> = {
   [K in ListTags]: List<B<EndTag>, K>
-} & EndTag
+} & {
+  [K in MediaTags]: Media<B<EndTag>, K>
+} & {
+  object: ObjectP<B<EndTag>>,
+  select: Select<B<EndTag>>,
+  table: Table<B<EndTag>>,
+  dl: Dl<B<EndTag>>
+}
+
+export type B<EndTag> = BB<EndTag> & BP<EndTag> & BV<EndTag> & BS<EndTag> & EndTag
 
 // Literal > If > Start > For
 export type Block<Parent, End extends string> =

@@ -28,7 +28,7 @@ export type Media<Parent, End extends string> =
 
 export type OV<EndTag> = { param: Void<O<EndTag>> } & EndTag
 export type O<EndTag> = OV<EndTag> & EndTag & {fallback(h: HTML): O<EndTag>}
-export type Object<Parent> =
+export type ObjectP<Parent> =
   Literal<
     If<
       Common<O<Close<Parent, 'object'>>, Close<Parent, 'object'>>,
