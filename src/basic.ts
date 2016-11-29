@@ -22,6 +22,7 @@ export type For<Tag, EndTag> = {
 export type Start<Tag> = {
   class(nameHash: {[k: string]: boolean}): Start<Tag>
   on(handlerHash: {[k: string]: Function}): Start<Tag>
+  props(nameHash: {[k: string]: any}): Start<Tag>
 } & Tag
 
 export type If<Original, Enhanced> = {
