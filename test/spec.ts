@@ -12,15 +12,15 @@ var s = {
   select() {},
 }
 h.div`.el-autocomponet`
-  // .elInput
-  //   .props(s.extract('value', 'disabled', 'placeholder', 'name', 'size'))
-  //   .on({change: s.handleChange, focus: s.handleFocus})
-  //   .nativeOn({
-  //     'keydown.up': () => s.highlight(s.highlightIndex - 1),
-  //     'keydown.down': () => s.highlight(s.highlightIndex + 1),
-  //     'keydown.enter': () => s.highlight(s.highlightIndex),
-  //   })
-  // .elInput()
+  .elInput
+    .props(s.extract('value', 'disabled', 'placeholder', 'name', 'size'))
+    .on({change: s.handleChange, focus: s.handleFocus})
+    .nativeOn({
+      'keydown.up': () => s.highlight(s.highlightIndex - 1),
+      'keydown.down': () => s.highlight(s.highlightIndex + 1),
+      'keydown.enter': () => s.highlight(s.highlightIndex),
+    })
+  .elInput()
   .transition
     .ul.if(s.suggestionVisible)
       .li.if(s.loading)

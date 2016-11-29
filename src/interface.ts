@@ -5,5 +5,7 @@ export declare class HTMLBrand {
 }
 
 export type HTML = B<HTMLBrand, {
-  elInput: {}
+  elInput: {
+    $emit: {change: any, focus: any}
+  }
 }>
