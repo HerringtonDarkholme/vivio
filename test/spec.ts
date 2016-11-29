@@ -19,8 +19,9 @@ h.div`.el-autocomponet`
   //     'keydown.up': () => s.highlight(s.highlightIndex - 1),
   //     'keydown.down': () => s.highlight(s.highlightIndex + 1),
   //     'keydown.enter': () => s.highlight(s.highlightIndex),
-  //   })()
-  // .transition
+  //   })
+  // .elInput()
+  .transition
     .ul.if(s.suggestionVisible)
       .li.if(s.loading)
         .i`.el-icon-loading`.i()
@@ -38,5 +39,5 @@ h.div`.el-autocomponet`
         )
       .li()
     .ul()
-  // .transition()
+  .transition()
 .div()
