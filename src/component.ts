@@ -17,14 +17,14 @@ export type CompStart<Tag, Comp> = {
   class(nameHash: {[k: string]: boolean}): CompStart<Tag, Comp>
   on<T>(this: ComponentEventAux<T>, handlerHash: T): CompStart<Tag, Comp>
   props<C>(this: ComponentPropAux<C>, nameHash: Partial<C>): CompStart<Tag, Comp>
-  nativeOn(handlerHash: {[k: string]: Function}): CompStart<Tag>
-  domProps(nameHash: {[k: string]: any}): CompStart<Tag>
+  nativeOn(handlerHash: {[k: string]: Function}): CompStart<Tag, Comp>
+  domProps(nameHash: {[k: string]: any}): CompStart<Tag, Comp>
  '@@componentTag': Comp
 } & Tag
 
 export type KB<EndTag, Comps> = {
   [K in keyof Comps]: ComponentB<KB<EndTag, Comps>, K, Comps[K], Comps>
-} & B<EndTag>
+} & B<EndTag, Comps>
 export type KP<EndTag, Comps> = {
   [K in keyof Comps]: ComponentP<KP<EndTag, Comps>, K, Comps[K], Comps>
 } & P<EndTag>

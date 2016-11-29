@@ -1,6 +1,6 @@
 import {PhraseTags, Phrase} from './phrase'
 import {VoidTags, Void} from './void'
-import {ComponentTags} from './component'
+import {ComponentTags, ComponentB} from './component'
 import {Literal, If, Common, Close, WithElse} from './basic'
 import {ListTags, List, MediaTags, Media, ObjectP, Select, Table, Dl} from './special'
 
@@ -15,40 +15,44 @@ export type BlockTags =
   // 'map' |
   // 'u'
 
-export type BB<EndTag> = {
-  [K in BlockTags]: Block<B<EndTag>, K>
+export type BB<EndTag, Comps> = {
+  [K in BlockTags]: Block<B<EndTag, Comps>, K, Comps>
 }
 
-export type BP<EndTag> = {
-  [K in PhraseTags]: Phrase<B<EndTag>, K>
+export type BP<EndTag, Comps> = {
+  [K in PhraseTags]: Phrase<B<EndTag, Comps>, K>
 }
 
-export type BV<EndTag> = {
-  [K in VoidTags]: Void<B<EndTag>>
+export type BV<EndTag, Comps> = {
+  [K in VoidTags]: Void<B<EndTag, Comps>>
 }
 
-export type BC<EndTag> = {
-  [K in ComponentTags]: Block<B<EndTag>, K>
+export type BC<EndTag, Comps> = {
+  [K in ComponentTags]: Block<B<EndTag, Comps>, K, Comps>
 }
 
-export type BS<EndTag> = {
-  [K in ListTags]: List<B<EndTag>, K>
+export type BK<EndTag, Comps> = {
+  [K in keyof Comps]: ComponentB<B<EndTag, Comps>, K, Comps[K], Comps>
+}
+
+export type BS<EndTag, Comps> = {
+  [K in ListTags]: List<B<EndTag, Comps>, K, Comps>
 } & {
-  [K in MediaTags]: Media<B<EndTag>, K>
+  [K in MediaTags]: Media<B<EndTag, Comps>, K>
 } & {
-  object: ObjectP<B<EndTag>>,
-  select: Select<B<EndTag>>,
-  table: Table<B<EndTag>>,
-  dl: Dl<B<EndTag>>
+  object: ObjectP<B<EndTag, Comps>>,
+  select: Select<B<EndTag, Comps>>,
+  table: Table<B<EndTag, Comps>, Comps>,
+  dl: Dl<B<EndTag, Comps>, Comps>
 }
 
-export type B<EndTag> = BB<EndTag> & BC<EndTag> & BP<EndTag> & BV<EndTag> & BS<EndTag> & EndTag
+export type B<EndTag, Comps> = BK<EndTag, Comps> & BB<EndTag, Comps> & BC<EndTag, Comps> & BP<EndTag, Comps> & BV<EndTag, Comps> & BS<EndTag, Comps> & EndTag
 
 // Literal > If > Start > For
-export type Block<Parent, End extends string> =
+export type Block<Parent, End extends string, Comps> =
   Literal<
     If<
-      Common<B<Close<Parent, End>>, Close<Parent, End>>,
-      Common<B<Close<WithElse<Parent>, End>>, Close<WithElse<Parent>, End>>
+      Common<B<Close<Parent, End>, Comps>, Close<Parent, End>>,
+      Common<B<Close<WithElse<Parent>, End>, Comps>, Close<WithElse<Parent>, End>>
     >
   >

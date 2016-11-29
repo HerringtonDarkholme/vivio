@@ -6,12 +6,12 @@ import {HTML} from './interface'
 
 export type ListTags = 'ul' | 'ol'
 
-export type L<EndTag> = { li: Block<L<EndTag>, 'li'> } & EndTag
-export type List<Parent, End extends string> =
+export type L<EndTag, Comps> = { li: Block<L<EndTag, Comps>, 'li', Comps> } & EndTag
+export type List<Parent, End extends string, Comps> =
   Literal<
     If<
-      Common<L<Close<Parent, End>>, Close<Parent, End>>,
-      Common<L<Close<WithElse<Parent>, End>>, Close<WithElse<Parent>, End>>
+      Common<L<Close<Parent, End>, Comps>, Close<Parent, End>>,
+      Common<L<Close<WithElse<Parent>, End>, Comps>, Close<WithElse<Parent>, End>>
     >
   >
 
@@ -57,39 +57,39 @@ export type Select<Parent> =
   >
 
 export type CellTags = 'td' | 'th'
-export type TC<EndTag> = { [K in CellTags]: Block<TC<EndTag>, K>} & EndTag
-export type TR<Parent> =
+export type TC<EndTag, Comps> = { [K in CellTags]: Block<TC<EndTag, Comps>, K, Comps>} & EndTag
+export type TR<Parent, Comps> =
   Literal<
     If<
-      Common<TC<Close<Parent, 'tr'>>, Close<Parent, 'tr'>>,
-      Common<TC<Close<WithElse<Parent>, 'tr'>>, Close<WithElse<Parent>, 'tr'>>
+      Common<TC<Close<Parent, 'tr'>, Comps>, Close<Parent, 'tr'>>,
+      Common<TC<Close<WithElse<Parent>, 'tr'>, Comps>, Close<WithElse<Parent>, 'tr'>>
     >
   >
-export type TP<EndTag> = { tr: TR<TP<EndTag>>} & EndTag
-export type TabelPart<Parent, End extends string> =
+export type TP<EndTag, Comps> = { tr: TR<TP<EndTag, Comps>, Comps>} & EndTag
+export type TabelPart<Parent, End extends string, Comps> =
   Literal<
     If<
-      Common<TP<Close<Parent, End>>, Close<Parent, End>>,
-      Common<TP<Close<WithElse<Parent>, End>>, Close<WithElse<Parent>, End>>
+      Common<TP<Close<Parent, End>, Comps>, Close<Parent, End>>,
+      Common<TP<Close<WithElse<Parent>, End>, Comps>, Close<WithElse<Parent>, End>>
     >
   >
 export type TabelParts = 'thead' | 'tbody' | 'tfoot'
-export type T<EndTag> = {[K in TabelParts]: TabelPart<T<EndTag>, K>} & EndTag
-export type Table<Parent> =
+export type T<EndTag, Comps> = {[K in TabelParts]: TabelPart<T<EndTag, Comps>, K, Comps>} & EndTag
+export type Table<Parent, Comps> =
   Literal<
     If<
-      Common<T<Close<Parent, 'table'>>, Close<Parent, 'tr'>>,
-      Common<T<Close<WithElse<Parent>, 'table'>>, Close<WithElse<Parent>, 'table'>>
+      Common<T<Close<Parent, 'table'>, Comps>, Close<Parent, 'tr'>>,
+      Common<T<Close<WithElse<Parent>, 'table'>, Comps>, Close<WithElse<Parent>, 'table'>>
     >
   >
 
 
-export type D<EndTag> = { dt: Block<L<EndTag>, 'dt'>, dd: Block<L<EndTag>, 'dd'>} & EndTag
-export type Dl<Parent> =
+export type D<EndTag, Comps> = { dt: Block<D<EndTag, Comps>, 'dt', Comps>, dd: Block<D<EndTag, Comps>, 'dd', Comps>} & EndTag
+export type Dl<Parent, Comps> =
   Literal<
     If<
-      Common<D<Close<Parent, 'dl'>>, Close<Parent, 'dl'>>,
-      Common<D<Close<WithElse<Parent>, 'dl'>>, Close<WithElse<Parent>, 'dl'>>
+      Common<D<Close<Parent, 'dl'>, Comps>, Close<Parent, 'dl'>>,
+      Common<D<Close<WithElse<Parent>, 'dl'>, Comps>, Close<WithElse<Parent>, 'dl'>>
     >
   >
 
