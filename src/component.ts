@@ -22,13 +22,6 @@ export type CompStart<Tag, Comp> = {
  '@@componentTag': Comp
 } & Tag
 
-export type KB<EndTag, Comps> = {
-  [K in keyof Comps]: ComponentB<KB<EndTag, Comps>, K, Comps[K], Comps>
-} & B<EndTag, Comps>
-export type KP<EndTag, Comps> = {
-  [K in keyof Comps]: ComponentP<KP<EndTag, Comps>, K, Comps[K], Comps>
-} & P<EndTag>
-
 export type Common<T, EndTag, Comp> =
   CompStart<For<Interpolate<T>, EndTag>, Comp>
 
@@ -36,15 +29,15 @@ export type Common<T, EndTag, Comp> =
 export type ComponentB<Parent, End extends string, Comp, Comps> =
   Literal<
     If<
-      Common<KB<Close<Parent, End>, Comps>, Close<Parent, End>, Comp>,
-      Common<KB<Close<WithElse<Parent>, End>, Comps>, Close<WithElse<Parent>, End>, Comp>
+      Common<B<Close<Parent, End>, Comps>, Close<Parent, End>, Comp>,
+      Common<B<Close<WithElse<Parent>, End>, Comps>, Close<WithElse<Parent>, End>, Comp>
     >
   >
 
 export type ComponentP<Parent, End extends string, Comp, Comps> =
   Literal<
     If<
-      Common<KP<Close<Parent, End>, Comps>, Close<Parent, End>, Comp>,
-      Common<KP<Close<WithElse<Parent>, End>, Comps>, Close<WithElse<Parent>, End>, Comp>
+      Common<P<Close<Parent, End>, Comps>, Close<Parent, End>, Comp>,
+      Common<P<Close<WithElse<Parent>, End>, Comps>, Close<WithElse<Parent>, End>, Comp>
     >
   >

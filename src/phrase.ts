@@ -1,5 +1,5 @@
 import {VoidTags, Void} from './void'
-import {ComponentTags} from './component'
+import {ComponentTags, ComponentP} from './component'
 import {Literal, If, Common, Close, WithElse} from './basic'
 import {MediaTags, Media, ObjectP, Select} from './special'
 
@@ -12,29 +12,33 @@ export type PhraseTags =
   // 'bdo' | 'dfn'   | 'kbd' |
   // 'ins' | 'del' // actually transparent content, put in phrase
 
-export type PP<EndTag> = {
-  [K in PhraseTags]: Phrase<P<EndTag>, K>
+export type PP<EndTag, Comps> = {
+  [K in PhraseTags]: Phrase<P<EndTag, Comps>, K, Comps>
 }
-export type PV<EndTag> = {
-  [K in VoidTags]: Void<P<EndTag>>
+export type PV<EndTag, Comps> = {
+  [K in VoidTags]: Void<P<EndTag, Comps>>
 }
-export type PC<EndTag> = {
-  [K in ComponentTags]: Phrase<P<EndTag>, K>
+export type PC<EndTag, Comps> = {
+  [K in ComponentTags]: Phrase<P<EndTag, Comps>, K, Comps>
 }
 
-export type PS<EndTag> = {
-  [K in MediaTags]: Media<P<EndTag>, K>
+export type PK<EndTag, Comps> = {
+  [K in keyof Comps]: ComponentP<P<EndTag, Comps>, K, Comps[K], Comps>
+}
+
+export type PS<EndTag, Comps> = {
+  [K in MediaTags]: Media<P<EndTag, Comps>, K>
 } & {
-  object: ObjectP<P<EndTag>>,
-  select: Select<P<EndTag>>
+  object: ObjectP<P<EndTag, Comps>>,
+  select: Select<P<EndTag, Comps>>
 }
 
-export type P<EndTag> = PC<EndTag> & PP<EndTag> & PV<EndTag> & EndTag
+export type P<EndTag, Comps> = PK<EndTag, Comps> & PC<EndTag, Comps> & PP<EndTag, Comps> & PV<EndTag, Comps> & EndTag
 
-export type Phrase<Parent, End extends string> =
+export type Phrase<Parent, End extends string, Comps> =
   Literal<
     If<
-      Common<P<Close<Parent, End>>, Close<Parent, End>>,
-      Common<P<Close<WithElse<Parent>, End>>, Close<WithElse<Parent>, End>>
+      Common<P<Close<Parent, End>, Comps>, Close<Parent, End>>,
+      Common<P<Close<WithElse<Parent>, End>, Comps>, Close<WithElse<Parent>, End>>
     >
   >

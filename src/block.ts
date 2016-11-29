@@ -20,7 +20,7 @@ export type BB<EndTag, Comps> = {
 }
 
 export type BP<EndTag, Comps> = {
-  [K in PhraseTags]: Phrase<B<EndTag, Comps>, K>
+  [K in PhraseTags]: Phrase<B<EndTag, Comps>, K, Comps>
 }
 
 export type BV<EndTag, Comps> = {
