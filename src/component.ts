@@ -2,8 +2,6 @@ import {Literal, If, Interpolate, Close, WithElse} from './basic'
 import {B} from './block'
 import {P} from './phrase'
 
-export type ComponentTags = 'keepAlive' | 'transition' | 'transitionGroup'
-
 export type Emitter<T> = <K extends keyof T>(key: K, payload: T[K]) => void
 
 export type ComponentEventAux<T> = {
@@ -22,7 +20,7 @@ export type Handlers<T> = {
 export type CompStart<Tag, Comp> = {
   class(nameHash: {[k: string]: boolean}): CompStart<Tag, Comp>
   on<T>(this: ComponentEventAux<T>, handlerHash: Handlers<T>): CompStart<Tag, Comp>
-  props<C, K extends keyof C>(this: ComponentPropAux<C, K>, nameHash: Pick<C, K>): CompStart<Tag, Comp>
+  props<C, K extends keyof C>(this: ComponentPropAux<C, K>, nameHash: Partial<Pick<C, K>>): CompStart<Tag, Comp>
   nativeOn(handlerHash: {[k: string]: Function}): CompStart<Tag, Comp>
   domProps(nameHash: {[k: string]: any}): CompStart<Tag, Comp>
  '@@componentTag': Comp

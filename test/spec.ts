@@ -42,7 +42,7 @@ h({elInput}).div`.el-autocomponet`
       'keydown.enter': () => s.highlight(s.highlightIndex),
     })
   .elInput()
-  .transition
+  .transition.props({name: 'etet'})
     .ul.if(s.suggestionVisible)
       .li.if(s.loading)
         .i`.el-icon-loading`.i()

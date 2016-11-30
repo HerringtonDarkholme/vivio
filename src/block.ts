@@ -1,6 +1,6 @@
 import {PhraseTags, Phrase} from './phrase'
 import {VoidTags, Void} from './void'
-import {ComponentTags, ComponentB} from './component'
+import {ComponentB} from './component'
 import {Literal, If, Common, Close, WithElse} from './basic'
 import {List, Media, ObjectP, Select, Table, Dl} from './special'
 import {Class} from './interface'
@@ -29,10 +29,6 @@ export type BV<EndTag, Comps> = {
 }
 
 export type BC<EndTag, Comps> = {
-  [K in ComponentTags]: Block<B<EndTag, Comps>, K, Comps>
-}
-
-export type BK<EndTag, Comps> = {
   [K in keyof Comps]: ComponentB<B<EndTag, Comps>, K, Comps[K], Comps>
 }
 
@@ -49,7 +45,7 @@ export type BS<EndTag, Comps> = {
 }
 
 export type B<EndTag, Comps> =
-  BK<EndTag, Comps> & BB<EndTag, Comps> & BC<EndTag, Comps> & BP<EndTag, Comps> & BV<EndTag, Comps> & BS<EndTag, Comps> & EndTag
+  BB<EndTag, Comps> & BC<EndTag, Comps> & BP<EndTag, Comps> & BV<EndTag, Comps> & BS<EndTag, Comps> & EndTag
 
 // Literal > If > Start > For
 export type Block<Parent, End extends string, Comps> =

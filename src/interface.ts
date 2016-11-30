@@ -12,4 +12,31 @@ export declare class HTMLBrand {
   htmlBrand: {}
 }
 
-export type HTML<Comps> = B<HTMLBrand, Comps>
+export type Transition = {
+    name: string
+    appear: boolean
+    css: boolean
+    mode: string
+    type: string
+    enterClass: string
+    leaveClass: string
+    enterActiveClass: string
+    leaveActiveClass: string
+    appearClass: string
+    appearActiveClass: string
+    props: keyof Transition
+    $emit: {}
+}
+
+export type BuiltinComponents = {
+  keepAlive: {
+    $emit: {},
+    props: 'include' | 'exclude',
+    include: string | RegExp,
+    exclude: string | RegExp
+  },
+  transition: Transition,
+  transitionGroup: Transition & { tag: string, moveClass: string }
+}
+
+export type HTML<Comps> = B<HTMLBrand, Comps & BuiltinComponents>
