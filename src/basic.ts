@@ -1,4 +1,3 @@
-import {HTML} from './interface'
 
 export type Literal<Tag> = {
   (str: TemplateStringsArray, ...args: any[]): Tag
@@ -14,9 +13,8 @@ export type Close<Parent, End extends string> = {
   [K in End]: () => Parent
 }
 
-export type For<Tag, EndTag> = {
-  // disable generic due to tsc bug
-  for(list: any[], func: (t: any, i: number) => HTML): EndTag
+export type For<T, Tag, EndTag> = {
+  for<A>(list: A[], func: (t: A, i: number, h: Start<Tag>) => T): EndTag
 } & Tag
 
 export type Start<Tag> = {
@@ -34,5 +32,4 @@ export type Interpolate<T> = T & {
 }
 
 export type Common<T, EndTag> =
-  Start<For<Interpolate<T>, EndTag>>
-
+  Start<For<T, Interpolate<T>, EndTag>>

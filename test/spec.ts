@@ -1,7 +1,18 @@
 import h from '../index'
+import {Emitter} from '../index'
+
+export class elInput {
+  disabled: boolean
+  $emit: Emitter<{
+    change: string,
+    focus: boolean
+  }>
+  props: 'disabled'
+}
+
 var s = {
-  handleChange() {},
-  handleFocus() {},
+  handleChange(s: string) {},
+  handleFocus(b: boolean) {},
   highlight(i: number) {},
   extract(...field: string[]) {return null as any},
   highlightIndex: 123,
@@ -11,7 +22,8 @@ var s = {
   customIndex: 'test',
   select() {},
 }
-h.div`.el-autocomponet`
+
+h({elInput}).div`.el-autocomponet`
   .elInput
     .props(s.extract('value', 'disabled', 'placeholder', 'name', 'size'))
     .on({change: s.handleChange, focus: s.handleFocus})
@@ -27,15 +39,15 @@ h.div`.el-autocomponet`
         .i`.el-icon-loading`.i()
       .li()
       .li
-        // .class({highlighted: s.highlightIndex === index})
         .on({click: s.select})
-        .for(s.suggestions, (item, index) => h
-          // .$(item.value).if(!s.customIndex)
-          // .tag(s.customIndex).else
-          //   .class({highlighted: s.highlightIndex === index})
-          //   .on({click: s.select})
-          //   .props({item, index})
-          // .tag()
+        .for(s.suggestions, (item, index, h) => h
+          .class({highlighted: s.highlightIndex === index})
+          .span.if(!s.customIndex).$`item.value`.span()
+        //   // .tag(s.customIndex).else
+        //   //   .class({highlighted: s.highlightIndex === index})
+        //   //   .on({click: s.select})
+        //   //   .props({item, index})
+        //   // .tag()
         )
       .li()
     .ul()

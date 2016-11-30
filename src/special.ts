@@ -17,7 +17,7 @@ export type List<Parent, End extends string, Comps> =
 
 export type MediaTags = 'audio' | 'video'
 export type MV<EndTag> = { source: Void<M<EndTag>>, track: Void<M<EndTag>> } & EndTag
-export type M<EndTag> = MV<EndTag> & EndTag & { fallback(h: HTML): M<EndTag> }
+export type M<EndTag> = MV<EndTag> & EndTag & { fallback(h: HTML<{}>): M<EndTag> }
 export type Media<Parent, End extends string> =
   Literal<
     If<
@@ -27,7 +27,7 @@ export type Media<Parent, End extends string> =
   >
 
 export type OV<EndTag> = { param: Void<O<EndTag>> } & EndTag
-export type O<EndTag> = OV<EndTag> & EndTag & {fallback(h: HTML): O<EndTag>}
+export type O<EndTag> = OV<EndTag> & EndTag & {fallback(h: HTML<{}>): O<EndTag>}
 export type ObjectP<Parent> =
   Literal<
     If<

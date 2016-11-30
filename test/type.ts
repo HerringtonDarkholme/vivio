@@ -1,6 +1,6 @@
 import _h from '../index'
 
-var h = _h
+var h = _h({})
 
 var k = h.div
 
@@ -39,7 +39,9 @@ h = h.div
 
 
 h.div
-.for([], () => h)
+.for([], (t, i, h) => h
+  .span.span()
+ )
 .div()
 
 var ul = h.ul
@@ -57,7 +59,7 @@ ul.li
 h.ul`test`
 
 h = h.div
-  .img`.test`.for([], () => h)()
+  .img`.test`.for([], (t, i, h) => h)()
   .div()
 
 h = h.img()
@@ -65,7 +67,7 @@ h = h.img()
 h = h.div.if(true)
   .div()
 
-h = h.div.on({}).for([], _ => h)
+h = h.div.on({}).for([], (t, i, h) => h)
   .div()
 
 h.div.if(true)
@@ -84,7 +86,7 @@ h
 .div.if(true)
   .class({})
   .on({})
-  .for([], _ => _)
+  .for([], (t, i, h) => h)
 .div()
 .div.else.if(true)
 .div()

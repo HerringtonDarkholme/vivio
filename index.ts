@@ -1,5 +1,5 @@
-import {HTML} from './src/interface'
-
-var h: HTML = null as any
-export default h
-
+import {HTML, Classes} from './src/interface'
+export {Emitter} from './src/component'
+export default function h<T>(comps: Classes<T>): HTML<T> {
+  return null as any
+}
