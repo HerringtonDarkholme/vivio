@@ -13,18 +13,18 @@ export declare class HTMLBrand {
 }
 
 export type Transition = {
-    name: string
-    appear: boolean
-    css: boolean
-    mode: string
-    type: string
-    enterClass: string
-    leaveClass: string
-    enterActiveClass: string
-    leaveActiveClass: string
-    appearClass: string
-    appearActiveClass: string
-    props: keyof Transition
+    name: string,
+    appear: boolean,
+    css: boolean,
+    mode: string,
+    type: string,
+    enterClass: string,
+    leaveClass: string,
+    enterActiveClass: string,
+    leaveActiveClass: string,
+    appearClass: string,
+    appearActiveClass: string,
+    props: keyof Transition,
     $emit: {}
 }
 
@@ -36,7 +36,12 @@ export type BuiltinComponents = {
     exclude: string | RegExp
   },
   transition: Transition,
-  transitionGroup: Transition & { tag: string, moveClass: string }
+  transitionGroup: Transition & { tag: string, moveClass: string },
+  slot: {
+    $emit: {},
+    name: string,
+    props: 'name'
+  }
 }
 
 export type HTML<Comps> = B<HTMLBrand, Comps & BuiltinComponents>
