@@ -2,7 +2,8 @@ import {PhraseTags, Phrase} from './phrase'
 import {VoidTags, Void} from './void'
 import {ComponentTags, ComponentB} from './component'
 import {Literal, If, Common, Close, WithElse} from './basic'
-import {ListTags, List, MediaTags, Media, ObjectP, Select, Table, Dl} from './special'
+import {List, Media, ObjectP, Select, Table, Dl} from './special'
+import {Class} from './interface'
 
 export type BlockTags =
   'a' | 'article' | 'aside' | 'blockquote' |
@@ -36,17 +37,19 @@ export type BK<EndTag, Comps> = {
 }
 
 export type BS<EndTag, Comps> = {
-  [K in ListTags]: List<B<EndTag, Comps>, K, Comps>
-} & {
-  [K in MediaTags]: Media<B<EndTag, Comps>, K>
-} & {
+  ul: List<B<EndTag, Comps>, 'ul', Comps>
+  ol: List<B<EndTag, Comps>, 'ol', Comps>
+  video: Media<B<EndTag, Comps>, 'video'>
+  audio: Media<B<EndTag, Comps>, 'audio'>
   object: ObjectP<B<EndTag, Comps>>,
   select: Select<B<EndTag, Comps>>,
   table: Table<B<EndTag, Comps>, Comps>,
   dl: Dl<B<EndTag, Comps>, Comps>
+  tag<C>(comp: Class<C>): ComponentB<B<EndTag, Comps>, 'tag', C, Comps>
 }
 
-export type B<EndTag, Comps> = BK<EndTag, Comps> & BB<EndTag, Comps> & BC<EndTag, Comps> & BP<EndTag, Comps> & BV<EndTag, Comps> & BS<EndTag, Comps> & EndTag
+export type B<EndTag, Comps> =
+  BK<EndTag, Comps> & BB<EndTag, Comps> & BC<EndTag, Comps> & BP<EndTag, Comps> & BV<EndTag, Comps> & BS<EndTag, Comps> & EndTag
 
 // Literal > If > Start > For
 export type Block<Parent, End extends string, Comps> =

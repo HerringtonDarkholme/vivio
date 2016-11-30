@@ -2,7 +2,7 @@ import {Literal, If, Interpolate, Close, WithElse} from './basic'
 import {B} from './block'
 import {P} from './phrase'
 
-export type ComponentTags = 'component' | 'keepAlive' | 'transition' | 'transition-group' | 'slot'
+export type ComponentTags = 'keepAlive' | 'transition' | 'transitionGroup'
 
 export type Emitter<T> = <K extends keyof T>(key: K, payload: T[K]) => void
 

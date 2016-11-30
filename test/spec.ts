@@ -1,13 +1,22 @@
 import h from '../index'
 import {Emitter} from '../index'
 
-export class elInput {
+class elInput {
   disabled: boolean
   $emit: Emitter<{
     change: string,
     focus: boolean
   }>
   props: 'disabled'
+}
+
+class CustomIndex {
+  $emit: Emitter<{
+    click: number
+  }>
+  item: {}
+  index: number
+  props: 'item' | 'index'
 }
 
 var s = {
@@ -19,8 +28,8 @@ var s = {
   suggestionVisible: true,
   loading: true,
   suggestions: [{value: 'suggestion'}],
-  customIndex: 'test',
-  select() {},
+  customIndex: CustomIndex,
+  select(n: number) {},
 }
 
 h({elInput}).div`.el-autocomponet`
@@ -41,13 +50,13 @@ h({elInput}).div`.el-autocomponet`
       .li
         .on({click: s.select})
         .for(s.suggestions, (item, index, h) => h
-          .class({highlighted: s.highlightIndex === index})
+        .class({highlighted: s.highlightIndex === index})
           .span.if(!s.customIndex).$`item.value`.span()
-        //   // .tag(s.customIndex).else
-        //   //   .class({highlighted: s.highlightIndex === index})
-        //   //   .on({click: s.select})
-        //   //   .props({item, index})
-        //   // .tag()
+          .tag.else(s.customIndex)
+            .class({highlighted: s.highlightIndex === index})
+            .on({click: s.select})
+            .props({item, index})
+          .tag()
         )
       .li()
     .ul()

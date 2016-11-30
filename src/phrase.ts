@@ -1,7 +1,8 @@
 import {VoidTags, Void} from './void'
 import {ComponentTags, ComponentP} from './component'
 import {Literal, If, Common, Close, WithElse} from './basic'
-import {MediaTags, Media, ObjectP, Select} from './special'
+import {Media, ObjectP, Select} from './special'
+import {Class} from './interface'
 
 export type PhraseTags =
   'abbr' | 'b' | 'cite' | 'code' | 'em' | 'i' |
@@ -27,10 +28,11 @@ export type PK<EndTag, Comps> = {
 }
 
 export type PS<EndTag, Comps> = {
-  [K in MediaTags]: Media<P<EndTag, Comps>, K>
-} & {
+  video: Media<P<EndTag, Comps>, 'video'>
+  audio: Media<P<EndTag, Comps>, 'audio'>
   object: ObjectP<P<EndTag, Comps>>,
   select: Select<P<EndTag, Comps>>
+  tag<C>(comp: Class<C>): ComponentP<P<EndTag, Comps>, 'tag', C, Comps>
 }
 
 export type P<EndTag, Comps> = PK<EndTag, Comps> & PC<EndTag, Comps> & PP<EndTag, Comps> & PV<EndTag, Comps> & EndTag
