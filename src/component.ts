@@ -5,12 +5,12 @@ import {P} from './phrase'
 export type Emitter<T> = <K extends keyof T>(key: K, payload: T[K]) => void
 
 export type ComponentEventAux<T> = {
-  '@@componentTag': {
+  'componentTag': {
     $emit: Emitter<T>
   }
 }
 export type ComponentPropAux<C, K> = {
-  '@@componentTag': C & {props: K}
+  'componentTag': C & {props: K}
 }
 
 export type Handlers<T> = {
@@ -23,7 +23,7 @@ export type CompStart<Tag, Comp> = {
   props<C, K extends keyof C>(this: ComponentPropAux<C, K>, nameHash: Partial<Pick<C, K>>): CompStart<Tag, Comp>
   nativeOn(handlerHash: {[k: string]: Function}): CompStart<Tag, Comp>
   domProps(nameHash: {[k: string]: any}): CompStart<Tag, Comp>
- '@@componentTag': Comp
+ // 'componentTag': Comp
 } & Tag
 
 export type For<T, Tag, EndTag, Comp> = {
@@ -34,11 +34,14 @@ export type Common<T, EndTag, Comp> =
   CompStart<For<T, Interpolate<T>, EndTag, Comp>, Comp>
 
 
+export type CloseC<Parent, End extends string, Comp> =
+  Close<Parent, End> & {componentTag: Comp}
+
 export type ComponentB<Parent, End extends string, Comp, Comps> =
   Literal<
     If<
-      Common<B<Close<Parent, End>, Comps>, Close<Parent, End>, Comp>,
-      Common<B<Close<WithElse<Parent>, End>, Comps>, Close<WithElse<Parent>, End>, Comp>
+      Common<B<CloseC<Parent, End, Comp>, Comps>, Close<Parent, End>, Comp>,
+      Common<B<CloseC<WithElse<Parent>, End, Comp>, Comps>, Close<WithElse<Parent>, End>, Comp>
     >
   >
 
