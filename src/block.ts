@@ -1,7 +1,7 @@
 import {PhraseTags, Phrase} from './phrase'
 import {VoidTags, Void} from './void'
 import {ComponentB} from './component'
-import {Literal, If, Common, Close, WithElse} from './basic'
+import {Literal, Common, Close, WithElse} from './basic'
 import {List, Media, ObjectP, Select, Table, Dl} from './special'
 import {Class} from './interface'
 
@@ -47,11 +47,12 @@ export type BS<EndTag, Comps> = {
 export type B<EndTag, Comps> =
   BB<EndTag, Comps> & BC<EndTag, Comps> & BP<EndTag, Comps> & BV<EndTag, Comps> & BS<EndTag, Comps> & EndTag
 
+export type MyIf<Parent, End extends string, Comps> = {
+  if<P, E extends string>(this: {parent: P, end: E}, condition: boolean): Common<B<Close<WithElse<P>, E>, Comps>, Close<WithElse<P>, E>>
+} & Common<B<Close<Parent, End>, Comps>, Close<Parent, End>>
+
 // Literal > If > Start > For
 export type Block<Parent, End extends string, Comps> =
   Literal<
-    If<
-      Common<B<Close<Parent, End>, Comps>, Close<Parent, End>>,
-      Common<B<Close<WithElse<Parent>, End>, Comps>, Close<WithElse<Parent>, End>>
-    >
+    MyIf< Parent, End, Comps >
   >
