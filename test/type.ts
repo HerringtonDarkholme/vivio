@@ -56,6 +56,10 @@ h = ul.ul()
 ul.li
   .div
 
+h.img.if(true)()
+  .div.else
+  .div()
+
 h.ul`test`
 
 h = h.div

@@ -15,15 +15,15 @@ export type List<Parent, End extends string, Comps> =
     >
   >
 
+export type MIf<Parent, End extends string> = {
+  if<Pt>(this: {parent: Pt}, condition: boolean): Common<M<Close<WithElse<Pt>, End>>, Close<WithElse<Pt>, End>>
+} & Common<M<Close<Parent, End>>, Close<Parent, End>>
 export type MediaTags = 'audio' | 'video'
 export type MV<EndTag> = { source: Void<M<EndTag>>, track: Void<M<EndTag>> } & EndTag
 export type M<EndTag> = MV<EndTag> & EndTag & { fallback(h: HTML<{}>): M<EndTag> }
 export type Media<Parent, End extends string> =
   Literal<
-    If<
-      Common<M<Close<Parent, End>>, Close<Parent, End>>,
-      Common<M<Close<WithElse<Parent>, End>>, Close<WithElse<Parent>, End>>
-    >
+    MIf<Parent, End>
   >
 
 export type OV<EndTag> = { param: Void<O<EndTag>> } & EndTag

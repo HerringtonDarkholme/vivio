@@ -1,4 +1,3 @@
-
 export type Literal<Tag> = {
   (str: TemplateStringsArray, ...args: any[]): Tag
 } & Tag

@@ -5,10 +5,10 @@ export type VoidTags =
   // | 'area'
 
 export type If<Parent> = {
-  if<P>(this: {parent: P}, condition: boolean): Start<For<V<() => P>, V<() => WithElse<P>>, () => WithElse<P>>>
-} & Start<For<V<() => Parent>, V<() => Parent>, () => Parent>>
+  if<P>(this: {parent: P}, condition: boolean): Start<For<V<P>, V<WithElse<P>>, V<WithElse<P>>>>
+} & Start<For<V<Parent>, V<Parent>, V<Parent>>>
 
-export type V<EndTag> = EndTag
+export type V<Parent> = (() => Parent) & {parent: Parent}
 export type Void<Parent> =
   Literal<
     If< Parent >
