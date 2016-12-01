@@ -17,21 +17,15 @@ export type Handlers<T> = {
   [K in keyof T]: (t: T[K]) => void
 }
 
-export type CompStart<Tag> = {
-  class(nameHash: {[k: string]: boolean}): CompStart<Tag>
-  on<T>(this: ComponentEventAux<T>, handlerHash: Handlers<T>): CompStart<Tag>
-  props<C, K extends keyof C>(this: ComponentPropAux<C, K>, nameHash: Partial<Pick<C, K>>): CompStart<Tag>
-  nativeOn(handlerHash: {[k: string]: Function}): CompStart<Tag>
-  domProps(nameHash: {[k: string]: any}): CompStart<Tag>
+export type Common<T, EndTag> = {
+  class(nameHash: {[k: string]: boolean}): Common<T, EndTag>
+  on<E>(this: ComponentEventAux<E>, handlerHash: Handlers<E>): Common<T, EndTag>
+  props<C, K extends keyof C>(this: ComponentPropAux<C, K>, nameHash: Partial<Pick<C, K>>): Common<T, EndTag>
+  nativeOn(handlerHash: {[k: string]: Function}): Common<T, EndTag>
+  domProps(nameHash: {[k: string]: any}): Common<T, EndTag>
+  for<A>(list: A[], func: (t: A, i: number, h: Common<T, EndTag>) => T): EndTag
  // 'componentTag': Comp
-} & Tag
-
-export type For<T, Tag, EndTag> = {
-  for<A>(list: A[], func: (t: A, i: number, h: CompStart<Tag>) => T): EndTag
-} & Tag
-
-export type Common<T, EndTag> =
-  CompStart<For<T, Interpolate<T>, EndTag>>
+} & Interpolate<T>
 
 
 export type CloseC<Parent, End extends string, Comp> =

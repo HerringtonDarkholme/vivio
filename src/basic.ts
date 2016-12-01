@@ -14,11 +14,11 @@ export type Close<Parent, End extends string> = {
   parent: Parent
 }
 
-export type Start<T, EndTag> = {
-  class(nameHash: {[k: string]: boolean}): Start<T, EndTag>
-  on(handlerHash: {[k: string]: Function}): Start<T, EndTag>
-  props(nameHash: {[k: string]: any}): Start<T, EndTag>
-  for<A>(list: A[], func: (t: A, i: number, h: Start<T, EndTag>) => T): EndTag
+export type Common<T, EndTag> = {
+  class(nameHash: {[k: string]: boolean}): Common<T, EndTag>
+  on(handlerHash: {[k: string]: Function}): Common<T, EndTag>
+  props(nameHash: {[k: string]: any}): Common<T, EndTag>
+  for<A>(list: A[], func: (t: A, i: number, h: Common<T, EndTag>) => T): EndTag
 } & Interpolate<T>
 
 export type If<Original, Enhanced> = {
@@ -28,5 +28,3 @@ export type If<Original, Enhanced> = {
 export type Interpolate<T> = T & {
   $(str: TemplateStringsArray, ...args: any[]): Interpolate<T>
 }
-
-export type Common<T, EndTag> = Start<T, EndTag>
