@@ -1,6 +1,6 @@
 import {VoidTags, Void} from './void'
 import {ComponentP} from './component'
-import {Literal, If, Common, Close, WithElse} from './basic'
+import {Literal, Common, Close, WithElse} from './basic'
 import {Media, ObjectP, Select} from './special'
 import {Class} from './interface'
 
@@ -34,10 +34,11 @@ export type PS<EndTag, Comps> = {
 
 export type P<EndTag, Comps> = PC<EndTag, Comps> & PP<EndTag, Comps> & PV<EndTag, Comps> & EndTag
 
+export type MyIf<Parent, End extends string, Comps> = {
+  if<Pt>(this: {parent: Pt}, condition: boolean): Common<P<Close<WithElse<Pt>, End>, Comps>, Close<WithElse<Pt>, End>>
+} & Common<P<Close<Parent, End>, Comps>, Close<Parent, End>>
+
 export type Phrase<Parent, End extends string, Comps> =
   Literal<
-    If<
-      Common<P<Close<Parent, End>, Comps>, Close<Parent, End>>,
-      Common<P<Close<WithElse<Parent>, End>, Comps>, Close<WithElse<Parent>, End>>
-    >
+    MyIf<Parent, End, Comps>
   >

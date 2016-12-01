@@ -13,7 +13,6 @@ export type Close<Parent, End extends string> = {
   [K in End]: () => Parent
 } & {
   parent: Parent
-  end: End
 }
 
 export type For<T, Tag, EndTag> = {

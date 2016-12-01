@@ -48,7 +48,7 @@ export type B<EndTag, Comps> =
   BB<EndTag, Comps> & BC<EndTag, Comps> & BP<EndTag, Comps> & BV<EndTag, Comps> & BS<EndTag, Comps> & EndTag
 
 export type MyIf<Parent, End extends string, Comps> = {
-  if<P, E extends string>(this: {parent: P, end: E}, condition: boolean): Common<B<Close<WithElse<P>, E>, Comps>, Close<WithElse<P>, E>>
+  if<P>(this: {parent: P}, condition: boolean): Common<B<Close<WithElse<P>, End>, Comps>, Close<WithElse<P>, End>>
 } & Common<B<Close<Parent, End>, Comps>, Close<Parent, End>>
 
 // Literal > If > Start > For
