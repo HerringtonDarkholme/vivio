@@ -1,4 +1,4 @@
-import {Literal, If, Interpolate, Close, WithElse} from './basic'
+import {Literal, Interpolate, Close, WithElse} from './basic'
 import {B} from './block'
 import {P} from './phrase'
 
@@ -37,18 +37,20 @@ export type Common<T, EndTag, Comp> =
 export type CloseC<Parent, End extends string, Comp> =
   Close<Parent, End> & {componentTag: Comp}
 
+export type BIf<Parent, End extends string, Comps, Comp> = {
+  if<Pt>(this: {parent: Pt}, condition: boolean): Common<B<CloseC<WithElse<Pt>, End, Comp>, Comps>, Close<WithElse<Pt>, End>, Comp>
+} & Common<B<CloseC<Parent, End, Comp>, Comps>, Close<Parent, End>, Comp>
+
 export type ComponentB<Parent, End extends string, Comp, Comps> =
   Literal<
-    If<
-      Common<B<CloseC<Parent, End, Comp>, Comps>, Close<Parent, End>, Comp>,
-      Common<B<CloseC<WithElse<Parent>, End, Comp>, Comps>, Close<WithElse<Parent>, End>, Comp>
-    >
+    BIf<Parent, End, Comps, Comp>
   >
+
+export type PIf<Parent, End extends string, Comps, Comp> = {
+  if<Pt>(this: {parent: Pt}, condition: boolean): Common<P<CloseC<WithElse<Pt>, End, Comp>, Comps>, Close<WithElse<Pt>, End>, Comp>
+} & Common<P<CloseC<Parent, End, Comp>, Comps>, Close<Parent, End>, Comp>
 
 export type ComponentP<Parent, End extends string, Comp, Comps> =
   Literal<
-    If<
-      Common<P<Close<Parent, End>, Comps>, Close<Parent, End>, Comp>,
-      Common<P<Close<WithElse<Parent>, End>, Comps>, Close<WithElse<Parent>, End>, Comp>
-    >
+    PIf<Parent, End, Comps, Comp >
   >
