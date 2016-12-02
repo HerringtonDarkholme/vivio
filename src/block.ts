@@ -1,5 +1,6 @@
 import {PhraseTags, Phrase} from './phrase'
 import {VoidTags, Void} from './void'
+import {Text} from './text'
 import {ComponentB} from './component'
 import {Literal, Common, Close, WithElse} from './basic'
 import {List, Media, ObjectP, Select, Table, Dl} from './special'
@@ -32,6 +33,13 @@ export type BC<EndTag, Comps> = {
   [K in keyof Comps]: ComponentB<B<EndTag, Comps>, K, Comps[K], Comps>
 }
 
+export type BT<EndTag, Comps> = {
+  style: Text<B<EndTag, Comps>, 'style'>
+  script: Text<B<EndTag, Comps>, 'script'>
+  pre: Text<B<EndTag, Comps>, 'pre'>
+  textarea: Text<B<EndTag, Comps>, 'textarea'>
+}
+
 export type BS<EndTag, Comps> = {
   ul: List<B<EndTag, Comps>, 'ul', Comps>
   ol: List<B<EndTag, Comps>, 'ol', Comps>
@@ -45,7 +53,7 @@ export type BS<EndTag, Comps> = {
 }
 
 export type B<EndTag, Comps> =
-  BB<EndTag, Comps> & BC<EndTag, Comps> & BP<EndTag, Comps> & BV<EndTag, Comps> & BS<EndTag, Comps> & EndTag
+  BB<EndTag, Comps> & BC<EndTag, Comps> & BP<EndTag, Comps> & BV<EndTag, Comps> & BS<EndTag, Comps> & BT<EndTag, Comps> & EndTag
 
 export type If<Parent, End extends string, Comps> = {
   if<P>(this: {parent: P}, condition: boolean): Common<B<Close<WithElse<P>, End>, Comps>, Close<WithElse<P>, End>>

@@ -1,5 +1,6 @@
 import {VoidTags, Void} from './void'
 import {ComponentP} from './component'
+import {Text} from './text'
 import {Literal, Common, Close, WithElse} from './basic'
 import {Media, ObjectP, Select} from './special'
 import {Class} from './interface'
@@ -24,6 +25,13 @@ export type PC<EndTag, Comps> = {
   [K in keyof Comps]: ComponentP<P<EndTag, Comps>, K, Comps[K], Comps>
 }
 
+export type PT<EndTag, Comps> = {
+  style: Text<P<EndTag, Comps>, 'style'>
+  script: Text<P<EndTag, Comps>, 'script'>
+  pre: Text<P<EndTag, Comps>, 'pre'>
+  textarea: Text<P<EndTag, Comps>, 'textarea'>
+}
+
 export type PS<EndTag, Comps> = {
   video: Media<P<EndTag, Comps>, 'video'>
   audio: Media<P<EndTag, Comps>, 'audio'>
@@ -32,7 +40,7 @@ export type PS<EndTag, Comps> = {
   tag<C>(comp: Class<C>): ComponentP<P<EndTag, Comps>, 'tag', C, Comps>
 }
 
-export type P<EndTag, Comps> = PC<EndTag, Comps> & PP<EndTag, Comps> & PV<EndTag, Comps> & EndTag
+export type P<EndTag, Comps> = PC<EndTag, Comps> & PP<EndTag, Comps> & PV<EndTag, Comps> & PT<EndTag, Comps> & EndTag
 
 export type If<Parent, End extends string, Comps> = {
   if<Pt>(this: {parent: Pt}, condition: boolean): Common<P<Close<WithElse<Pt>, End>, Comps>, Close<WithElse<Pt>, End>>
