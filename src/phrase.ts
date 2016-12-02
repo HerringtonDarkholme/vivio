@@ -55,6 +55,7 @@ export type PS<EndTag, Comps> = {
   object: ObjectP<P<EndTag, Comps>>,
   select: Select<P<EndTag, Comps>>
   tag<C>(comp: Class<C>): ComponentP<P<EndTag, Comps>, 'tag', C, Comps>
+  tag(str: string): Phrase<P<EndTag, Comps>, 'tag', Comps>
 }
 
 export type P<EndTag, Comps> = PC<EndTag, Comps> & PP<EndTag, Comps> & PV<EndTag, Comps> & PT<EndTag, Comps> & EndTag

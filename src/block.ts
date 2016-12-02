@@ -89,6 +89,7 @@ export type BS<EndTag, Comps> = {
   table: Table<B<EndTag, Comps>, Comps>,
   dl: Dl<B<EndTag, Comps>, Comps>
   tag<C>(comp: Class<C>): ComponentB<B<EndTag, Comps>, 'tag', C, Comps>
+  tag(str: string): Block<B<EndTag, Comps>, 'tag', Comps>
 }
 
 export type B<EndTag, Comps> =
