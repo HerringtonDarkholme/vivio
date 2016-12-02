@@ -1,4 +1,4 @@
-import {VoidTags, Void} from './void'
+import {Void} from './void'
 import {ComponentP} from './component'
 import {Text} from './text'
 import {Literal, Common, Close, WithElse} from './basic'
@@ -33,32 +33,35 @@ export type PP<EndTag, Comps> = {
   q: Phrase<P<EndTag, Comps>, 'q', Comps>
   span: Phrase<P<EndTag, Comps>, 'span', Comps>
   time: Phrase<P<EndTag, Comps>, 'time', Comps>
-}
-export type PV<EndTag, Comps> = {
-  [K in VoidTags]: Void<P<EndTag, Comps>>
-}
 
-export type PC<EndTag, Comps> = {
-  [K in keyof Comps]: ComponentP<P<EndTag, Comps>, K, Comps[K], Comps>
-}
-
-export type PT<EndTag, Comps> = {
+  // text tag
   style: Text<P<EndTag, Comps>, 'style'>
   script: Text<P<EndTag, Comps>, 'script'>
   pre: Text<P<EndTag, Comps>, 'pre'>
   textarea: Text<P<EndTag, Comps>, 'textarea'>
-}
 
-export type PS<EndTag, Comps> = {
+  // special tag
   video: Media<P<EndTag, Comps>, 'video'>
   audio: Media<P<EndTag, Comps>, 'audio'>
   object: ObjectP<P<EndTag, Comps>>,
   select: Select<P<EndTag, Comps>>
   tag<C>(comp: Class<C>): ComponentP<P<EndTag, Comps>, 'tag', C, Comps>
   tag(str: string): Phrase<P<EndTag, Comps>, 'tag', Comps>
+
+  // [K in VoidTags]: Void<B<EndTag, Comps>>
+  br: Void<P<EndTag, Comps>>
+  embed: Void<P<EndTag, Comps>>
+  hr: Void<P<EndTag, Comps>>
+  img: Void<P<EndTag, Comps>>
+  input: Void<P<EndTag, Comps>>
+  area: Void<P<EndTag, Comps>>
 }
 
-export type P<EndTag, Comps> = PC<EndTag, Comps> & PP<EndTag, Comps> & PV<EndTag, Comps> & PT<EndTag, Comps> & EndTag
+export type PC<EndTag, Comps> = {
+  [K in keyof Comps]: ComponentP<P<EndTag, Comps>, K, Comps[K], Comps>
+}
+
+export type P<EndTag, Comps> = PC<EndTag, Comps> & PP<EndTag, Comps> &  EndTag
 
 export type If<Parent, End extends string, Comps> = {
   if<Pt>(this: {parent: Pt}, condition: boolean): Common<P<Close<WithElse<Pt>, End>, Comps>, Close<WithElse<Pt>, End>>

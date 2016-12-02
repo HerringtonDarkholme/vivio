@@ -36,9 +36,8 @@ export type BB<EndTag, Comps> = {
   nav: Block<B<EndTag, Comps>, 'nav', Comps>
   p: Block<B<EndTag, Comps>, 'p', Comps>
   section: Block<B<EndTag, Comps>, 'section', Comps>
-}
 
-export type BP<EndTag, Comps> = {
+  // [K in PhraseTag]: Phrase<B<EndTag, Comps>, K, Comps>
   abbr: Phrase<B<EndTag, Comps>, 'abbr', Comps>
   b: Phrase<B<EndTag, Comps>, 'b', Comps>
   cite: Phrase<B<EndTag, Comps>, 'cite', Comps>
@@ -56,9 +55,7 @@ export type BP<EndTag, Comps> = {
   q: Phrase<B<EndTag, Comps>, 'q', Comps>
   span: Phrase<B<EndTag, Comps>, 'span', Comps>
   time: Phrase<B<EndTag, Comps>, 'time', Comps>
-}
 
-export type BV<EndTag, Comps> = {
   // [K in VoidTags]: Void<B<EndTag, Comps>>
   br: Void<B<EndTag, Comps>>
   embed: Void<B<EndTag, Comps>>
@@ -66,20 +63,13 @@ export type BV<EndTag, Comps> = {
   img: Void<B<EndTag, Comps>>
   input: Void<B<EndTag, Comps>>
   area: Void<B<EndTag, Comps>>
-}
 
-export type BC<EndTag, Comps> = {
-  [K in keyof Comps]: ComponentB<B<EndTag, Comps>, K, Comps[K], Comps>
-}
-
-export type BT<EndTag, Comps> = {
+  // [K in TextTags]: Text<B<EndTag, Comps>>
   style: Text<B<EndTag, Comps>, 'style'>
   script: Text<B<EndTag, Comps>, 'script'>
   pre: Text<B<EndTag, Comps>, 'pre'>
   textarea: Text<B<EndTag, Comps>, 'textarea'>
-}
 
-export type BS<EndTag, Comps> = {
   ul: List<B<EndTag, Comps>, 'ul', Comps>
   ol: List<B<EndTag, Comps>, 'ol', Comps>
   video: Media<B<EndTag, Comps>, 'video'>
@@ -92,8 +82,12 @@ export type BS<EndTag, Comps> = {
   tag(str: string): Block<B<EndTag, Comps>, 'tag', Comps>
 }
 
+export type BC<EndTag, Comps> = {
+  [K in keyof Comps]: ComponentB<B<EndTag, Comps>, K, Comps[K], Comps>
+}
+
 export type B<EndTag, Comps> =
-  BB<EndTag, Comps> & BC<EndTag, Comps> & BP<EndTag, Comps> & BV<EndTag, Comps> & BS<EndTag, Comps> & BT<EndTag, Comps> & EndTag
+  BB<EndTag, Comps> & BC<EndTag, Comps> & EndTag
 
 export type If<Parent, End extends string, Comps> = {
   if<P>(this: {parent: P}, condition: boolean): Common<B<Close<WithElse<P>, End>, Comps>, Close<WithElse<P>, End>>
