@@ -9,13 +9,30 @@ export type PhraseTags =
   'abbr' | 'b' | 'cite' | 'code' | 'em' | 'i' |
   'small' | 'strong' | 'button' | 'caption' | 'label' |
   'legend' | 'meter' | 'progress' | 'q' | 'span' | 'time'
-    // |
+  // |
   // 'sub' | 'sup' | 'rp' | 'rt'  | 'ruby' | 'samp' |
   // 'bdo' | 'dfn'   | 'kbd' |
   // 'ins' | 'del' // actually transparent content, put in phrase
 
 export type PP<EndTag, Comps> = {
-  [K in PhraseTags]: Phrase<P<EndTag, Comps>, K, Comps>
+  // [K in PhraseTags]: Phrase<P<EndTag, Comps>, K, Comps>
+  abbr: Phrase<P<EndTag, Comps>, 'abbr', Comps>
+  b: Phrase<P<EndTag, Comps>, 'b', Comps>
+  cite: Phrase<P<EndTag, Comps>, 'cite', Comps>
+  code: Phrase<P<EndTag, Comps>, 'code', Comps>
+  em: Phrase<P<EndTag, Comps>, 'code', Comps>
+  i: Phrase<P<EndTag, Comps>, 'i', Comps>
+  small: Phrase<P<EndTag, Comps>, 'small', Comps>
+  strong: Phrase<P<EndTag, Comps>, 'strong', Comps>
+  button: Phrase<P<EndTag, Comps>, 'button', Comps>
+  caption: Phrase<P<EndTag, Comps>, 'caption', Comps>
+  label: Phrase<P<EndTag, Comps>, 'label', Comps>
+  legend: Phrase<P<EndTag, Comps>, 'legend', Comps>
+  meter: Phrase<P<EndTag, Comps>, 'meter', Comps>
+  progress: Phrase<P<EndTag, Comps>, 'progress', Comps>
+  q: Phrase<P<EndTag, Comps>, 'q', Comps>
+  span: Phrase<P<EndTag, Comps>, 'span', Comps>
+  time: Phrase<P<EndTag, Comps>, 'time', Comps>
 }
 export type PV<EndTag, Comps> = {
   [K in VoidTags]: Void<P<EndTag, Comps>>
