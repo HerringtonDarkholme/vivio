@@ -6,16 +6,12 @@ import {Literal, Common, Close, WithElse} from './basic'
 import {List, Media, ObjectP, Select, Table, Dl} from './special'
 import {Class} from './interface'
 
-export type BlockTags =
-  'a' | 'article' | 'aside' | 'blockquote' |
-  'canvas' | 'div' | 'fieldset' | 'figure' | 'footer' |
-  'form' | 'header' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' |
-  'h6' | 'iframe' | 'nav' | 'p' | 'section'
-   // |
-  // 's' |
-  // 'address' |
-  // 'map' |
-  // 'u'
+// export type BlockTags =
+//   'a' | 'article' | 'aside' | 'blockquote' |
+//   'canvas' | 'div' | 'fieldset' | 'figure' | 'footer' |
+//   'form' | 'header' | 'h1' | 'h2' | 'h3' | 'h4' | 'h5' |
+//   'h6' | 'iframe' | 'nav' | 'p' | 'section'
+//    | 's' | 'address' | 'map' | 'u'
 
 export type BB<EndTag, Comps> = {
   // [K in BlockTags]: Block<B<EndTag, Comps>, K, Comps>

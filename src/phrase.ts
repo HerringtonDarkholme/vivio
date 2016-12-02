@@ -5,14 +5,14 @@ import {Literal, Common, Close, WithElse} from './basic'
 import {Media, ObjectP, Select} from './special'
 import {Class} from './interface'
 
-export type PhraseTags =
-  'abbr' | 'b' | 'cite' | 'code' | 'em' | 'i' |
-  'small' | 'strong' | 'button' | 'caption' | 'label' |
-  'legend' | 'meter' | 'progress' | 'q' | 'span' | 'time'
-  // |
-  // 'sub' | 'sup' | 'rp' | 'rt'  | 'ruby' | 'samp' |
-  // 'bdo' | 'dfn'   | 'kbd' |
-  // 'ins' | 'del' // actually transparent content, put in phrase
+// export type PhraseTags =
+//   'abbr' | 'b' | 'cite' | 'code' | 'em' | 'i' |
+//   'small' | 'strong' | 'button' | 'caption' | 'label' |
+//   'legend' | 'meter' | 'progress' | 'q' | 'span' | 'time'
+//   |
+//   'sub' | 'sup' | 'rp' | 'rt'  | 'ruby' | 'samp' |
+//   'bdo' | 'dfn'   | 'kbd' |
+//   'ins' | 'del' // actually transparent content, put in phrase
 
 export type PP<EndTag, Comps> = {
   // [K in PhraseTags]: Phrase<P<EndTag, Comps>, K, Comps>

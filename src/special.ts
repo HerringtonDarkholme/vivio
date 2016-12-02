@@ -4,8 +4,7 @@ import {Text} from './text'
 import {Literal, If, Common, Close, WithElse} from './basic'
 import {HTML} from './interface'
 
-export type ListTags = 'ul' | 'ol'
-
+// export type ListTags = 'ul' | 'ol'
 export type L<EndTag, Comps> = { li: Block<L<EndTag, Comps>, 'li', Comps> } & EndTag
 export type List<Parent, End extends string, Comps> =
   Literal<
@@ -18,7 +17,7 @@ export type List<Parent, End extends string, Comps> =
 export type MIf<Parent, End extends string> = {
   if<Pt>(this: {parent: Pt}, condition: boolean): Common<M<Close<WithElse<Pt>, End>>, Close<WithElse<Pt>, End>>
 } & Common<M<Close<Parent, End>>, Close<Parent, End>>
-export type MediaTags = 'audio' | 'video'
+// export type MediaTags = 'audio' | 'video'
 export type MV<EndTag> = { source: Void<M<EndTag>>, track: Void<M<EndTag>> } & EndTag
 export type M<EndTag> = MV<EndTag> & EndTag & { fallback(h: HTML<{}>): M<EndTag> }
 export type Media<Parent, End extends string> =
@@ -57,7 +56,9 @@ export type Select<Parent> =
   >
 
 export type CellTags = 'td' | 'th'
-export type TC<EndTag, Comps> = { [K in CellTags]: Block<TC<EndTag, Comps>, K, Comps>} & EndTag
+export type TC<EndTag, Comps> = {
+  [K in CellTags]: Block<TC<EndTag, Comps>, K, Comps>
+} & EndTag
 export type TR<Parent, Comps> =
   Literal<
     If<
