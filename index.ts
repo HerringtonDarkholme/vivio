@@ -1,5 +1,9 @@
 import {HTML, Classes} from './src/interface'
-export {Emitter} from './src/component'
+import {html} from './src/implementation'
+
 export default function h<T>(comps: Classes<T>): HTML<T> {
-  return null as any
+  return html
 }
+
+export {Emitter} from './src/component'
+export {html, setRenderContext} from './src/implementation'

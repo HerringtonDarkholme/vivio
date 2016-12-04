@@ -19,13 +19,17 @@ const vnodekeys = [
   'directives',
 ]
 
+interface RenderContext {
+  _h: (tag: string, p: any, children: any) => any
+  _t: Function
+}
+
 let tagStack: Tag[] = []
 let currentTag: Tag
-let renderFunc = function(t: string, p: any, children: any[] | undefined) {
-  console.log('rendered: ' + t)
-  console.log('props: ' + JSON.stringify(p))
-  console.log('children count: ' + (children ? children.length : 0))
-  return {t, p, children}
+let context: RenderContext
+
+export function setRenderContext(t: any) {
+  context = t
 }
 
 export function startTag(tag: string) {
@@ -52,8 +56,8 @@ export function closeTag(tag: string) {
       currentTag.children = [t]
     }
   }
-  renderFunc(t.tag, t.props, t.children)
-  return html
+  let ret = context._h(t.tag, t.props, t.children)
+  return tagStack.length === 0 ? ret : html
 }
 
 var html: any = new Proxy(closeTag, {
@@ -69,14 +73,14 @@ var html: any = new Proxy(closeTag, {
   }
 })
 
-html
-.div
-.props({test: '1232'})
-.class({vnode: true})
-  .p
-    .props({ptest: '1232'})
-    .class({pnode: true})
-  .p()
-.div()
+// html
+// .div
+// .props({test: '1232'})
+// .class({vnode: true})
+//   .p
+//     .props({ptest: '1232'})
+//     .class({pnode: true})
+//   .p()
+// .div()
 
 export {html}
