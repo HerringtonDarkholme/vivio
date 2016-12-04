@@ -23,6 +23,12 @@ export type Common<T, EndTag> = {
   props<C, K extends keyof C>(this: ComponentPropAux<C, K>, nameHash: Partial<Pick<C, K>>): Common<T, EndTag>
   nativeOn(handlerHash: {[k: string]: Function}): Common<T, EndTag>
   domProps(nameHash: {[k: string]: any}): Common<T, EndTag>
+  style(nameHash: {[k: string]: any}): Common<T, EndTag>
+  attrs(nameHash: {[k: string]: any}): Common<T, EndTag>
+  slotName(name: string): Common<T, EndTag>
+  ref(name: string): Common<T, EndTag>
+  key(k: any): Common<T, EndTag>
+  directives(d: any): Common<T, EndTag>
   for<A>(list: A[], func: (t: A, i: number, h: Common<T, EndTag>) => T): EndTag
  // 'componentTag': Comp
 } & Interpolate<T>

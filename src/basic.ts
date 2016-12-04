@@ -18,6 +18,12 @@ export type Common<T, EndTag> = {
   class(nameHash: {[k: string]: boolean}): Common<T, EndTag>
   on(handlerHash: {[k: string]: Function}): Common<T, EndTag>
   props(nameHash: {[k: string]: any}): Common<T, EndTag>
+  style(nameHash: {[k: string]: any}): Common<T, EndTag>
+  attrs(nameHash: {[k: string]: any}): Common<T, EndTag>
+  slotName(name: string): Common<T, EndTag>
+  ref(name: string): Common<T, EndTag>
+  key(k: any): Common<T, EndTag>
+  directives(d: any): Common<T, EndTag>
   for<A>(list: A[], func: (t: A, i: number, h: Common<T, EndTag>) => T): EndTag
 } & Interpolate<T>
 
