@@ -1,8 +1,10 @@
 import {HTML, Classes} from './src/interface'
-import {proxyHandler, COMPONENT_KEY} from './src/implementation'
+import {proxyHandler, COMPONENT_KEY, closeTag} from './src/implementation'
 
 export default function h<T>(comps?: Classes<T>): HTML<T> {
-  function html() {}
+  function html(this: any) {
+    return closeTag.call(this)
+  }
   html[COMPONENT_KEY] = comps || {}
   return new Proxy(html, proxyHandler)
 }

@@ -35,9 +35,9 @@ export function setRenderContext(t: any) {
   context = t
 }
 
-export function startTag(tag: string, target: any) {
+export function startTag(this: any, tag: string) {
   tagStack.push(currentTag)
-  const components = target[COMPONENT_KEY]
+  const components = this[COMPONENT_KEY]
   if (components && components.hasOwnProperty(tag)) {
     currentTag = new Tag(components[tag])
   } else {
@@ -83,10 +83,7 @@ export var proxyHandler = {
         return receiver
       }
     }
-    startTag(name, target)
+    startTag.call(target, name)
     return receiver
-  },
-  apply(target: any, thisArg: any, argList: any) {
-    return closeTag.call(thisArg)
   }
 }
