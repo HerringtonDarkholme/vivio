@@ -19,6 +19,8 @@ const vnodekeys = [
   'directives',
 ]
 
+export const COMPONENT_KEY = '__components__'
+
 interface RenderContext {
   _h: (tag: string, p: any, children: any) => any
   _t: Function
@@ -33,9 +35,14 @@ export function setRenderContext(t: any) {
   context = t
 }
 
-export function startTag(tag: string) {
+export function startTag(tag: string, target: any) {
   tagStack.push(currentTag)
-  currentTag = new Tag(tag)
+  const components = target[COMPONENT_KEY]
+  if (components && components.hasOwnProperty(tag)) {
+    currentTag = new Tag(components[tag])
+  } else {
+    currentTag = new Tag(tag)
+  }
 }
 
 export function addProps(key: string, content: any) {
@@ -47,7 +54,7 @@ export function addProps(key: string, content: any) {
   }
 }
 
-export function closeTag(tag: string) {
+export function closeTag(this: any, tag: string) {
   let t = tagStack.pop()!
   currentTag = tagStack.pop()!;
   let ret = context._h(t.tag, t.props, t.children)
@@ -61,34 +68,25 @@ export function closeTag(tag: string) {
   if (tagStack.length === 0) {
     result = ret
   }
-  return html
+  return this
 }
 
 export function getResult() {
   return result
 }
 
-var html: any = new Proxy(closeTag, {
-  get(target, name: string) {
+export var proxyHandler = {
+  get(target: any, name: string, receiver: any) {
     if (vnodekeys.indexOf(name) >= 0) {
       return (content: any) => {
         addProps(name, content)
-        return html
+        return receiver
       }
     }
-    startTag(name)
-    return html
+    startTag(name, target)
+    return receiver
+  },
+  apply(target: any, thisArg: any, argList: any) {
+    return closeTag.call(thisArg)
   }
-})
-
-// html
-// .div
-// .props({test: '1232'})
-// .class({vnode: true})
-//   .p
-//     .props({ptest: '1232'})
-//     .class({pnode: true})
-//   .p()
-// .div()
-
-export {html}
+}

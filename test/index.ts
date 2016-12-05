@@ -4,7 +4,7 @@ import {expect} from 'chai'
 
 var h = _h({})
 
-function render(tag: string, prop?: any, children?: any) {
+function render(tag: string | Function, prop?: any, children?: any) {
   return {tag, prop, children}
 }
 
@@ -63,6 +63,13 @@ describe('simple tag tree', () => {
         })
       ])
     )
+  })
+
+  it('should resolve component', () => {
+    class TestComponent {}
+    _h({test: TestComponent}).test.test()
+    var ret = getResult()
+    expect(ret).to.deep.equal(render(TestComponent))
   })
 
 })
