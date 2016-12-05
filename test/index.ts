@@ -15,25 +15,58 @@ describe('simple tag tree', () => {
     _h: render
   })
   it('should return html', () => {
-    h.div.div()
+    h = h.div.div()
     var ret = getResult()
     expect(ret).to.deep.equal(render('div'))
   })
 
   it('should return nested', () => {
-    h.div.div.div().div()
+    h = h.div.div.div().div()
     var ret = getResult()
     expect(ret).to.deep.equal(render('div', undefined, [
       render('div')
     ]))
   })
 
+  it('should render props', () => {
+    h = h
+      .div.props({test: '1232'})
+      .class({vnode: true})
+      .div()
+    var ret = getResult()
+    expect(ret).to.deep.equal(
+      render('div', {
+        props: {test: '1232'},
+        class: {vnode: true}
+      })
+    )
+  })
+
+  it('should render nested props', () => {
+    h = h
+      .div.props({test: '1232'})
+      .class({vnode: true})
+        .p
+          .props({ptest: '1233'})
+          .class({pnode: true})
+        .p()
+      .div()
+    var ret = getResult()
+    expect(ret).to.deep.equal(
+      render('div', {
+        props: {test: '1232'},
+        class: {vnode: true}
+      }, [
+        render('p', {
+          props: {ptest: '1233'},
+          class: {pnode: true}
+        })
+      ])
+    )
+  })
+
 })
 
-// h = h.div
-//   .div
-//   .div()
-//   .div()
 
 // var j = h.div
 //   .div
