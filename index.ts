@@ -6,4 +6,4 @@ export default function h<T>(comps: Classes<T>): HTML<T> {
 }
 
 export {Emitter} from './src/component'
-export {html, setRenderContext} from './src/implementation'
+export {html, setRenderContext, getResult} from './src/implementation'

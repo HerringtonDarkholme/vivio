@@ -1,26 +1,33 @@
 import _h from '../index'
-import {setRenderContext} from '../index'
+import {setRenderContext, getResult} from '../index'
 import {expect} from 'chai'
 
 var h = _h({})
+
+function render(tag: string, prop?: any, children?: any) {
+  return {tag, prop, children}
+}
 
 // var k = h.div
 
 describe('simple tag tree', () => {
   setRenderContext({
-    _h(tag: string, prop: any, children: any) {
-      return {tag, prop, children}
-    }
+    _h: render
   })
   it('should return html', () => {
-    var ret = h.div.div()
-    expect(ret).to.have.property('tag')
-      .and.equal('div')
-    expect(ret).to.have.property('prop')
-      .and.equal(undefined)
-    expect(ret).to.have.property('children')
-      .and.equal(undefined)
+    h.div.div()
+    var ret = getResult()
+    expect(ret).to.deep.equal(render('div'))
   })
+
+  it('should return nested', () => {
+    h.div.div.div().div()
+    var ret = getResult()
+    expect(ret).to.deep.equal(render('div', undefined, [
+      render('div')
+    ]))
+  })
+
 })
 
 // h = h.div

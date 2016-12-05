@@ -27,6 +27,7 @@ interface RenderContext {
 let tagStack: Tag[] = []
 let currentTag: Tag
 let context: RenderContext
+let result: Tag
 
 export function setRenderContext(t: any) {
   context = t
@@ -49,15 +50,22 @@ export function addProps(key: string, content: any) {
 export function closeTag(tag: string) {
   let t = tagStack.pop()!
   currentTag = tagStack.pop()!;
+  let ret = context._h(t.tag, t.props, t.children)
   if (currentTag) {
     if (currentTag.children) {
-      currentTag.children.push(t)
+      currentTag.children.push(ret)
     } else {
-      currentTag.children = [t]
+      currentTag.children = [ret]
     }
   }
-  let ret = context._h(t.tag, t.props, t.children)
-  return tagStack.length === 0 ? ret : html
+  if (tagStack.length === 0) {
+    result = ret
+  }
+  return html
+}
+
+export function getResult() {
+  return result
 }
 
 var html: any = new Proxy(closeTag, {
