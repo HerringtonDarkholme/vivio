@@ -29,7 +29,10 @@ interface RenderContext {
 let tagStack: Tag[] = []
 let currentTag: Tag
 let context: RenderContext
-let result: Tag
+let result: Tag | undefined
+let shouldRender = true
+
+const SKIP_TAG_PLACEHOLDER = {} as any
 
 export function setRenderContext(t: any) {
   context = t
@@ -37,6 +40,9 @@ export function setRenderContext(t: any) {
 
 export function startTag(this: any, tag: string) {
   tagStack.push(currentTag)
+  if (!shouldRender) {
+    currentTag = SKIP_TAG_PLACEHOLDER
+  }
   const components = this[COMPONENT_KEY]
   if (components && components.hasOwnProperty(tag)) {
     currentTag = new Tag(components[tag])
@@ -46,7 +52,7 @@ export function startTag(this: any, tag: string) {
 }
 
 export function addProps(key: string, content: any) {
-  if (!currentTag) throw new Error()
+  if (!shouldRender) return
   if (currentTag.props) {
     currentTag.props[key] = content
   } else {
@@ -55,8 +61,17 @@ export function addProps(key: string, content: any) {
 }
 
 export function closeTag(this: any, tag: string) {
-  let t = tagStack.pop()!
+  let t = tagStack.pop()!;
   currentTag = tagStack.pop()!;
+  if (!shouldRender) {
+    if (currentTag !== SKIP_TAG_PLACEHOLDER) {
+      shouldRender = true
+    }
+    if (tagStack.length === 0) {
+      result = undefined
+    }
+    return this
+  }
   let ret = context._h(t.tag, t.props, t.children)
   if (currentTag) {
     if (currentTag.children) {
@@ -77,6 +92,15 @@ export function getResult() {
 
 export var proxyHandler = {
   get(target: any, name: string, receiver: any) {
+    if (name === 'if') {
+      return (condition: boolean) => {
+        shouldRender = shouldRender && condition
+        if (!shouldRender) {
+          currentTag = SKIP_TAG_PLACEHOLDER
+        }
+        return receiver
+      }
+    }
     if (vnodekeys.indexOf(name) >= 0) {
       return (content: any) => {
         addProps(name, content)

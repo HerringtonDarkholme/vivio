@@ -1,78 +1,14 @@
-import _h from '../index'
-import {setRenderContext, getResult} from '../index'
-import {expect} from 'chai'
+import {setRenderContext} from '../index'
 
-var h = _h({})
+setRenderContext({
+  _h: r
+})
 
-function render(tag: string | Function, prop?: any, children?: any) {
+export function r(tag: string | Function, prop?: any, children?: any) {
   return {tag, prop, children}
 }
 
 // var k = h.div
-
-describe('simple tag tree', () => {
-  setRenderContext({
-    _h: render
-  })
-  it('should return html', () => {
-    h = h.div.div()
-    var ret = getResult()
-    expect(ret).to.deep.equal(render('div'))
-  })
-
-  it('should return nested', () => {
-    h = h.div.div.div().div()
-    var ret = getResult()
-    expect(ret).to.deep.equal(render('div', undefined, [
-      render('div')
-    ]))
-  })
-
-  it('should render props', () => {
-    h = h
-      .div.props({test: '1232'})
-      .class({vnode: true})
-      .div()
-    var ret = getResult()
-    expect(ret).to.deep.equal(
-      render('div', {
-        props: {test: '1232'},
-        class: {vnode: true}
-      })
-    )
-  })
-
-  it('should render nested props', () => {
-    h = h
-      .div.props({test: '1232'})
-      .class({vnode: true})
-        .p
-          .props({ptest: '1233'})
-          .class({pnode: true})
-        .p()
-      .div()
-    var ret = getResult()
-    expect(ret).to.deep.equal(
-      render('div', {
-        props: {test: '1232'},
-        class: {vnode: true}
-      }, [
-        render('p', {
-          props: {ptest: '1233'},
-          class: {pnode: true}
-        })
-      ])
-    )
-  })
-
-  it('should resolve component', () => {
-    class TestComponent {}
-    _h({test: TestComponent}).test.test()
-    var ret = getResult()
-    expect(ret).to.deep.equal(render(TestComponent))
-  })
-
-})
 
 
 // var j = h.div
@@ -92,13 +28,6 @@ describe('simple tag tree', () => {
 //       .tr()
 //     .tbody()
 //    .table()
-//   .div
-//   .div()
-// .div()
-
-// h = h.div
-//   .p
-//   .p()
 //   .div
 //   .div()
 // .div()
