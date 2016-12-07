@@ -3,7 +3,7 @@ import {proxyHandler, COMPONENT_KEY, closeTag} from './src/implementation'
 
 export default function h<T>(comps?: Classes<T>): HTML<T> {
   function html(this: any) {
-    return closeTag.call(this)
+    return closeTag.apply(this, arguments)
   }
   html[COMPONENT_KEY] = comps || {}
   return new Proxy(html, proxyHandler)

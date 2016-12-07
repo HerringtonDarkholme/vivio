@@ -1,7 +1,7 @@
 export class Tag {
   protected ttt: number
   children?: Tag[]
-  props?: {[k: string]: any}
+  props?: any
   constructor(public tag: string) {}
 }
 
@@ -62,7 +62,28 @@ export function addProps(key: string, content: any) {
   }
 }
 
-export function closeTag(this: any, tag: string) {
+export function closeTag(this: any, template: TemplateStringsArray, ...args: any[]) {
+  if (arguments.length >= 1) {
+    let classString = template[0]
+    for (let i = 0, l = args.length; i < l; i++) {
+      let argStr = args[i] && args[i].toString()
+      classString += argStr + template[i + 1]
+    }
+    let ids: string[] = []
+    classString = classString.replace(/#[^.#]+/g, (match) => {
+      ids.push(match.substr(1))
+      return ''
+    })
+    let props = currentTag.props = currentTag.props || {}
+    if (classString) {
+      props.staticClass = classString.split('.').join(' ').trim()
+    }
+    if (ids.length > 0) {
+      let attrs = props.attrs = props.attrs || {}
+      attrs.id = ids.join(' ')
+    }
+    return this
+  }
   let t = tagStack.pop()!;
   currentTag = tagStack.pop()!;
   if (!shouldRender) {

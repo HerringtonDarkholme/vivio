@@ -80,4 +80,33 @@ describe('simple tag tree', () => {
     )
   })
 
+  it('should render class literal', () => {
+    h = h.div`.static-class`.div()
+    var ret = getResult()
+    expect(ret).to.deep.equal(
+      r('div', {staticClass: 'static-class'})
+    )
+  })
+
+  it('should render id literal', () => {
+    h = h.div`#static-id`.div()
+    var ret = getResult()
+    expect(ret).to.deep.equal(
+      r('div', {attrs: {id: 'static-id'}})
+    )
+  })
+
+  it('should render mixed literal', () => {
+    h = h.div`#id-1.class-1.class-2#id-2.class-3`.div()
+    var ret = getResult()
+    expect(ret).to.deep.equal(
+      r('div', {
+        attrs: {
+          id: 'id-1 id-2'
+        },
+        staticClass: 'class-1 class-2 class-3'
+      })
+    )
+  })
+
 })
