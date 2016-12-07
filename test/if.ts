@@ -100,4 +100,34 @@ describe('if directive', () => {
     expect(ret).to.deep.equal(r('h1'))
   })
 
+  it('should render complex nested', () => {
+    h = h.div.if(false)
+        .p.if(true)
+          .a.if(false)
+          .a()
+          .span.else
+          .span()
+        .p()
+      .div()
+      .h1.else
+        .a.if(false)
+          .div.if(true).div()
+        .a()
+        .b.else.if(true)
+          .props({test: 123})
+          .span.if(false).span()
+          .select.else.select()
+          .strong`.always`
+          .strong()
+        .b()
+      .h1()
+    var ret = getResult()
+    expect(ret).to.deep.equal(r('h1', undefined, [
+      r('b', {props: {test: 123}}, [
+        r('select'),
+        r('strong', {staticClass: 'always'})
+      ])
+    ]))
+  })
+
 })

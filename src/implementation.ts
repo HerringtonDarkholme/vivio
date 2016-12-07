@@ -64,6 +64,8 @@ export function addProps(key: string, content: any) {
 
 export function closeTag(this: any, template: TemplateStringsArray, ...args: any[]) {
   if (arguments.length >= 1) {
+    // skip when no rendering
+    if (!shouldRender) return;
     let classString = template[0]
     for (let i = 0, l = args.length; i < l; i++) {
       let argStr = args[i] && args[i].toString()
