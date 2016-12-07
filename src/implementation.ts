@@ -101,15 +101,14 @@ export var proxyHandler = {
     if (name === 'if') {
       return (condition: boolean) => {
         shouldRender = shouldRender && condition
-        if (!shouldRender) {
-          // remove currentTag in p.if(false)
+        if (!shouldRender) { // remove currentTag in p.if(false)
           currentTag = SKIP_TAG_PLACEHOLDER
         }
         return receiver
       }
     }
     if (name === 'else') {
-      if (shouldRender && lastIfValue) { // last p.if branch is true
+      if (shouldRender && lastIfValue) { // last p.if is true, skip else
         shouldRender = false
         currentTag = SKIP_TAG_PLACEHOLDER
       }
