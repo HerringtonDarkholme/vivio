@@ -1,7 +1,7 @@
 import {Void} from './void'
 import {ComponentP} from './component'
 import {Text} from './text'
-import {Literal, Common, Close, WithElse} from './basic'
+import {Literal, Common, Close, WithElse, Template} from './basic'
 import {Media, ObjectP, Select} from './special'
 import {Class, HTML} from './interface'
 
@@ -48,15 +48,17 @@ export type PP<EndTag, Comps> = {
   input: Void<P<EndTag, Comps>>
   area: Void<P<EndTag, Comps>>
 
-  // special tag
+  // specific tag
   video: Media<P<EndTag, Comps>, 'video'>
   audio: Media<P<EndTag, Comps>, 'audio'>
   object: ObjectP<P<EndTag, Comps>>,
   select: Select<P<EndTag, Comps>>
+
+  // for programmatic usage
   tag<C>(comp: Class<C>): ComponentP<P<EndTag, Comps>, 'tag', C, Comps>
   tag(str: string): Phrase<P<EndTag, Comps>, 'tag', Comps>
-  // for programmatic usage
   children(...children: Array<string|HTML<{}>>): P<EndTag, Comps>
+  template: Template<P<EndTag, Comps>>
 }
 
 export type PC<EndTag, Comps> = {

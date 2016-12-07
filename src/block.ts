@@ -2,7 +2,7 @@ import {Phrase} from './phrase'
 import {Void} from './void'
 import {Text} from './text'
 import {ComponentB} from './component'
-import {Literal, Common, Close, WithElse} from './basic'
+import {Literal, Common, Close, WithElse, Template} from './basic'
 import {List, Media, ObjectP, Select, Table, Dl} from './special'
 import {Class, HTML} from './interface'
 
@@ -70,6 +70,7 @@ export type BB<EndTag, Comps> = {
   pre: Text<B<EndTag, Comps>, 'pre'>
   textarea: Text<B<EndTag, Comps>, 'textarea'>
 
+  // specific tags
   ul: List<B<EndTag, Comps>, 'ul', Comps>
   ol: List<B<EndTag, Comps>, 'ol', Comps>
   video: Media<B<EndTag, Comps>, 'video'>
@@ -78,10 +79,12 @@ export type BB<EndTag, Comps> = {
   select: Select<B<EndTag, Comps>>,
   table: Table<B<EndTag, Comps>, Comps>,
   dl: Dl<B<EndTag, Comps>, Comps>
+
+  // copmonents for programmatic usage
   tag<C>(comp: Class<C>): ComponentB<B<EndTag, Comps>, 'tag', C, Comps>
   tag(str: string): Block<B<EndTag, Comps>, 'tag', Comps>
-  // for programmatic usage
   children(...children: Array<string|HTML<{}>>): B<EndTag, Comps>
+  template: Template<B<EndTag, Comps>>
 }
 
 export type BC<EndTag, Comps> = {

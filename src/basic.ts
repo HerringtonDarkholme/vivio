@@ -35,3 +35,14 @@ export type Interpolate<T> = T & {
   $(str: TemplateStringsArray, ...args: any[]): Interpolate<T>
   $(str: string): Interpolate<T>
 }
+
+export type SlotName<Tag> = {
+  slotName<T>(this: {parent: {ComponentTag: {$scopedSlots: T}}}, key: keyof T): Tag
+} & Tag
+
+export type Template<Parent> = SlotName<{
+  scope(f: () => any): {
+    template(): Parent
+  }
+  template(): Parent
+}>
