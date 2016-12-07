@@ -5,6 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "mocha dist/test",
+    "dev": "concurrently 'mocha dist/test -w' 'tsc -w'",
     "diag": "tsc --noEmit --diagnostics --lib es5 test/spec.ts"
   },
   "author": "",
@@ -16,6 +17,7 @@
     "@types/chai": "^3.4.34",
     "@types/mocha": "^2.2.33",
     "chai": "^3.5.0",
+    "concurrently": "^3.1.0",
     "mocha": "^3.2.0"
   }
 }

@@ -60,4 +60,22 @@ describe('if directive', () => {
     expect(ret).to.deep.equal(r('div'))
   })
 
+  it('should render else', () => {
+    h = h.div.if(false)
+      .div()
+      .p.else
+      .p()
+    var ret = getResult()
+    expect(ret).to.deep.equal(r('p'))
+  })
+
+  it('should not render else', () => {
+    h = h.div.if(true)
+      .div()
+      .p.else
+      .p()
+    var ret = getResult()
+    expect(ret).to.deep.equal(r('div'))
+  })
+
 })

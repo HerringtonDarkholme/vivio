@@ -13,7 +13,7 @@ const vnodekeys = [
   'domprops',
   'style',
   'attrs',
-  'slotname',
+  'slotName',
   'ref',
   'key',
   'directives',
@@ -96,10 +96,14 @@ export var proxyHandler = {
       return (condition: boolean) => {
         shouldRender = shouldRender && condition
         if (!shouldRender) {
+          // remove currentTag in p.if(false)
           currentTag = SKIP_TAG_PLACEHOLDER
         }
         return receiver
       }
+    }
+    if (name === 'else') {
+      return receiver
     }
     if (vnodekeys.indexOf(name) >= 0) {
       return (content: any) => {
