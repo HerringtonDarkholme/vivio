@@ -31,6 +31,7 @@ let currentTag: Tag
 let context: RenderContext
 let result: Tag | undefined
 let shouldRender = true
+let lastIfValue = false
 
 const SKIP_TAG_PLACEHOLDER = {} as any
 
@@ -42,6 +43,7 @@ export function startTag(this: any, tag: string) {
   tagStack.push(currentTag)
   if (!shouldRender) {
     currentTag = SKIP_TAG_PLACEHOLDER
+    return
   }
   const components = this[COMPONENT_KEY]
   if (components && components.hasOwnProperty(tag)) {
@@ -64,11 +66,12 @@ export function closeTag(this: any, tag: string) {
   let t = tagStack.pop()!;
   currentTag = tagStack.pop()!;
   if (!shouldRender) {
+    if (tagStack.length === 0 && !lastIfValue) {
+      result = undefined
+    }
     if (currentTag !== SKIP_TAG_PLACEHOLDER) {
       shouldRender = true
-    }
-    if (tagStack.length === 0) {
-      result = undefined
+      lastIfValue = false
     }
     return this
   }
@@ -83,11 +86,14 @@ export function closeTag(this: any, tag: string) {
   if (tagStack.length === 0) {
     result = ret
   }
+  lastIfValue = true
   return this
 }
 
 export function getResult() {
-  return result
+  let ret = result
+  result = undefined
+  return ret
 }
 
 export var proxyHandler = {
@@ -103,6 +109,10 @@ export var proxyHandler = {
       }
     }
     if (name === 'else') {
+      if (shouldRender && lastIfValue) { // last p.if branch is true
+        shouldRender = false
+        currentTag = SKIP_TAG_PLACEHOLDER
+      }
       return receiver
     }
     if (vnodekeys.indexOf(name) >= 0) {
