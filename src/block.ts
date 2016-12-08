@@ -4,7 +4,7 @@ import {Text} from './text'
 import {ComponentB} from './component'
 import {Literal, Common, Close, WithElse, Template} from './basic'
 import {List, Media, ObjectP, Select, Table, Dl} from './special'
-import {Class, HTML} from './interface'
+import {Class, HTMLBrand} from './interface'
 
 // export type BlockTags =
 //   'a' | 'article' | 'aside' | 'blockquote' |
@@ -83,7 +83,7 @@ export type BB<EndTag, Comps> = {
   // copmonents for programmatic usage
   tag<C>(comp: Class<C>): ComponentB<B<EndTag, Comps>, 'tag', C, Comps>
   tag(str: string): Block<B<EndTag, Comps>, 'tag', Comps>
-  children(...children: Array<string|HTML<{}>>): B<EndTag, Comps>
+  children(...children: Array<string|HTMLBrand>): B<EndTag, Comps>
   template: Template<B<EndTag, Comps>>
 }
 

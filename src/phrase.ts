@@ -3,7 +3,7 @@ import {ComponentP} from './component'
 import {Text} from './text'
 import {Literal, Common, Close, WithElse, Template} from './basic'
 import {Media, ObjectP, Select} from './special'
-import {Class, HTML} from './interface'
+import {Class, HTMLBrand} from './interface'
 
 // export type PhraseTags =
 //   'abbr' | 'b' | 'cite' | 'code' | 'em' | 'i' |
@@ -57,7 +57,7 @@ export type PP<EndTag, Comps> = {
   // for programmatic usage
   tag<C>(comp: Class<C>): ComponentP<P<EndTag, Comps>, 'tag', C, Comps>
   tag(str: string): Phrase<P<EndTag, Comps>, 'tag', Comps>
-  children(...children: Array<string|HTML<{}>>): P<EndTag, Comps>
+  children(...children: Array<string|HTMLBrand>): P<EndTag, Comps>
   template: Template<P<EndTag, Comps>>
 }
 
