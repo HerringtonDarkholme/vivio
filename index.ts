@@ -1,12 +1,19 @@
 import {HTML, Classes} from './src/interface'
-import {proxyHandler, COMPONENT_KEY, closeTag} from './src/implementation'
+import {proxyHandler, TagTree, closeTag} from './src/implementation'
 
 export default function h<T>(comps?: Classes<T>): HTML<T> {
   function html(this: any) {
     return closeTag.apply(this, arguments)
   }
-  html[COMPONENT_KEY] = comps || {}
-  return new Proxy(html, proxyHandler)
+  let _html: {__tagTree: TagTree} = html as any
+  _html.__tagTree = {
+    __components__: comps,
+    lastIfValue: false,
+    shouldRender: true,
+    tagStack: [],
+    result: undefined,
+  }
+  return new Proxy(html as any, proxyHandler)
 }
 
 export {Emitter} from './src/component'

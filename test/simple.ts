@@ -7,13 +7,13 @@ var h = _h({})
 describe('simple tag tree', () => {
   it('should return html', () => {
     h = h.div.div()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(r('div'))
   })
 
   it('should return nested', () => {
     h = h.div.div.div().div()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(r('div', undefined, [
       r('div')
     ]))
@@ -24,7 +24,7 @@ describe('simple tag tree', () => {
       .div.props({test: '1232'})
       .class({vnode: true})
       .div()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(
       r('div', {
         props: {test: '1232'},
@@ -42,7 +42,7 @@ describe('simple tag tree', () => {
           .class({pnode: true})
         .p()
       .div()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(
       r('div', {
         props: {test: '1232'},
@@ -58,8 +58,8 @@ describe('simple tag tree', () => {
 
   it('should resolve component', () => {
     class TestComponent {}
-    _h({test: TestComponent}).test.test()
-    var ret = getResult()
+    var k = _h({test: TestComponent}).test.test()
+    var ret = getResult(k)
     expect(ret).to.deep.equal(r(TestComponent))
   })
 
@@ -71,7 +71,7 @@ describe('simple tag tree', () => {
         .div
         .div()
       .div()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(
       r('div', undefined, [
         r('p'),
@@ -82,7 +82,7 @@ describe('simple tag tree', () => {
 
   it('should render class literal', () => {
     h = h.div`.static-class`.div()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(
       r('div', {staticClass: 'static-class'})
     )
@@ -90,7 +90,7 @@ describe('simple tag tree', () => {
 
   it('should render id literal', () => {
     h = h.div`#static-id`.div()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(
       r('div', {attrs: {id: 'static-id'}})
     )
@@ -98,7 +98,7 @@ describe('simple tag tree', () => {
 
   it('should render mixed literal', () => {
     h = h.div`#id-1.class-1.class-2#id-2.class-3`.div()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(
       r('div', {
         attrs: {

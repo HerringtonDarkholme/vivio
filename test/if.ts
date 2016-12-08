@@ -9,14 +9,14 @@ describe('if directive', () => {
   it('should render if true', () => {
     h = h.div.if(true)
       .div()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(r('div'))
   })
 
   it('should not render if false', () => {
     h = h.div.if(false)
       .div()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(undefined)
   })
 
@@ -27,7 +27,7 @@ describe('if directive', () => {
       .div.if(true)
       .div()
       .div()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(
       r('div', undefined, [
         r('div')
@@ -43,7 +43,7 @@ describe('if directive', () => {
       .div.if(false)
       .div()
     .div()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(
       r('div')
     )
@@ -56,7 +56,7 @@ describe('if directive', () => {
           .div()
         .p()
       .div()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(r('div'))
   })
 
@@ -65,7 +65,7 @@ describe('if directive', () => {
       .div()
       .p.else
       .p()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(r('p'))
   })
 
@@ -74,7 +74,7 @@ describe('if directive', () => {
       .div()
       .p.else
       .p()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(r('div'))
   })
 
@@ -85,7 +85,7 @@ describe('if directive', () => {
       .p()
       .h1.else
       .h1()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(r('p'))
   })
 
@@ -96,7 +96,7 @@ describe('if directive', () => {
       .p()
       .h1.else
       .h1()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(r('h1'))
   })
 
@@ -121,7 +121,7 @@ describe('if directive', () => {
           .strong()
         .b()
       .h1()
-    var ret = getResult()
+    var ret = getResult(h)
     expect(ret).to.deep.equal(r('h1', undefined, [
       r('b', {props: {test: 123}}, [
         r('select'),
