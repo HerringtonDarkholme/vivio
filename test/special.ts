@@ -40,4 +40,26 @@ describe('special tags', () => {
     var ret = getResult(h)
     expect(ret).to.deep.equal(r('span', undefined, ['test test2']))
   })
+
+  it('should mount dynamic component', () => {
+    h = h.tag('div').tag()
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(r('div'))
+  })
+
+  it('dynamic component in if', () => {
+    h = h.div.if(false).div()
+      .tag('span').else.tag()
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(r('span'))
+  })
+
+  it('dynamic component constructor', () => {
+    class Test {}
+    h = h.div.if(false).div()
+      .tag(Test).else.tag()
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(r(Test))
+  })
+
 })

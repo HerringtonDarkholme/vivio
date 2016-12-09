@@ -47,6 +47,11 @@ export function startTag(this: {__tagTree: TagTree}, tag: string) {
     return
   }
   const components = tagTree.__components__
+  if (typeof tag !== 'string') {
+    // component
+    tagTree.currentTag = new Tag(tag)
+    return
+  }
   if (components && components.hasOwnProperty(tag)) {
     tagTree.currentTag = new Tag(components[tag])
   } else {
@@ -68,7 +73,12 @@ export function closeTag(this: {__tagTree: TagTree}, template: TemplateStringsAr
   let tagTree = this.__tagTree
   if (arguments.length >= 1) {
     // skip when no rendering
-    if (!tagTree.shouldRender) return;
+    if (!tagTree.shouldRender) return this
+    let isArray = Array.isArray(template)
+    if (!isArray) {
+      console.log('unexpected tree call!')
+      return this
+    }
     let classString = template[0]
     for (let i = 0, l = args.length; i < l; i++) {
       let argStr = args[i] && args[i].toString()
@@ -180,6 +190,18 @@ var proxyHandler = {
           tagTree.currentTag.children.push(str)
         } else {
           tagTree.currentTag.children.push(strings + args.join(''))
+        }
+        return receiver
+      }
+    }
+
+    if (name === 'tag') {
+      return function Tag(tag: any) {
+        // proxy `get` calls startTag before closeTag
+        // so always call startTag
+        startTag.call(receiver, tag)
+        if (arguments.length === 0) {
+          closeTag.call(receiver)
         }
         return receiver
       }
