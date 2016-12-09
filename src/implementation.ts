@@ -167,7 +167,7 @@ var proxyHandler = {
 
     if (name === '$') {
       return (strings: string | TemplateStringsArray, ...args: any[]) => {
-        if (!tagTree.shouldRender) return
+        if (!tagTree.shouldRender) return receiver
         if (!tagTree.currentTag.children) {
           tagTree.currentTag.children = []
         }

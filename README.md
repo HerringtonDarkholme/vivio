@@ -70,7 +70,7 @@ TODO
 ====
 
 - [ ] for
-- [ ] $
+- [x] $
 - [ ] tag
-- [ ] children
+- [x] children
 - [ ] scoped template

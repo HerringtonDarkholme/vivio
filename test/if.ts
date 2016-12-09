@@ -130,4 +130,20 @@ describe('if directive', () => {
     ]))
   })
 
+  it('should not render text', () => {
+    let interpolate = 'world'
+    h = h.div.span.if(false).$`hello ${interpolate}`.span().div()
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(r('div'))
+  })
+
+  it('should render text in if', () => {
+    let interpolate = 'world'
+    h = h.div.span.if(true).$`hello ${interpolate}`.span().div()
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(r('div', undefined, [
+      r('span', undefined, ['hello world'])
+    ]))
+  })
+
 })
