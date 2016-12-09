@@ -8,8 +8,6 @@ export function r(tag: string | Function, prop?: any, children?: any) {
   return {tag, prop, children}
 }
 
-// var k = h.div
-
 
 // var j = h.div
 //   .div

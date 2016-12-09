@@ -27,4 +27,17 @@ describe('special tags', () => {
       ])
     )
   })
+
+  it('should render text', () => {
+    let interpolate = 'world'
+    h = h.span.$`hello ${interpolate}`.span()
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(r('span', undefined, ['hello world']))
+  })
+
+  it('should render text2', () => {
+    h = h.span.$('test', ' ','test2').span()
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(r('span', undefined, ['test test2']))
+  })
 })

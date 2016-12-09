@@ -33,7 +33,7 @@ export type If<Original, Enhanced> = {
 
 export type Interpolate<T> = T & {
   $(str: TemplateStringsArray, ...args: any[]): Interpolate<T>
-  $(str: string): Interpolate<T>
+  $(...strings: string[]): Interpolate<T>
 }
 
 export type SlotName<Tag> = {

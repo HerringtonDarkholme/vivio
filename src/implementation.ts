@@ -125,9 +125,11 @@ export function getResult(t: any) {
 var proxyHandler = {
   get(target: {__tagTree: TagTree}, name: string, receiver: {}) {
     let tagTree = target.__tagTree
+
     if (name === '__tagTree') {
       return tagTree
     }
+
     if (name === 'if') {
       return (condition: boolean) => {
         tagTree.shouldRender = tagTree.shouldRender && condition
@@ -137,6 +139,7 @@ var proxyHandler = {
         return receiver
       }
     }
+
     if (name === 'else') {
       if (tagTree.shouldRender && tagTree.lastIfValue) { // last p.if is true, skip else
         tagTree.shouldRender = false
@@ -144,6 +147,7 @@ var proxyHandler = {
       }
       return receiver
     }
+
     if (name === 'children') {
       return (...children: any[]) => {
         if (!tagTree.currentTag.children) {
@@ -156,6 +160,26 @@ var proxyHandler = {
             let tag = getResult(child)
             tagTree.currentTag.children.push(tag)
           }
+        }
+        return receiver
+      }
+    }
+
+    if (name === '$') {
+      return (strings: string | TemplateStringsArray, ...args: any[]) => {
+        if (!tagTree.shouldRender) return
+        if (!tagTree.currentTag.children) {
+          tagTree.currentTag.children = []
+        }
+        if (Array.isArray(strings)) {
+          let str = strings[0]
+          for (let i = 0, l = args.length; i < l; i++) {
+            let argStr = args[i] && args[i].toString()
+            str += argStr + strings[i + 1]
+          }
+          tagTree.currentTag.children.push(str)
+        } else {
+          tagTree.currentTag.children.push(strings + args.join(''))
         }
         return receiver
       }
