@@ -1,5 +1,5 @@
 export class Tag {
-  children?: Tag[]
+  children?: (Tag | string)[]
   props?: any
   constructor(public tag: string) {}
 }
@@ -28,16 +28,11 @@ export interface TagTree {
   shouldRender: boolean
   lastIfValue: boolean
   result: Tag|undefined
+  currentTag: Tag
   __components__: any
 }
 
-// let tagStack: Tag[] = []
-let currentTag: Tag
 let renderImpl: RenderImpl
-// let result: Tag | undefined
-// let shouldRender = true
-// let lastIfValue = false
-
 const SKIP_TAG_PLACEHOLDER = {} as any
 
 export function setRenderContext(t: any) {
@@ -46,26 +41,26 @@ export function setRenderContext(t: any) {
 
 export function startTag(this: {__tagTree: TagTree}, tag: string) {
   let tagTree = this.__tagTree
-  tagTree.tagStack.push(currentTag)
+  tagTree.tagStack.push(tagTree.currentTag)
   if (!tagTree.shouldRender) {
-    currentTag = SKIP_TAG_PLACEHOLDER
+    tagTree.currentTag = SKIP_TAG_PLACEHOLDER
     return
   }
   const components = tagTree.__components__
   if (components && components.hasOwnProperty(tag)) {
-    currentTag = new Tag(components[tag])
+    tagTree.currentTag = new Tag(components[tag])
   } else {
-    currentTag = new Tag(tag)
+    tagTree.currentTag = new Tag(tag)
   }
 }
 
 export function addProps(this: {__tagTree: TagTree}, key: string, content: any) {
   let tagTree = this.__tagTree
   if (!tagTree.shouldRender) return
-  if (currentTag.props) {
-    currentTag.props[key] = content
+  if (tagTree.currentTag.props) {
+    tagTree.currentTag.props[key] = content
   } else {
-    currentTag.props = {[key]: content}
+    tagTree.currentTag.props = {[key]: content}
   }
 }
 
@@ -84,7 +79,7 @@ export function closeTag(this: {__tagTree: TagTree}, template: TemplateStringsAr
       ids.push(match.substr(1))
       return ''
     })
-    let props = currentTag.props = currentTag.props || {}
+    let props = tagTree.currentTag.props = tagTree.currentTag.props || {}
     if (classString) {
       props.staticClass = classString.split('.').join(' ').trim()
     }
@@ -95,23 +90,23 @@ export function closeTag(this: {__tagTree: TagTree}, template: TemplateStringsAr
     return this
   }
   let t = tagTree.tagStack.pop()!;
-  currentTag = tagTree.tagStack.pop()!;
+  tagTree.currentTag = tagTree.tagStack.pop()!;
   if (!tagTree.shouldRender) {
     if (tagTree.tagStack.length === 0 && !tagTree.lastIfValue) {
       tagTree.result = undefined
     }
-    if (currentTag !== SKIP_TAG_PLACEHOLDER) {
+    if (tagTree.currentTag !== SKIP_TAG_PLACEHOLDER) {
       tagTree.shouldRender = true
       tagTree.lastIfValue = false
     }
     return this
   }
   let ret = renderImpl._h(t.tag, t.props, t.children)
-  if (currentTag) {
-    if (currentTag.children) {
-      currentTag.children.push(ret)
+  if (tagTree.currentTag) {
+    if (tagTree.currentTag.children) {
+      tagTree.currentTag.children.push(ret)
     } else {
-      currentTag.children = [ret]
+      tagTree.currentTag.children = [ret]
     }
   }
   if (tagTree.tagStack.length === 0) {
@@ -127,7 +122,7 @@ export function getResult(t: any) {
   return ret
 }
 
-export var proxyHandler = {
+var proxyHandler = {
   get(target: {__tagTree: TagTree}, name: string, receiver: {}) {
     let tagTree = target.__tagTree
     if (name === '__tagTree') {
@@ -137,7 +132,7 @@ export var proxyHandler = {
       return (condition: boolean) => {
         tagTree.shouldRender = tagTree.shouldRender && condition
         if (!tagTree.shouldRender) { // remove currentTag in p.if(false)
-          currentTag = SKIP_TAG_PLACEHOLDER
+          tagTree.currentTag = SKIP_TAG_PLACEHOLDER
         }
         return receiver
       }
@@ -145,16 +140,23 @@ export var proxyHandler = {
     if (name === 'else') {
       if (tagTree.shouldRender && tagTree.lastIfValue) { // last p.if is true, skip else
         tagTree.shouldRender = false
-        currentTag = SKIP_TAG_PLACEHOLDER
+        tagTree.currentTag = SKIP_TAG_PLACEHOLDER
       }
       return receiver
     }
     if (name === 'children') {
       return (...children: any[]) => {
-        if (!currentTag.children) {
-          currentTag.children = []
+        if (!tagTree.currentTag.children) {
+          tagTree.currentTag.children = []
         }
-        // currentTag.children.push(...children)
+        for (let child of children) {
+          if (typeof child === 'string') {
+            tagTree.currentTag.children.push(child)
+          } else {
+            let tag = getResult(child)
+            tagTree.currentTag.children.push(tag)
+          }
+        }
         return receiver
       }
     }
@@ -166,5 +168,25 @@ export var proxyHandler = {
     }
     startTag.call(target, name)
     return receiver
+  }
+}
+
+export var rootProxy  = {
+  get(target: {__components__: any}, name: string, receiver: {}) {
+    let comps = target.__components__
+    function html(this: any) {
+      return closeTag.apply(this, arguments)
+    }
+    let _html: {__tagTree: TagTree} = html as any
+    _html.__tagTree = {
+      __components__: comps,
+      lastIfValue: false,
+      shouldRender: true,
+      tagStack: [],
+      result: undefined,
+      currentTag: undefined as any
+    }
+    let ret = new Proxy(html as any, proxyHandler)
+    return ret[name]
   }
 }
