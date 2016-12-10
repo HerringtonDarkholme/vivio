@@ -24,7 +24,7 @@ export type Common<T, EndTag> = {
   ref(name: string): Common<T, EndTag>
   key(k: any): Common<T, EndTag>
   directives(d: any): Common<T, EndTag>
-  for<A>(list: A[], func: (t: A, i: number, h: Common<T, EndTag>) => T): EndTag
+  for<A>(list: A[], func: (h: Common<T, EndTag>, t: A, i: number) => T): EndTag
 } & Interpolate<T>
 
 export type If<Original, Enhanced> = {

@@ -152,4 +152,25 @@ describe('if directive', () => {
     ]))
   })
 
+  it('should handle void tag', () => {
+    h.div.if(false)
+      .div()
+      .img.else()
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(r('img'))
+
+  })
+
+  it('should skip render void', () => {
+    h.div
+      .br.if(true)()
+      .img.else()
+    .div()
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(r('div', undefined, [
+      r('br')
+    ]))
+
+  })
+
 })

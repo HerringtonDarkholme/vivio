@@ -53,7 +53,6 @@ export function r(tag: string | Function, prop?: any, children?: any) {
 //   .div.else
 //   .div()
 
-// h.ul`test`
 
 // h = h.div
 //   .img`.test`.for([], (t, i, h) => h)()
@@ -66,18 +65,6 @@ export function r(tag: string | Function, prop?: any, children?: any) {
 
 // h = h.div.on({}).for([], (t, i, h) => h)
 //   .div()
-
-// h.div.if(true)
-//   .div()
-
-// h.div.if(false)
-//   .div()
-//   .img.else()
-//   .div.if(true)
-//     .p.p()
-//   .div()
-//   .p.else.if(true)
-//   .p()
 
 // h
 // .div.if(true)
@@ -101,9 +88,6 @@ export function r(tag: string | Function, prop?: any, children?: any) {
 // // k = h.div`.test`
 // //     .ul`.test2`
 // //     .ul()
-
-// h.div`.test`
-//   .if(true)
 
 // // h.div
 // //     .ul()

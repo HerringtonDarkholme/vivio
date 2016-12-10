@@ -109,4 +109,16 @@ describe('simple tag tree', () => {
     )
   })
 
+  it('should render void tag', () => {
+    h = h.img()
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(r('img'))
+  })
+
+  it('literal on void tag', () => {
+    h = h.img`.test`()
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(r('img', {staticClass: 'test'}))
+  })
+
 })

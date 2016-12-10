@@ -18,6 +18,10 @@ const vnodekeys = [
   'directives',
 ]
 
+const VOID_TAGS = [
+  'br' , 'embed' , 'hr' , 'img' , 'input' , 'area'
+]
+
 interface RenderImpl {
   _h: (tag: string, p: any, children: any) => any
   _t: Function
@@ -27,6 +31,7 @@ export interface TagTree {
   tagStack: Tag[]
   shouldRender: boolean
   lastIfValue: boolean
+  isVoid: boolean
   result: Tag|undefined
   currentTag: Tag
   __components__: any
@@ -56,6 +61,9 @@ export function startTag(this: {__tagTree: TagTree}, tag: string) {
     tagTree.currentTag = new Tag(components[tag])
   } else {
     tagTree.currentTag = new Tag(tag)
+  }
+  if (VOID_TAGS.indexOf(tag) >= 0) {
+    tagTree.isVoid = true
   }
 }
 
@@ -99,7 +107,13 @@ export function closeTag(this: {__tagTree: TagTree}, template: TemplateStringsAr
     }
     return this
   }
-  let t = tagTree.tagStack.pop()!;
+  let t: Tag
+  if (tagTree.isVoid) {
+    t = tagTree.currentTag;
+    tagTree.isVoid = false
+  } else {
+    t = tagTree.tagStack.pop()!;
+  }
   tagTree.currentTag = tagTree.tagStack.pop()!;
   if (!tagTree.shouldRender) {
     if (tagTree.tagStack.length === 0 && !tagTree.lastIfValue) {
@@ -221,13 +235,14 @@ export var rootProxy  = {
   get(target: {__components__: any}, name: string, receiver: {}) {
     let comps = target.__components__
     function html(this: any) {
-      return closeTag.apply(this, arguments)
+      return closeTag.apply(ret, arguments)
     }
     let _html: {__tagTree: TagTree} = html as any
     _html.__tagTree = {
       __components__: comps,
       lastIfValue: false,
       shouldRender: true,
+      isVoid: false,
       tagStack: [],
       result: undefined,
       currentTag: undefined as any
