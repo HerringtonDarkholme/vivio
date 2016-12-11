@@ -1,6 +1,7 @@
 import {Literal, Interpolate, Close, WithElse} from './basic'
 import {B} from './block'
 import {P} from './phrase'
+import {HTMLBrand} from './interface'
 
 export type Emitter<T> = <K extends keyof T>(key: K, payload: T[K]) => void
 
@@ -11,6 +12,14 @@ export type ComponentEventAux<T> = {
 }
 export type ComponentPropAux<C, K> = {
   'componentTag': C & {props: K}
+}
+
+export type ComponentScopedSlot<T, Slots extends string> = {
+  'componentTag': {
+    $scopedSlots: {
+      [K in Slots]: (t: T) => {}
+    }
+  }
 }
 
 export type Handlers<T> = {
@@ -29,6 +38,8 @@ export type Common<T, EndTag> = {
   ref(name: string): Common<T, EndTag>
   key(k: any): Common<T, EndTag>
   directives(d: any): Common<T, EndTag>
+  scopedSlot<S>(this: ComponentScopedSlot<S, 'default'>, fn: (k: S) => HTMLBrand): Common<T, EndTag>
+  scopedSlot<S, K extends string>(this: ComponentScopedSlot<S, K>, key: K, fn: (k: S) => HTMLBrand): Common<T, EndTag>
  // 'componentTag': Comp
 } & Interpolate<T>
 
