@@ -24,16 +24,21 @@ export type Common<T, EndTag> = {
   ref(name: string): Common<T, EndTag>
   key(k: any): Common<T, EndTag>
   directives(d: any): Common<T, EndTag>
-  for<A>(list: A[], func: (h: Common<T, EndTag>, t: A, i: number) => T): EndTag
 } & Interpolate<T>
 
 export type If<Original, Enhanced> = {
   if(condition: boolean): Enhanced
 } & Original
 
+export type For<P> = {
+  <A>(list: A[], func: (h: P, t: A, i: number) => P): P
+}
+
+export type Basic = string | number | boolean
+
 export type Interpolate<T> = T & {
   $(str: TemplateStringsArray, ...args: any[]): Interpolate<T>
-  $(...strings: string[]): Interpolate<T>
+  $(...strings: Basic[]): Interpolate<T>
 }
 
 export type SlotName<Tag> = {

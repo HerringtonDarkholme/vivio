@@ -164,6 +164,15 @@ var proxyHandler = {
       }
     }
 
+    if (name === 'for') {
+      return (list: Array<{}>, cb: Function) => {
+        for (let i = 0, l = list.length; i < l; i++) {
+          cb(receiver, list[i], i)
+        }
+        return receiver
+      }
+    }
+
     if (name === 'else') {
       if (tagTree.shouldRender && tagTree.lastIfValue) { // last p.if is true, skip else
         tagTree.shouldRender = false

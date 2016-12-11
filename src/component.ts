@@ -29,7 +29,6 @@ export type Common<T, EndTag> = {
   ref(name: string): Common<T, EndTag>
   key(k: any): Common<T, EndTag>
   directives(d: any): Common<T, EndTag>
-  for<A>(list: A[], func: (t: A, i: number, h: Common<T, EndTag>) => T): EndTag
  // 'componentTag': Comp
 } & Interpolate<T>
 

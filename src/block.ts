@@ -2,7 +2,7 @@ import {Phrase} from './phrase'
 import {Void} from './void'
 import {Text} from './text'
 import {ComponentB} from './component'
-import {Literal, Common, Close, WithElse, Template, Else} from './basic'
+import {Literal, Common, Close, WithElse, Template, Else, For} from './basic'
 import {List, Media, ObjectP, Select, Table, Dl} from './special'
 import {Class, HTMLBrand} from './interface'
 
@@ -81,6 +81,7 @@ export type BB<EndTag, Comps> = {
   dl: Dl<B<EndTag, Comps>, Comps>
 
   // copmonents for programmatic usage
+  for: For<B<EndTag, Comps>>
   tag<C>(this: {tag: {else: any}}, comp: Class<C>): Else<ComponentB<B<EndTag, Comps>, 'tag', C, Comps>>
   tag(this: {tag: {else: any}}, str: string): Else<Block<B<EndTag, Comps>, 'tag', Comps>>
   tag<C>(comp: Class<C>): ComponentB<B<EndTag, Comps>, 'tag', C, Comps>
