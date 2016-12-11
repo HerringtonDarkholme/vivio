@@ -2,7 +2,7 @@ import {Phrase} from './phrase'
 import {Void} from './void'
 import {Text} from './text'
 import {ComponentB} from './component'
-import {Literal, Common, Close, WithElse, Template, Else, For} from './basic'
+import {Literal, Common, Close, WithElse, Else, For} from './basic'
 import {List, Media, ObjectP, Select, Table, Dl} from './special'
 import {Class, HTMLBrand} from './interface'
 
@@ -87,7 +87,7 @@ export type BB<EndTag, Comps> = {
   tag<C>(comp: Class<C>): ComponentB<B<EndTag, Comps>, 'tag', C, Comps>
   tag(str: string): Block<B<EndTag, Comps>, 'tag', Comps>
   children(...children: Array<string|HTMLBrand>): B<EndTag, Comps>
-  template: Template<B<EndTag, Comps>>
+  template: Block<B<EndTag, Comps>, 'template',Comps>
 }
 
 export type BC<EndTag, Comps> = {

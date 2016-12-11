@@ -1,7 +1,7 @@
 import {Void} from './void'
 import {ComponentP} from './component'
 import {Text} from './text'
-import {Literal, Common, Close, WithElse, Template, Else, For} from './basic'
+import {Literal, Common, Close, WithElse, Else, For} from './basic'
 import {Media, ObjectP, Select} from './special'
 import {Class, HTMLBrand} from './interface'
 
@@ -61,7 +61,7 @@ export type PP<EndTag, Comps> = {
   tag<C>(comp: Class<C>): ComponentP<P<EndTag, Comps>, 'tag', C, Comps>
   tag(str: string): Phrase<P<EndTag, Comps>, 'tag', Comps>
   children(...children: Array<string|HTMLBrand>): P<EndTag, Comps>
-  template: Template<P<EndTag, Comps>>
+  template: Phrase<P<EndTag, Comps>, 'template',Comps>
 }
 
 export type PC<EndTag, Comps> = {

@@ -125,16 +125,20 @@ export function closeTag(this: {__tagTree: TagTree}, template: TemplateStringsAr
     }
     return this
   }
-  let ret = renderImpl._h(t.tag, t.props, t.children)
+
+  let ret =
+    t.tag === 'template'
+    ? (t.children || [])
+    : [renderImpl._h(t.tag, t.props, t.children)]
   if (tagTree.currentTag) {
     if (tagTree.currentTag.children) {
-      tagTree.currentTag.children.push(ret)
+      tagTree.currentTag.children.push(...ret)
     } else {
-      tagTree.currentTag.children = [ret]
+      tagTree.currentTag.children = ret
     }
   }
   if (tagTree.tagStack.length === 0) {
-    tagTree.result = ret
+    tagTree.result = ret[0]
   }
   tagTree.lastIfValue = true
   return this

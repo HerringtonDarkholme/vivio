@@ -41,9 +41,9 @@ h({elInput}) // register components
       .li.if(s.loading)
         .i`.el-icon-loading`.i()
       .li()
-      .li
+      .for(s.suggestions, (h, item, index) => h
+        .li
         .on({click: s.select})
-        .for(s.suggestions, (item, index, h) => h
         .class({highlighted: s.highlightIndex === index})
           .span.if(!s.customIndex)
             .$`Name: ${item.value}` // interpolate text via $`statictext`
@@ -53,8 +53,8 @@ h({elInput}) // register components
             .on({click: s.select})
             .props({item, index})
           .tag()
-        )
-      .li()
+        .li()
+      )
     .ul()
   .transition()
 .div()
@@ -69,7 +69,7 @@ It might even harm your feeling when making a new toy.
 TODO
 ====
 
-- [ ] for
+- [x] for
 - [x] $
 - [x] tag
 - [x] children

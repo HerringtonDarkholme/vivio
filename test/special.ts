@@ -62,4 +62,19 @@ describe('special tags', () => {
     expect(ret).to.deep.equal(r(Test))
   })
 
+  it('template', () => {
+    h = h.div
+    .template.if(true)
+      .div.div()
+      .span.span()
+    .template()
+    .div()
+
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(r('div', undefined, [
+      r('div'),
+      r('span'),
+    ]))
+  })
+
 })
