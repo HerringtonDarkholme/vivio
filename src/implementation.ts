@@ -25,6 +25,7 @@ const VOID_TAGS = [
 interface RenderImpl {
   _h: (tag: string, p: any, children: any) => any
   _t: Function
+  _s: Function
 }
 
 export interface TagTree {
@@ -89,7 +90,7 @@ export function closeTag(this: {__tagTree: TagTree}, template: TemplateStringsAr
     }
     let classString = template[0]
     for (let i = 0, l = args.length; i < l; i++) {
-      let argStr = args[i] && args[i].toString()
+      let argStr = renderImpl._s(args[i])
       classString += argStr + template[i + 1]
     }
     let ids: string[] = []
@@ -217,12 +218,13 @@ var proxyHandler = {
         if (Array.isArray(strings)) {
           let str = strings[0]
           for (let i = 0, l = args.length; i < l; i++) {
-            let argStr = args[i] && args[i].toString()
+            let argStr = renderImpl._s(args[i])
             str += argStr + strings[i + 1]
           }
           tagTree.currentTag.children.push(str)
         } else {
-          tagTree.currentTag.children.push(strings + args.join(''))
+          let strArgs = args.map(i => renderImpl._s(i))
+          tagTree.currentTag.children.push(renderImpl._s(strings) + strArgs.join(''))
         }
         return receiver
       }

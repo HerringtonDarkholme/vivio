@@ -24,7 +24,7 @@ export type Common<T> = {
   ref(name: string): Common<T>
   key(k: any): Common<T>
   directives(d: any): Common<T>
-} & Interpolate<T>
+} & T
 
 export type If<Original, Enhanced> = {
   if(condition: boolean): Enhanced
@@ -36,7 +36,7 @@ export type For<P> = {
 
 export type Basic = string | number | boolean
 
-export type Interpolate<T> = T & {
-  $(str: TemplateStringsArray, ...args: any[]): Interpolate<T>
-  $(...strings: Basic[]): Interpolate<T>
+export type Interpolate<T> = {
+  (str: TemplateStringsArray, ...args: any[]): T
+  (...strings: Basic[]): T
 }

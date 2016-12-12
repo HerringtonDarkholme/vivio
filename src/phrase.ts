@@ -1,7 +1,7 @@
 import {Void} from './void'
 import {ComponentP} from './component'
 import {Text} from './text'
-import {Literal, Common, Close, WithElse, Else, For} from './basic'
+import {Literal, Common, Close, WithElse, Else, For, Interpolate} from './basic'
 import {Media, ObjectP, Select} from './special'
 import {Class, HTMLBrand} from './interface'
 
@@ -62,6 +62,7 @@ export type PP<EndTag, Comps> = {
   tag(str: string): Phrase<P<EndTag, Comps>, 'tag', Comps>
   children(...children: Array<string|HTMLBrand>): P<EndTag, Comps>
   template: Phrase<P<EndTag, Comps>, 'template',Comps>
+  $: Interpolate<P<EndTag, Comps>>
 }
 
 export type PC<EndTag, Comps> = {

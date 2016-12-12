@@ -1,4 +1,4 @@
-import {Literal, Interpolate, Close, WithElse} from './basic'
+import {Literal, Close, WithElse} from './basic'
 import {B} from './block'
 import {P} from './phrase'
 import {HTMLBrand} from './interface'
@@ -41,7 +41,7 @@ export type Common<T> = {
   scopedSlot<S>(this: ComponentScopedSlot<S, 'default'>, fn: (k: S) => HTMLBrand): Common<T>
   scopedSlot<S, K extends string>(this: ComponentScopedSlot<S, K>, key: K, fn: (k: S) => HTMLBrand): Common<T>
  // 'componentTag': Comp
-} & Interpolate<T>
+} & T
 
 
 export type CloseC<Parent, End extends string, Comp> =

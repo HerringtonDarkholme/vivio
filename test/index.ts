@@ -1,7 +1,8 @@
 import {setRenderContext} from '../index'
 
 setRenderContext({
-  _h: r
+  _h: r,
+  _s: (i: any) => i.toString(),
 })
 
 export function r(tag: string | Function, prop?: any, children?: any) {
