@@ -1,3 +1,6 @@
+declare var Proxy: any;
+declare var console: any;
+
 export class Tag {
   children?: (Tag | string)[]
   props?: any

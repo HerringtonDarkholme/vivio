@@ -1,3 +1,5 @@
+declare var Proxy: any;
+
 import {HTML, Classes} from './src/interface'
 import {rootProxy} from './src/implementation'
 

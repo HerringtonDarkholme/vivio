@@ -12,7 +12,7 @@
         "declaration": true,
         "stripInternal": true,
         "outDir": "./dist",
-        "lib": ["es5", "es2015.core", "es2015.proxy", "dom"]
+        "lib": ["es5", "dom"]
     },
     "exclude": [
         "node_modules", "dist"
