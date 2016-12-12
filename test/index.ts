@@ -30,25 +30,6 @@ export function r(tag: string | Function, prop?: any, children?: any) {
 //   .div()
 // .div()
 
-
-// h.div
-// .for([], (t, i, h) => h
-//   .span.span()
-//  )
-// .div()
-
-// var ul = h.ul
-
-// h = h.ul
-//   .li
-//   .li()
-//   .ul()
-
-// h = ul.ul()
-
-// ul.li
-//   .div
-
 // h.img.if(true)()
 //   .div.else
 //   .div()

@@ -32,7 +32,7 @@ export interface TagTree {
   shouldRender: boolean
   lastIfValue: boolean
   isVoid: boolean
-  result: Tag|undefined
+  result: Tag[]
   currentTag: Tag
   __components__: any
 }
@@ -117,7 +117,7 @@ export function closeTag(this: {__tagTree: TagTree}, template: TemplateStringsAr
   tagTree.currentTag = tagTree.tagStack.pop()!;
   if (!tagTree.shouldRender) {
     if (tagTree.tagStack.length === 0 && !tagTree.lastIfValue) {
-      tagTree.result = undefined
+      tagTree.result = []
     }
     if (tagTree.currentTag !== SKIP_TAG_PLACEHOLDER) {
       tagTree.shouldRender = true
@@ -138,7 +138,7 @@ export function closeTag(this: {__tagTree: TagTree}, template: TemplateStringsAr
     }
   }
   if (tagTree.tagStack.length === 0) {
-    tagTree.result = ret[0]
+    tagTree.result.push(...ret)
   }
   tagTree.lastIfValue = true
   return this
@@ -146,7 +146,13 @@ export function closeTag(this: {__tagTree: TagTree}, template: TemplateStringsAr
 
 export function getResult(t: any) {
   let ret = t.__tagTree.result
-  t.__tagTree.result = undefined
+  t.__tagTree.result = []
+  return ret[0]
+}
+
+export function getResults(t: any) {
+  let ret = t.__tagTree.result
+  t.__tagTree.result = []
   return ret
 }
 
@@ -194,8 +200,8 @@ var proxyHandler = {
           if (typeof child === 'string') {
             tagTree.currentTag.children.push(child)
           } else {
-            let tag = getResult(child)
-            tagTree.currentTag.children.push(tag)
+            let tag = getResults(child)
+            tagTree.currentTag.children.push(...tag)
           }
         }
         return receiver
@@ -239,6 +245,26 @@ var proxyHandler = {
         return receiver
       }
     }
+
+    if (name === 'scopedSlot') {
+      return (key: Function | string, fn?: Function) => {
+        if (!tagTree.shouldRender) return
+        if (typeof key !== 'string') {
+          fn = key
+          key = 'default'
+        }
+        if (!tagTree.currentTag.props) {
+          tagTree.currentTag.props = {}
+        }
+        let props = tagTree.currentTag.props
+        if (!props.scopedSlots) {
+          props.scopedSlots = {}
+        }
+        let scopedSlots = props.scopedSlots
+        scopedSlots[key] = (arg: {}) => getResults(fn!(arg))
+        return receiver
+      }
+    }
     startTag.call(target, name)
     return receiver
   }
@@ -257,7 +283,7 @@ export var rootProxy  = {
       shouldRender: true,
       isVoid: false,
       tagStack: [],
-      result: undefined,
+      result: [],
       currentTag: undefined as any
     }
     let ret = new Proxy(html as any, proxyHandler)

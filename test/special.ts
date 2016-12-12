@@ -77,4 +77,68 @@ describe('special tags', () => {
     ]))
   })
 
+  it('scoped slot', () => {
+    class Comp {
+      $scopedSlots: {
+        default: (test: number) => any
+      }
+    }
+    var func = (test: number) => h
+      .div
+        .$(test)
+        .article.article()
+      .div()
+      .p.$`what`.p()
+
+    var k = _h({comp: Comp})
+    .comp
+      .scopedSlot(func)
+    .comp()
+
+    var ret = getResult(k)
+    expect(ret.tag).to.equal(Comp)
+    expect(ret.prop).to.haveOwnProperty('scopedSlots')
+    expect(ret.prop.scopedSlots).to.haveOwnProperty('default')
+    let endResult = ret.prop.scopedSlots.default
+    expect(endResult(3)).to.deep.equal([
+      r('div', undefined, [
+        '3',
+        r('article')
+      ]),
+      r('p', undefined, ['what']),
+    ])
+  })
+
+  it('named scoped slot', () => {
+    class Comp {
+      $scopedSlots: {
+        name: (test: number) => any
+      }
+    }
+    var func = (test: number) => h
+      .div
+        .$(test)
+        .article.article()
+      .div()
+      .p.$`what`.p()
+
+    var k = _h({comp: Comp})
+    .comp
+      .scopedSlot('name', func)
+    .comp()
+
+    var ret = getResult(k)
+    expect(ret.tag).to.equal(Comp)
+    expect(ret.prop).to.haveOwnProperty('scopedSlots')
+    expect(ret.prop.scopedSlots).to.haveOwnProperty('name')
+    let endResult = ret.prop.scopedSlots.name
+    expect(endResult(3)).to.deep.equal([
+      r('div', undefined, [
+        '3',
+        r('article')
+      ]),
+      r('p', undefined, ['what']),
+    ])
+  })
+
 })
