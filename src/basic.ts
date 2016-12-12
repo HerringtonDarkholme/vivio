@@ -14,16 +14,16 @@ export type Close<Parent, End extends string> = {
   parent: Parent
 }
 
-export type Common<T, EndTag> = {
-  class(nameHash: {[k: string]: boolean}): Common<T, EndTag>
-  on(handlerHash: {[k: string]: Function}): Common<T, EndTag>
-  props(nameHash: {[k: string]: any}): Common<T, EndTag>
-  style(nameHash: {[k: string]: any}): Common<T, EndTag>
-  attrs(nameHash: {[k: string]: any}): Common<T, EndTag>
-  slotName(name: string): Common<T, EndTag>
-  ref(name: string): Common<T, EndTag>
-  key(k: any): Common<T, EndTag>
-  directives(d: any): Common<T, EndTag>
+export type Common<T> = {
+  class(nameHash: {[k: string]: boolean}): Common<T>
+  on(handlerHash: {[k: string]: Function}): Common<T>
+  props(nameHash: {[k: string]: any}): Common<T>
+  style(nameHash: {[k: string]: any}): Common<T>
+  attrs(nameHash: {[k: string]: any}): Common<T>
+  slotName(name: string): Common<T>
+  ref(name: string): Common<T>
+  key(k: any): Common<T>
+  directives(d: any): Common<T>
 } & Interpolate<T>
 
 export type If<Original, Enhanced> = {

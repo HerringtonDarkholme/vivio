@@ -12,14 +12,14 @@ export type L<EndTag, Comps> = {
 export type List<Parent, End extends string, Comps> =
   Literal<
     If<
-      Common<L<Close<Parent, End>, Comps>, Close<Parent, End>>,
-      Common<L<Close<WithElse<Parent>, End>, Comps>, Close<WithElse<Parent>, End>>
+      Common<L<Close<Parent, End>, Comps>>,
+      Common<L<Close<WithElse<Parent>, End>, Comps>>
     >
   >
 
 export type MIf<Parent, End extends string> = {
-  if<Pt>(this: {parent: Pt}, condition: boolean): Common<M<Close<WithElse<Pt>, End>>, Close<WithElse<Pt>, End>>
-} & Common<M<Close<Parent, End>>, Close<Parent, End>>
+  if<Pt>(this: {parent: Pt}, condition: boolean): Common<M<Close<WithElse<Pt>, End>>>
+} & Common<M<Close<Parent, End>>>
 // export type MediaTags = 'audio' | 'video'
 export type MV<EndTag> = { source: Void<M<EndTag>>, track: Void<M<EndTag>> } & EndTag
 export type M<EndTag> = MV<EndTag> & EndTag & { fallback(h: HTMLBrand): M<EndTag> }
@@ -33,8 +33,8 @@ export type O<EndTag> = OV<EndTag> & EndTag & {fallback(h: HTMLBrand): O<EndTag>
 export type ObjectP<Parent> =
   Literal<
     If<
-      Common<O<Close<Parent, 'object'>>, Close<Parent, 'object'>>,
-      Common<O<Close<WithElse<Parent>, 'object'>>, Close<WithElse<Parent>, 'object'>>
+      Common<O<Close<Parent, 'object'>>>,
+      Common<O<Close<WithElse<Parent>, 'object'>>>
     >
   >
 
@@ -45,8 +45,8 @@ export type _optgroup<EndTag> = {
 export type Optgroup<Parent> =
   Literal<
     If<
-      Common<_optgroup<Close<Parent, 'optgroup'>>, Close<Parent, 'optgroup'>>,
-      Common<_optgroup<Close<WithElse<Parent>, 'optgroup'>>, Close<WithElse<Parent>, 'optgroup'>>
+      Common<_optgroup<Close<Parent, 'optgroup'>>>,
+      Common<_optgroup<Close<WithElse<Parent>, 'optgroup'>>>
     >
   >
 export type S<EndTag> = {
@@ -57,8 +57,8 @@ export type S<EndTag> = {
 export type Select<Parent> =
   Literal<
     If<
-      Common<S<Close<Parent, 'select'>>, Close<Parent, 'select'>>,
-      Common<S<Close<WithElse<Parent>, 'select'>>, Close<WithElse<Parent>, 'select'>>
+      Common<S<Close<Parent, 'select'>>>,
+      Common<S<Close<WithElse<Parent>, 'select'>>>
     >
   >
 
@@ -72,8 +72,8 @@ export type TC<EndTag, Comps> = {
 export type TR<Parent, Comps> =
   Literal<
     If<
-      Common<TC<Close<Parent, 'tr'>, Comps>, Close<Parent, 'tr'>>,
-      Common<TC<Close<WithElse<Parent>, 'tr'>, Comps>, Close<WithElse<Parent>, 'tr'>>
+      Common<TC<Close<Parent, 'tr'>, Comps>>,
+      Common<TC<Close<WithElse<Parent>, 'tr'>, Comps>>
     >
   >
 export type TP<EndTag, Comps> = {
@@ -83,8 +83,8 @@ export type TP<EndTag, Comps> = {
 export type TabelPart<Parent, End extends string, Comps> =
   Literal<
     If<
-      Common<TP<Close<Parent, End>, Comps>, Close<Parent, End>>,
-      Common<TP<Close<WithElse<Parent>, End>, Comps>, Close<WithElse<Parent>, End>>
+      Common<TP<Close<Parent, End>, Comps>>,
+      Common<TP<Close<WithElse<Parent>, End>, Comps>>
     >
   >
 export type TabelParts = 'thead' | 'tbody' | 'tfoot'
@@ -92,8 +92,8 @@ export type T<EndTag, Comps> = {[K in TabelParts]: TabelPart<T<EndTag, Comps>, K
 export type Table<Parent, Comps> =
   Literal<
     If<
-      Common<T<Close<Parent, 'table'>, Comps>, Close<Parent, 'tr'>>,
-      Common<T<Close<WithElse<Parent>, 'table'>, Comps>, Close<WithElse<Parent>, 'table'>>
+      Common<T<Close<Parent, 'table'>, Comps>>,
+      Common<T<Close<WithElse<Parent>, 'table'>, Comps>>
     >
   >
 
@@ -106,8 +106,8 @@ export type D<EndTag, Comps> = {
 export type Dl<Parent, Comps> =
   Literal<
     If<
-      Common<D<Close<Parent, 'dl'>, Comps>, Close<Parent, 'dl'>>,
-      Common<D<Close<WithElse<Parent>, 'dl'>, Comps>, Close<WithElse<Parent>, 'dl'>>
+      Common<D<Close<Parent, 'dl'>, Comps>>,
+      Common<D<Close<WithElse<Parent>, 'dl'>, Comps>>
     >
   >
 

@@ -26,20 +26,20 @@ export type Handlers<T> = {
   [K in keyof T]: (t: T[K]) => void
 }
 
-export type Common<T, EndTag> = {
-  class(nameHash: {[k: string]: boolean}): Common<T, EndTag>
-  on<E>(this: ComponentEventAux<E>, handlerHash: Handlers<E>): Common<T, EndTag>
-  props<C, K extends keyof C>(this: ComponentPropAux<C, K>, nameHash: Partial<Pick<C, K>>): Common<T, EndTag>
-  nativeOn(handlerHash: {[k: string]: Function}): Common<T, EndTag>
-  domProps(nameHash: {[k: string]: any}): Common<T, EndTag>
-  style(nameHash: {[k: string]: any}): Common<T, EndTag>
-  attrs(nameHash: {[k: string]: any}): Common<T, EndTag>
-  slotName(name: string): Common<T, EndTag>
-  ref(name: string): Common<T, EndTag>
-  key(k: any): Common<T, EndTag>
-  directives(d: any): Common<T, EndTag>
-  scopedSlot<S>(this: ComponentScopedSlot<S, 'default'>, fn: (k: S) => HTMLBrand): Common<T, EndTag>
-  scopedSlot<S, K extends string>(this: ComponentScopedSlot<S, K>, key: K, fn: (k: S) => HTMLBrand): Common<T, EndTag>
+export type Common<T> = {
+  class(nameHash: {[k: string]: boolean}): Common<T>
+  on<E>(this: ComponentEventAux<E>, handlerHash: Handlers<E>): Common<T>
+  props<C, K extends keyof C>(this: ComponentPropAux<C, K>, nameHash: Partial<Pick<C, K>>): Common<T>
+  nativeOn(handlerHash: {[k: string]: Function}): Common<T>
+  domProps(nameHash: {[k: string]: any}): Common<T>
+  style(nameHash: {[k: string]: any}): Common<T>
+  attrs(nameHash: {[k: string]: any}): Common<T>
+  slotName(name: string): Common<T>
+  ref(name: string): Common<T>
+  key(k: any): Common<T>
+  directives(d: any): Common<T>
+  scopedSlot<S>(this: ComponentScopedSlot<S, 'default'>, fn: (k: S) => HTMLBrand): Common<T>
+  scopedSlot<S, K extends string>(this: ComponentScopedSlot<S, K>, key: K, fn: (k: S) => HTMLBrand): Common<T>
  // 'componentTag': Comp
 } & Interpolate<T>
 
@@ -48,8 +48,8 @@ export type CloseC<Parent, End extends string, Comp> =
   Close<Parent, End> & {componentTag: Comp}
 
 export type BIf<Parent, End extends string, Comps, Comp> = {
-  if<Pt>(this: {parent: Pt}, condition: boolean): Common<B<CloseC<WithElse<Pt>, End, Comp>, Comps>, Close<WithElse<Pt>, End>>
-} & Common<B<CloseC<Parent, End, Comp>, Comps>, Close<Parent, End>>
+  if<Pt>(this: {parent: Pt}, condition: boolean): Common<B<CloseC<WithElse<Pt>, End, Comp>, Comps>>
+} & Common<B<CloseC<Parent, End, Comp>, Comps>>
 
 export type ComponentB<Parent, End extends string, Comp, Comps> =
   Literal<
@@ -57,8 +57,8 @@ export type ComponentB<Parent, End extends string, Comp, Comps> =
   >
 
 export type PIf<Parent, End extends string, Comps, Comp> = {
-  if<Pt>(this: {parent: Pt}, condition: boolean): Common<P<CloseC<WithElse<Pt>, End, Comp>, Comps>, Close<WithElse<Pt>, End>>
-} & Common<P<CloseC<Parent, End, Comp>, Comps>, Close<Parent, End>>
+  if<Pt>(this: {parent: Pt}, condition: boolean): Common<P<CloseC<WithElse<Pt>, End, Comp>, Comps>>
+} & Common<P<CloseC<Parent, End, Comp>, Comps>>
 
 export type ComponentP<Parent, End extends string, Comp, Comps> =
   Literal<
