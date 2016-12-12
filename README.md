@@ -48,7 +48,7 @@ h({elInput}) // register components
           .span.if(!s.customIndex)
             .$`Name: ${item.value}` // interpolate text via $`statictext`
           .span()
-          .tag.else(s.customIndex) // dynamic tag mounting
+          .tag(s.customIndex).else // dynamic tag mounting
             .class({highlighted: s.highlightIndex === index})
             .on({click: s.select})
             .props({item, index})
