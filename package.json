@@ -6,7 +6,7 @@
   "scripts": {
     "test": "mocha dist/test",
     "dev": "concurrently 'mocha dist/test -w' 'tsc -w'",
-    "diag": "tsc --noEmit --diagnostics --lib es5 test/spec.ts"
+    "diag": "tsc --noEmit --diagnostics --lib dom,es5,es2015.core,es2015.proxy test/spec.ts"
   },
   "author": "",
   "license": "ISC",
