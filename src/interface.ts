@@ -40,7 +40,8 @@ export type BuiltinComponents = {
   slot: {
     $emit: {},
     name: string,
-    props: 'name'
+    props: string,
+    [k: string]: any
   }
 }
 

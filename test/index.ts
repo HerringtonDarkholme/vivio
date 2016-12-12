@@ -3,10 +3,18 @@ import {setRenderContext} from '../index'
 setRenderContext({
   _h: r,
   _s: (i: any) => i.toString(),
+  _t: t
 })
 
 export function r(tag: string | Function, prop?: any, children?: any) {
   return {tag, prop, children}
+}
+
+export function t(name: string, children?: (any[] | null), props?: any) {
+  return {
+    type: 'slot',
+    name, children, props
+  }
 }
 
 

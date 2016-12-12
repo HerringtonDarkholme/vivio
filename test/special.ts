@@ -1,5 +1,5 @@
 import {default as _h, getResult} from '../index'
-import {r} from './index'
+import {r, t} from './index'
 import {expect} from 'chai'
 
 var h = _h({})
@@ -139,6 +139,53 @@ describe('special tags', () => {
       ]),
       r('p', undefined, ['what']),
     ])
+  })
+
+  it('should render slot', () => {
+    h = h.div
+      .slot.slot()
+    .div()
+
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(
+      r('div', undefined, [
+        t('default')
+      ])
+    )
+  })
+
+  it('should render slot2', () => {
+    h = h.div
+      .slot
+        .p.$`default slot!`.p()
+      .slot()
+    .div()
+
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(
+      r('div', undefined, [
+        t('default', [r('p', undefined, ['default slot!'])])
+      ])
+    )
+  })
+
+  it('should render slot3', () => {
+    h = h.div
+      .slot.props({test: '12323', name: 'slot'})
+        .p.$`default slot!`.p()
+      .slot()
+    .div()
+
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(
+      r('div', undefined, [
+        t(
+          'slot',
+          [r('p', undefined, ['default slot!'])],
+          {test: '12323'}
+        )
+      ])
+    )
   })
 
 })

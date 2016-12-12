@@ -2,7 +2,12 @@
   "name": "vivio",
   "version": "0.0.1",
   "description": "",
-  "main": "index.js",
+  "main": "dist/index.js",
+  "files": [
+    "dist/index.js",
+    "dist/index.d.ts",
+    "dist/src"
+  ],
   "scripts": {
     "test": "mocha dist/test",
     "dev": "concurrently 'mocha dist/test -w' 'tsc -w'",

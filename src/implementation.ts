@@ -120,9 +120,6 @@ export function closeTag(this: {__tagTree: TagTree}, template: TemplateStringsAr
   }
   tagTree.currentTag = tagTree.tagStack.pop()!;
   if (!tagTree.shouldRender) {
-    if (tagTree.tagStack.length === 0 && !tagTree.lastIfValue) {
-      tagTree.result = []
-    }
     if (tagTree.currentTag !== SKIP_TAG_PLACEHOLDER) {
       tagTree.shouldRender = true
       tagTree.lastIfValue = false
@@ -130,10 +127,20 @@ export function closeTag(this: {__tagTree: TagTree}, template: TemplateStringsAr
     return this
   }
 
-  let ret =
-    t.tag === 'template'
-    ? (t.children || [])
-    : [renderImpl._h(t.tag, t.props, t.children)]
+  let ret
+  if (t.tag === 'template') {
+    ret = t.children || []
+  } else if (t.tag === 'slot') {
+    let props = t.props && t.props.props
+    let name = 'default'
+    if (props && props.name) {
+      name = props.name
+      delete props.name
+    }
+    ret = [renderImpl._t(name, t.children, props)]
+  } else {
+    ret = [renderImpl._h(t.tag, t.props, t.children)]
+  }
   if (tagTree.currentTag) {
     if (tagTree.currentTag.children) {
       tagTree.currentTag.children.push(...ret)
