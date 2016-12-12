@@ -158,7 +158,19 @@ describe('if directive', () => {
       .img.else()
     var ret = getResult(h)
     expect(ret).to.deep.equal(r('img'))
+  })
 
+  it('should handle void tag2', () => {
+    h = h.img.if(true)()
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(r('img'))
+  })
+
+  it('should handle void tag3', () => {
+    h = h.img.if(true)()
+      .div.else.div()
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(r('img'))
   })
 
   it('should skip render void', () => {

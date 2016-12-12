@@ -1,4 +1,4 @@
-import {default as _h, getResult} from '../index'
+import {default as _h, getResult, getResults} from '../index'
 import {r} from './index'
 import {expect} from 'chai'
 
@@ -119,6 +119,21 @@ describe('simple tag tree', () => {
     h = h.img`.test`()
     var ret = getResult(h)
     expect(ret).to.deep.equal(r('img', {staticClass: 'test'}))
+  })
+
+  it('should render multiple', () => {
+    h = h
+    .div`.test`
+      .$`test inner text`
+    .div()
+    .hr()
+    var ret = getResults(h)
+    expect(ret).to.deep.equal([
+      r('div', {staticClass: 'test'}, [
+      'test inner text'
+      ]),
+      r('hr')
+    ])
   })
 
 })

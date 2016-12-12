@@ -31,18 +31,9 @@ export function r(tag: string | Function, prop?: any, children?: any) {
 //   .div()
 // .div()
 
-// h.img.if(true)()
-//   .div.else
-//   .div()
-
 
 // h = h.div
 //   .img`.test`.for([], (t, i, h) => h)()
-//   .div()
-
-// h = h.img()
-
-// h = h.div.if(true)
 //   .div()
 
 // h = h.div.on({}).for([], (t, i, h) => h)
@@ -59,17 +50,6 @@ export function r(tag: string | Function, prop?: any, children?: any) {
 // .p.else
 // .p()
 
-
-
-// h = h
-// .div`.test`
-//   .$`test inner text`
-// .div()
-// .hr()
-
-// // k = h.div`.test`
-// //     .ul`.test2`
-// //     .ul()
 
 // // h.div
 // //     .ul()
