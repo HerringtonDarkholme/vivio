@@ -1,8 +1,9 @@
 {
   "name": "vivio",
-  "version": "0.0.2",
+  "version": "0.0.4",
   "description": "",
   "main": "dist/index.js",
+  "typings": "dist/index.d.ts",
   "files": [
     "dist/index.js",
     "dist/index.d.ts",
