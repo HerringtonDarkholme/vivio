@@ -46,7 +46,6 @@ export function VRender(target: Vue, key: 'vrender', _: TypedPropertyDescriptor<
   target[VRENDER_KEY] = true
 }
 Component.register(VRENDER_KEY, function(proto, instance, options) {
-  console.log(proto)
   if (proto[VRENDER_KEY]) {
     let vrender = proto[VRENDER]
     options['render'] = function() {

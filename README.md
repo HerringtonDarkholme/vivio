@@ -73,4 +73,4 @@ TODO
 - [x] $
 - [x] tag
 - [x] children
-- [ ] scoped template
+- [x] scoped template
