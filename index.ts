@@ -1,13 +1,16 @@
-/// <reference types='kilimanjaro/dist/src/interface' />
-
 declare var Proxy: any;
 import * as VueRouter from 'vue-router'
 import * as Vue from 'vue'
-import {create, Store, getHelper} from 'kilimanjaro'
+import {create, getHelper} from 'kilimanjaro'
+export {Store} from 'kilimanjaro'
 import * as StoreInterface from 'kilimanjaro/dist/src/interface'
 import {RouterOptions} from 'vue-router/types/router'
 
-export * from 'av-ts'
+export {
+  Component, Lifecycle, Prop, p,
+  Transition, Watch, Data, Mixin,
+  Trait, Vue
+} from 'av-ts'
 Vue.use(VueRouter)
 
 import {HTML, Classes} from './src/interface'
@@ -28,7 +31,8 @@ export default {
   router(options?: VueRouter.RouterOptions) {
     return new VueRouter(options)
   },
-  create, Store, getHelper
+  store: create,
+  getHelper
 }
 
 
@@ -41,8 +45,8 @@ import {$$Prop} from 'av-ts/dist/src/interface'
 
 export type ViewFunc = () => HTMLBrand
 const VRENDER_KEY = '$$VRender' as $$Prop
-const VRENDER = 'vrender'
-export function VRender(target: Vue, key: 'vrender', _: TypedPropertyDescriptor<ViewFunc>) {
+const VRENDER = 'render'
+export function Render(target: Vue, key: 'render', _: TypedPropertyDescriptor<ViewFunc>) {
   target[VRENDER_KEY] = true
 }
 Component.register(VRENDER_KEY, function(proto, instance, options) {
