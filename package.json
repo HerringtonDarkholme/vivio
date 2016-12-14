@@ -1,6 +1,6 @@
 {
   "name": "vivio",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "",
   "main": "dist/index.js",
   "files": [
@@ -10,6 +10,7 @@
   ],
   "scripts": {
     "test": "mocha dist/test",
+    "prepublish": "tsc && mocha dist/test",
     "dev": "concurrently 'mocha dist/test -w' 'tsc -w'",
     "diag": "tsc --noEmit --diagnostics --lib es5 test/spec.ts"
   },
