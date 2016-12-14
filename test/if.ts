@@ -1,4 +1,4 @@
-import {default as _h, getResult} from '../index'
+import {html as _h, getResult} from '../index'
 import {expect} from 'chai'
 import {r} from './index'
 

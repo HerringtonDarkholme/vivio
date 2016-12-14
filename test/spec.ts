@@ -1,4 +1,4 @@
-import h, {getResult} from '../index'
+import {html as h, getResult} from '../index'
 import {Emitter} from '../index'
 import {expect} from 'chai'
 import {r} from './index'
