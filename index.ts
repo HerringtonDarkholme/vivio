@@ -13,8 +13,8 @@ export {
 } from 'av-ts'
 Vue.use(VueRouter)
 
-import {HTML, Classes} from './src/interface'
-import {rootProxy} from './src/implementation'
+import {HTML, Classes} from './src/template/interface'
+import {rootProxy} from './src/template/implementation'
 
 export function html<T>(comps?: Classes<T>): HTML<T> {
   let root = {
@@ -23,9 +23,9 @@ export function html<T>(comps?: Classes<T>): HTML<T> {
   return new Proxy(root, rootProxy) as any
 }
 
-export {Emitter} from './src/component'
-import {setRenderContext, getResult} from './src/implementation'
-export {setRenderContext, getResult, getResults} from './src/implementation'
+export {Emitter} from './src/template/component'
+import {setRenderContext, getResult} from './src/template/implementation'
+export {setRenderContext, getResult, getResults} from './src/template/implementation'
 
 export default {
   router(options?: VueRouter.RouterOptions) {
@@ -39,7 +39,7 @@ export default {
 // workaround
 StoreInterface
 export {RouterOptions}
-import {HTMLBrand} from './src/interface'
+import {HTMLBrand} from './src/template/interface'
 import {Component} from 'av-ts'
 import {$$Prop} from 'av-ts/dist/src/interface'
 

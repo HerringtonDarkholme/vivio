@@ -11,8 +11,8 @@
   ],
   "scripts": {
     "test": "mocha dist/test",
-    "prepublish": "tsc && mocha dist/test",
-    "dev": "concurrently 'mocha dist/test -w' 'tsc -w'",
+    "prepublish": "tsc && mocha dist/test -r",
+    "dev": "concurrently 'mocha dist/test -wr' 'tsc -w'",
     "diag": "tsc --noEmit --diagnostics --lib es5 test/spec.ts"
   },
   "author": "",

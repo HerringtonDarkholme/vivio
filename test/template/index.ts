@@ -1,4 +1,4 @@
-import {setRenderContext} from '../index'
+import {setRenderContext} from '../../index'
 
 setRenderContext({
   _c: r,
