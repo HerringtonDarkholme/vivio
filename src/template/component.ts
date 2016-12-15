@@ -10,8 +10,8 @@ export type ComponentEventAux<T> = {
     $emit: Emitter<T>
   }
 }
-export type ComponentPropAux<C, K> = {
-  'componentTag': C & {props: K}
+export type ComponentPropAux<C> = {
+  'componentTag': {props: C}
 }
 
 export type ComponentScopedSlot<T, Slots extends string> = {
@@ -29,7 +29,7 @@ export type Handlers<T> = {
 export type Common<T> = {
   class(nameHash: {[k: string]: boolean}): Common<T>
   on<E>(this: ComponentEventAux<E>, handlerHash: Handlers<E>): Common<T>
-  props<C, K extends keyof C>(this: ComponentPropAux<C, K>, nameHash: Partial<Pick<C, K>>): Common<T>
+  props<C>(this: ComponentPropAux<C>, nameHash: Partial<C>): Common<T>
   nativeOn(handlerHash: {[k: string]: Function}): Common<T>
   domProps(nameHash: {[k: string]: any}): Common<T>
   style(nameHash: {[k: string]: any}): Common<T>

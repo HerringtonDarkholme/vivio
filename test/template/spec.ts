@@ -4,21 +4,23 @@ import {expect} from 'chai'
 import {r} from './index'
 
 class elInput {
-  disabled: boolean
   $emit: Emitter<{
     change: string,
     focus: boolean
   }>
-  props: 'disabled'
+  props: {
+    disabled: boolean
+  }
 }
 
 class CustomIndex {
   $emit: Emitter<{
     click: number
   }>
-  item: {}
-  index: number
-  props: 'item' | 'index'
+  props: {
+    item: {}
+    index: number
+  }
 }
 
 var s = {

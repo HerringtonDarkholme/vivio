@@ -24,24 +24,30 @@ export type Transition = {
     leaveActiveClass: string,
     appearClass: string,
     appearActiveClass: string,
-    props: keyof Transition,
-    $emit: {}
 }
 
 export type BuiltinComponents = {
   keepAlive: {
     $emit: {},
-    props: 'include' | 'exclude',
-    include: string | RegExp,
-    exclude: string | RegExp
+    props: {
+      include: string | RegExp,
+      exclude: string | RegExp
+    }
   },
-  transition: Transition,
-  transitionGroup: Transition & { tag: string, moveClass: string },
+  transition: {
+    $emit: {}
+    props:  Transition
+  }
+  transitionGroup: {
+    $emit: {},
+    props: Transition & { tag: string, moveClass: string },
+  },
   slot: {
     $emit: {},
-    name: string,
-    props: string,
-    [k: string]: any
+    props: {
+      name: string,
+      [k: string]: any
+    },
   }
 }
 

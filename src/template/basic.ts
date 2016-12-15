@@ -20,7 +20,7 @@ export type Common<T> = {
   props(nameHash: {[k: string]: any}): Common<T>
   style(nameHash: {[k: string]: any}): Common<T>
   attrs(nameHash: {[k: string]: any}): Common<T>
-  slotName(name: string): Common<T>
+  asSlot(name: string): Common<T>
   ref(name: string): Common<T>
   key(k: any): Common<T>
   directives(d: any): Common<T>
