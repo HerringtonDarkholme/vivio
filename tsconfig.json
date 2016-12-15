@@ -8,10 +8,12 @@
         "noUnusedLocals": true,
         "strictNullChecks": true,
         "sourceMap": false,
+        "experimentalDecorators": true,
+        "emitDecoratorMetadata": true,
         "suppressImplicitAnyIndexErrors": true,
         "declaration": true,
         "stripInternal": true,
-        "outDir": "./dist",
+        "outDir": "dist",
         "lib": ["es5", "dom", "es2015.promise"]
     },
     "exclude": [
