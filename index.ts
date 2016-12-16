@@ -1,4 +1,3 @@
-declare var Proxy: any;
 import * as VueRouter from 'vue-router'
 import * as Vue from 'vue'
 import {create} from './src/store/opt'
@@ -8,20 +7,13 @@ export {create} from './src/store/opt'
 export {Store} from './src/store/decorator'
 import * as StoreInterface from './src/store/interface'
 import {RouterOptions} from 'vue-router/types/router'
+export {Extends} from './src/core/interface'
 
 Vue.use(VueRouter)
 
-import {HTML, Classes} from './src/template/interface'
-import {rootProxy} from './src/template/implementation'
 export {getResult, setRenderContext, getResults} from './src/template/implementation'
-
-export function html<T>(comps?: Classes<T>): HTML<T> {
-  let root = {
-    __components__: comps || {}
-  }
-  return new Proxy(root, rootProxy) as any
-}
 export {Emitter} from './src/template/component'
+export {html} from './src/template'
 
 export default {
   router(options?: VueRouter.RouterOptions) {
