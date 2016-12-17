@@ -272,12 +272,12 @@ describe('Kilimanjaro', () => {
 
   it('module: getters', () => {
     const makeGetter = (n: number) => (s: any, g: any) => {
-      expect(g('contant')).to.equal(0)
+      expect(g.content).to.equal(0)
       expect(s.a).to.equal(n)
       return s.a
     }
     const store = create({a: 1})
-      .getter('contant', _ => 0)
+      .getter('content', _ => 0)
       .getter('g1', makeGetter(1))
       .module('nested', create({a: 2})
         .getter('g2', makeGetter(2))

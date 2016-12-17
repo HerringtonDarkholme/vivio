@@ -45,7 +45,7 @@ export type GetDefs<S, G, T> = {
   [k: string]: (s: S, g: G) => _
 }
 export type Getter<K extends string, T> = {
-  [k in K]: T
+  readonly [k in K]: T
 }
 
 // mutation definition
@@ -188,7 +188,7 @@ export type BaseHelper = Helper<BG, BCH, BDH>
 // type level wizardry
 export interface Opt<S, G extends BG, C extends BC, D extends BD, P extends BP, CH extends BCH, DH extends BDH> {
   getter<K extends string, T>(key: K, f: GetDef<S, G, T>): Opt<S, Getter<K, T> & G, C, D, P, CH, DH>
-  getters<T>(opt: GetDefs<S, G, T>): Opt<S, T&G, C, D, P, CH, DH>
+  getters<T>(opt: GetDefs<S, G, T>): Opt<S, Readonly<T>&G, C, D, P, CH, DH>
   declareGetter<K extends string, T>(): Opt<S, Getter<K, T> & G, C, D, P, CH, DH>
 
   mutation<K extends string, T>(key: K, f: MD0<S, T>): Opt<S, G, C0<K, T> & C, D, P0<K, T> | P, CH0<K, T> & CH, DH>

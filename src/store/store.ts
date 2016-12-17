@@ -36,7 +36,7 @@ const commitImpl = (store: StoreImpl) => (type: string, payload?: {}, opt?: Comm
   }
 }
 
-const getterImpl = (store: StoreImpl) => (key: string) => store._vm[key]
+// const getterImpl = (store: StoreImpl) => (key: string) => store._vm[key]
 
 /** @internal */
 export default class StoreImpl implements BaseStore {
@@ -53,7 +53,7 @@ export default class StoreImpl implements BaseStore {
 
   readonly dispatch = dispatchImpl(this)
   readonly commit = commitImpl(this)
-  readonly getters = getterImpl(this)
+  readonly getters = createMap()
 
   get state() {
     return this._vm['state']
@@ -106,6 +106,9 @@ function installModules(store: StoreImpl, opt: OptImpl, state: State) {
 function registerGetters(store: StoreImpl, getters: RawGetters, state: State) {
   for (let key in getters) {
     store._getters[key] = () => getters[key](state, store.getters)
+    Object.defineProperty(store.getters, key, {
+      get: () => store._vm[key]
+    })
   }
 }
 
