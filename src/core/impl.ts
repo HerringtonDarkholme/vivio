@@ -4,7 +4,7 @@ import {ComponentOptions} from 'vue/types/options'
 // import {html} from '../template'
 import * as Vue from 'vue'
 
-export class Core implements Extends<{}, {}, {}, {}, {}, {}> {
+export class Core implements Extends<{}, {}, {}, {}, {}, {}, {}, {}> {
   _options: ComponentOptions<Vue> = {}
   extends(opt: {}) {
     this._options.extends = opt
@@ -88,9 +88,7 @@ export class Core implements Extends<{}, {}, {}, {}, {}, {}> {
   _computed: {}
   _methods: {}
   _components: {}
-  _assorted: {
-    $emit: {}
-    $scopedSlots: {}
-    $slots: {}
-  }
+  $emit: {}
+  $scopedSlots: {}
+  $slots: {}
 }

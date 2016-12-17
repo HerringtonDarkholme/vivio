@@ -1,6 +1,6 @@
 import {Extends} from '../../index'
 
-declare var comp: Extends<never, never, never, never, never, never>
+declare var comp: Extends<never, never, never, never, never, never, never, never>
 
 comp.props({
   test: 123

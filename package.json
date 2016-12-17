@@ -13,7 +13,7 @@
     "test": "mocha dist/test --recursive",
     "prepublish": "tsc && mocha dist/test --recursive",
     "dev": "concurrently 'mocha dist/test --recursive -w' 'tsc -w'",
-    "diag": "tsc --noEmit --diagnostics --lib es5 test/spec.ts"
+    "diag": "tsc --noEmit --diagnostics --lib es5,dom,es2015.promise"
   },
   "author": "",
   "license": "ISC",
