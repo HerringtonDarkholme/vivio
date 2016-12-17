@@ -1,26 +1,22 @@
 import * as VueRouter from 'vue-router'
 import * as Vue from 'vue'
 import {create} from './src/store/opt'
-import {getHelper} from './src/store/decorator'
-export {getHelper} from './src/store/decorator'
-export {create} from './src/store/opt'
-export {Store} from './src/store/decorator'
 import * as StoreInterface from './src/store/interface'
 import {RouterOptions} from 'vue-router/types/router'
-export {Extends} from './src/core/interface'
+import {Core} from './src/core/impl'
+import {Extends} from './src/core/interface'
 
+export type ComponentDef = Extends<never, never, never, never, never, never, never, never>
 Vue.use(VueRouter)
-
-export {getResult, setRenderContext, getResults} from './src/template/implementation'
-export {Emitter} from './src/template/component'
-export {html} from './src/template'
 
 export default {
   router(options?: VueRouter.RouterOptions) {
     return new VueRouter(options)
   },
   store: create,
-  getHelper
+  component(): ComponentDef {
+    return new Core as any
+  }
 }
 
 

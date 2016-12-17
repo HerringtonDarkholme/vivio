@@ -1,8 +1,7 @@
-import {Extends} from '../../index'
+import Vivio from '../../index'
 
-declare var comp: Extends<never, never, never, never, never, never, never, never>
-
-comp.props({
+Vivio.component()
+.props({
   test: 123
 })
 .data(vm => ({

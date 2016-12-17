@@ -1,7 +1,6 @@
-import {html as h, getResult} from '../../index'
-import {Emitter} from '../../index'
+import {Emitter} from '../../src/template/component'
 import {expect} from 'chai'
-import {r} from './index'
+import {r, _h as h, getResult} from './index'
 
 class elInput {
   $emit: Emitter<{

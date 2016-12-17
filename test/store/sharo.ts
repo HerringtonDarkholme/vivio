@@ -1,4 +1,5 @@
-import {create} from '../../index'
+import Vivio from '../../index'
+const create = Vivio.store
 
 var rabbitHouse = create({
     cappuccino: 'coffee',

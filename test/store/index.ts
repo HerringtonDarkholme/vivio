@@ -1,13 +1,13 @@
-import {create, getHelper, Store } from '../../index'
+import Vivio from '../../index'
 import * as chai from 'chai'
 import {expect} from 'chai'
 import * as sinonChai from 'sinon-chai'
 import * as sinon from 'sinon'
 import * as Vue from 'vue'
-import { Component } from 'av-ts'
 chai.use(sinonChai)
 
 const TEST = 'TEST'
+const create = Vivio.store
 
 describe('Kilimanjaro', () => {
   it('should compile by declaration', () => {
@@ -160,62 +160,62 @@ describe('Kilimanjaro', () => {
     store.dispatch('check', true)
   })
 
-  it('helper: mutation', () => {
-    const store = create({count: 0})
-      .mutation('inc', s => () => s.count++)
-      .mutation('dec', s => () => s.count--)
-      .done()
-    const { commit } = getHelper(store)
-    Component.inDefinition = true
-    commit('inc')()
-    expect(store.state.count).to.equal(1)
-    commit('dec')()
-    expect(store.state.count).to.equal(0)
-    Component.inDefinition = false
-  })
+  // it('helper: mutation', () => {
+  //   const store = create({count: 0})
+  //     .mutation('inc', s => () => s.count++)
+  //     .mutation('dec', s => () => s.count--)
+  //     .done()
+  //   const { commit } = getHelper(store)
+  //   Component.inDefinition = true
+  //   commit('inc')()
+  //   expect(store.state.count).to.equal(1)
+  //   commit('dec')()
+  //   expect(store.state.count).to.equal(0)
+  //   Component.inDefinition = false
+  // })
 
-  it('helper: getter', () => {
-    const store = create({count: 0})
-      .mutation('inc', s => () => s.count++)
-      .mutation('dec', s => () => s.count--)
-      .getter('hasAny', s => s.count > 0)
-      .getter('negative', ({count}) => count < 0)
-      .done()
-    const { commit, getters } = getHelper(store)
-    Component.inDefinition = true
-    let hasAnyImpl: any = getters('hasAny')
-    let negativeImpl: any = getters('negative')
-    expect(hasAnyImpl.__isgetter).to.equal(true)
-    expect(negativeImpl.__isgetter).to.equal(true)
-    expect(hasAnyImpl()).to.equal(false)
-    expect(negativeImpl()).to.equal(false)
-    commit('inc')()
-    expect(hasAnyImpl()).to.equal(true)
-    expect(negativeImpl()).to.equal(false)
-    commit('dec')()
-    commit('dec')()
-    expect(hasAnyImpl()).to.equal(false)
-    expect(negativeImpl()).to.equal(true)
-    Component.inDefinition = false
-  })
+  // it('helper: getter', () => {
+  //   const store = create({count: 0})
+  //     .mutation('inc', s => () => s.count++)
+  //     .mutation('dec', s => () => s.count--)
+  //     .getter('hasAny', s => s.count > 0)
+  //     .getter('negative', ({count}) => count < 0)
+  //     .done()
+  //   const { commit, getters } = getHelper(store)
+  //   Component.inDefinition = true
+  //   let hasAnyImpl: any = getters('hasAny')
+  //   let negativeImpl: any = getters('negative')
+  //   expect(hasAnyImpl.__isgetter).to.equal(true)
+  //   expect(negativeImpl.__isgetter).to.equal(true)
+  //   expect(hasAnyImpl()).to.equal(false)
+  //   expect(negativeImpl()).to.equal(false)
+  //   commit('inc')()
+  //   expect(hasAnyImpl()).to.equal(true)
+  //   expect(negativeImpl()).to.equal(false)
+  //   commit('dec')()
+  //   commit('dec')()
+  //   expect(hasAnyImpl()).to.equal(false)
+  //   expect(negativeImpl()).to.equal(true)
+  //   Component.inDefinition = false
+  // })
 
-  it('helper: action', () => {
-    let a = sinon.spy()
-    let b = sinon.spy()
-    const store = create()
-      .action('a', s => a)
-      .action('b', s => b)
-      .done()
+  // it('helper: action', () => {
+  //   let a = sinon.spy()
+  //   let b = sinon.spy()
+  //   const store = create()
+  //     .action('a', s => a)
+  //     .action('b', s => b)
+  //     .done()
 
-    const {dispatch} = getHelper(store)
-    Component.inDefinition = true
-    dispatch('a')()
-    expect(a).to.have.been.called
-    expect(b).not.to.have.been.called
-    dispatch('b')()
-    expect(b).to.have.been.called
-    Component.inDefinition = false
-  })
+  //   const {dispatch} = getHelper(store)
+  //   Component.inDefinition = true
+  //   dispatch('a')()
+  //   expect(a).to.have.been.called
+  //   expect(b).not.to.have.been.called
+  //   dispatch('b')()
+  //   expect(b).to.have.been.called
+  //   Component.inDefinition = false
+  // })
 
   it('module: mutation', () => {
     const mutation = (s: {a: number}) => (n: number) => {
@@ -387,29 +387,29 @@ describe('Kilimanjaro', () => {
     })
   })
 
-  it('should annotate component', () => {
-    let changed =false
-    const store = create({
-      a: 1
-    })
-    .getter('getter', s => s.a + 1)
-    .mutation(TEST, s => (n: number) => {
-      changed = true
-    })
-    .done()
+  // it('should annotate component', () => {
+  //   let changed =false
+  //   const store = create({
+  //     a: 1
+  //   })
+  //   .getter('getter', s => s.a + 1)
+  //   .mutation(TEST, s => (n: number) => {
+  //     changed = true
+  //   })
+  //   .done()
 
-    const { getters, commit } = getHelper(store)
+  //   const { getters, commit } = getHelper(store)
 
-    @Component
-    class Test extends Vue {
-      @Store getter = getters('getter')
-      @Store mut = commit(TEST)
-    }
+  //   @Component
+  //   class Test extends Vue {
+  //     @Store getter = getters('getter')
+  //     @Store mut = commit(TEST)
+  //   }
 
-    let tst = new Test()
-    expect(tst.getter).to.equal(2)
-    tst.mut(12)
-    expect(changed).to.equal(true)
-  })
+  //   let tst = new Test()
+  //   expect(tst.getter).to.equal(2)
+  //   tst.mut(12)
+  //   expect(changed).to.equal(true)
+  // })
 
 })

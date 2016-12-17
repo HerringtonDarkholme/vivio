@@ -1,5 +1,4 @@
-import {html as _h, getResult} from '../../index'
-import {r, t} from './index'
+import {r, t, _h, getResult} from './index'
 import {expect} from 'chai'
 
 var h = _h({})

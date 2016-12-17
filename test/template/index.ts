@@ -1,4 +1,6 @@
-import {setRenderContext} from '../../index'
+import {setRenderContext} from '../../src/template/implementation'
+export {getResult, getResults} from '../../src/template/implementation'
+export {html as _h} from '../../src/template/index'
 
 setRenderContext({
   _c: r,
