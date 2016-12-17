@@ -18,7 +18,7 @@ describe('Kilimanjaro', () => {
     .done()
 
     sinon.spy(console, 'error')
-    store.getters('testGet')
+    store.getters.testGet
     store.commit('commit', 'test')
     expect(console['error']['called']).to.be.true
     store.dispatch('dispatch', 'test')
@@ -41,9 +41,9 @@ describe('Kilimanjaro', () => {
     })
     .done()
 
-    expect(store.getters('testGet')).to.equal(124)
+    expect(store.getters.testGet).to.equal(124)
     store.commit('commit')
-    expect(store.getters('testGet')).to.equal(125)
+    expect(store.getters.testGet).to.equal(125)
     expect(store.dispatch('dispatch', 'hello').then(k => {
       expect(k[0]).to.equal('hello from action')
       done()
@@ -150,13 +150,13 @@ describe('Kilimanjaro', () => {
       .getter('hasAny', s => s.a > 1)
       .mutation(TEST, s => (n: number) => s.a += n)
       .action('check', ({getters}) => (v: boolean) => {
-        expect(getters('hasAny')).to.equal(v)
+        expect(getters.hasAny).to.equal(v)
       })
       .done()
-    expect(store.getters('hasAny')).to.equal(false)
+    expect(store.getters.hasAny).to.equal(false)
     store.dispatch('check', false)
     store.commit(TEST, 1)
-    expect(store.getters('hasAny')).to.equal(true)
+    expect(store.getters.hasAny).to.equal(true)
     store.dispatch('check', true)
   })
 
@@ -293,7 +293,7 @@ describe('Kilimanjaro', () => {
       .done()
 
       for (let i of [1, 2, 3, 4, 5, 6]) {
-        expect(store.getters(`g${i}` as any)).to.equal(i)
+        expect(store.getters[`g${i}`]).to.equal(i)
       }
   })
 

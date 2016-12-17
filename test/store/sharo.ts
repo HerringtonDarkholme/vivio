@@ -28,7 +28,7 @@ var sweetRabbitCafe = create({
   .getter('remainingAnko', state => state.ankoAmount - state.matchaAmount)
   .mutation('eat_sweet', state => (n: number) => state.ankoAmount -= n)
   .action('order_anko', store => (n: number) => {
-    if (store.getters('remainingAnko') < n) return console.log('no enough anko!')
+    if (store.getters.remainingAnko < n) return console.log('no enough anko!')
     store.commit('eat_sweet', n) // commit payload
   })
   .action('order0', store => () => {})
@@ -40,7 +40,7 @@ var allCoffeeShop = create()
   .module('sweetRabbitCafe', sweetRabbitCafe)
   .action('order a rabbit', store => () => {
     // get all coffee from module
-    store.getters('coffee')
+    store.getters.coffee
     // commit mutations defined in module
     store.commit('pay_check')()
     // dispatch returns a promise
@@ -101,7 +101,7 @@ smallBean.commit('byonbyon', 3)
 smallBean.commit('byon')
 smallBean.dispatch('dance').then(s => s[0].toExponential)
 smallBean.dispatch('onnesan', 'kke').then(s => s[0].valueOf)
-smallBean.getters('furufuru').charCodeAt
+smallBean.getters.furufuru.charCodeAt
 
 var commit = allCoffeeShop.commit
 var dispatch = allCoffeeShop.dispatch

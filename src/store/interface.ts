@@ -3,6 +3,7 @@ export type F0<R> = (this: void) => R
 export type F01<T, R> = (this: void, t?: T) => R
 export type F1<A, R> = (this: void, a: A) => R
 
+export type _ = {}
 
 // vue related types
 export interface Subscriber<P, S> {
@@ -35,19 +36,16 @@ export interface ActionStore<S, G, C, D> {
   readonly dispatch: D
 }
 
-export interface GetDef<S, G extends Getters<string, {}>, T> {
+export interface GetDef<S, G, T> {
   (s: S, g: G): T
 }
-export type GetDefs<S, G extends Getters<string, {}>, T> = {
-  [K in keyof T]: (s: S, g: G) => T[K]
+export type GetDefs<S, G, T> = {
+  [K in keyof T]: (s: _, g: _) => T[K]
 } & {
-  [k: string]: (s: S, g: G) => any
+  [k: string]: (s: S, g: G) => _
 }
-export interface Getters<K, T> {
-  (k: K): T
-}
-export interface GettersO<T> {
-  <K extends keyof T>(k: K): T[K]
+export type Getter<K extends string, T> = {
+  [k in K]: T
 }
 
 // mutation definition
@@ -175,7 +173,7 @@ export interface Helper<G extends BG, CH extends BCH, DH extends BDH> {
 
 
 // type bound and implementation type
-export type BG = Getters<string, {}>
+export type BG = {}
 export type BC = C0<string, {}>
 export type BCH = CH0<string, {}>
 export type BD = D0<string, {}|void, {}|void>
@@ -189,9 +187,9 @@ export type BaseHelper = Helper<BG, BCH, BDH>
 
 // type level wizardry
 export interface Opt<S, G extends BG, C extends BC, D extends BD, P extends BP, CH extends BCH, DH extends BDH> {
-  getter<K extends string, T>(key: K, f: GetDef<S, G, T>): Opt<S, Getters<K, T> & G, C, D, P, CH, DH>
-  getters<T>(opt: GetDefs<S, G, T>): Opt<S, GettersO<T> & G, C, D, P, CH, DH>
-  declareGetter<K extends string, T>(): Opt<S, Getters<K, T> & G, C, D, P, CH, DH>
+  getter<K extends string, T>(key: K, f: GetDef<S, G, T>): Opt<S, Getter<K, T> & G, C, D, P, CH, DH>
+  getters<T>(opt: GetDefs<S, G, T>): Opt<S, T&G, C, D, P, CH, DH>
+  declareGetter<K extends string, T>(): Opt<S, Getter<K, T> & G, C, D, P, CH, DH>
 
   mutation<K extends string, T>(key: K, f: MD0<S, T>): Opt<S, G, C0<K, T> & C, D, P0<K, T> | P, CH0<K, T> & CH, DH>
   mutation<K extends string, T>(key: K, f: MD1<S, T>): Opt<S, G, C1<K, T> & C, D, P1<K, T> | P, CH1<K, T> & CH, DH>
