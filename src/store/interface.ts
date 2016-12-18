@@ -130,17 +130,17 @@ export interface DO1<T, R> {
   <K extends keyof (R | T)>(k: K, t: T[K]): Promise<R[K][]>
 }
 
-export interface DH0<K, T, R> {
-  (k: K): ActionHandler0<T, R>
+export type DH0<K extends string, T, R> = {
+  [k in K]: ActionHandler0<T, R>
 }
-export interface DHO0<R> {
-  <K extends keyof R>(k: K): () => Promise<R[K][]>
+export type DHO0<R> = {
+  [K in keyof R]: () => Promise<R[K][]>
 }
-export interface DH1<K, T, R> {
-  (k: K): ActionHandler1<T, R>
+export type DH1<K extends string, T, R> = {
+  [k in K]: ActionHandler1<T, R>
 }
-export interface DHO1<T, R> {
-  <K extends keyof (T|R)>(k: K): (t: T[K]) => Promise<R[K][]>
+export type DHO1<T, R> = {
+  [K in keyof (T|R)]: (t: T[K]) => Promise<R[K][]>
 }
 
 export interface P0<K, T> {
@@ -165,10 +165,10 @@ export interface Plugin<Str extends BaseStore> {
   (s: Str): void
 }
 
-export interface Helper<G extends BG, CH extends BCH, DH extends BDH> {
-  getters: G
-  commit: CH
-  dispatch: DH
+export interface Helper<G, CH extends BCH, DH extends BDH> {
+  mapGetters: {[K in keyof G]: () => G[K]}
+  mapCommit: {<K extends keyof CH>(...keys: K[]): {[k in K]: CH[k]}}
+  mapDispatch: {<K extends keyof DH>(...keys: K[]): {[k in K]: DH[k]}}
 }
 
 
@@ -224,8 +224,8 @@ export interface Store<S, G extends BG, C extends BC, D extends BD, P extends BP
   readonly getters: G
   readonly commit: C
   readonly dispatch: D
-  /** @internal */ _helper?: Helper<G, CH, DH>
 
+  getHelper(): Helper<G, CH, DH>
   subscribe(fn: Subscriber<P, S>): Unsubscription
   watch<R>(getter: VueGetter<S, R>, cb: WatchHandler<never, R>, options?: WatchOption<never, R>): Function
   replaceState(state: S): void

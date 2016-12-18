@@ -87,6 +87,11 @@ export default class StoreImpl implements BaseStore {
     recursiveAssign(this._vm['state'], state)
   }
 
+  getHelper() {
+    // TODO
+    return null as any
+  }
+
 }
 
 
