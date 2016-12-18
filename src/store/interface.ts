@@ -65,7 +65,7 @@ export interface MutationHandler1<T> {
 // mutation definition object
 export type MDO<S, T> = {
   [K in keyof T]: (s: S, t: T[K]) => void
-}
+} & {[k: string]: (s: S, t: any) => void}
 
 export interface C0<K, T> {
   (k: K, t?: T, opt?: CommitOption): void
@@ -157,8 +157,8 @@ export interface P1<K, T> {
   payload: T
 }
 
-export interface ModuleState<K, S> {
-  readonly $: (k: K) => S
+export type ModuleState<K extends string, S> = {
+  readonly [k in K]: S
 }
 
 export interface Plugin<Str extends BaseStore> {
@@ -195,7 +195,7 @@ export interface Opt<S, G extends BG, C extends BC, D extends BD, P extends BP, 
   mutation<K extends string, T>(key: K, f: MD1<S, T>): Opt<S, G, C1<K, T> & C, D, P1<K, T> | P, CH1<K, T> & CH, DH>
 
   mutations<T extends {[k: string]: (s: S) => void}>(commits: T): Opt<S, G, CO0<T> & C, D, PO0<T> | P, COH0<T> & CH, DH>
-  mutationsWithArg<T>(commits: MDO<S, T> & {[k: string]: (s: S, t: any) => void} ): Opt<S, G, CO1<T> & C, D, P1<keyof T, T> | P, COH1<T> & CH, DH>
+  mutationsWithArg<T>(commits: MDO<S, T>  ): Opt<S, G, CO1<T> & C, D, P1<keyof T, T> | P, COH1<T> & CH, DH>
 
   declareMutation<K extends string, T>(): Opt<S, G, C1<K, T> & C, D, P1<K, T> | P, CH1<K, T> & CH, DH>
 

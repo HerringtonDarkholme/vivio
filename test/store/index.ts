@@ -238,11 +238,11 @@ describe('Kilimanjaro', () => {
       .done()
     store.commit(TEST, 1)
     expect(store.state.a).to.equal(2)
-    expect(store.state.$('nested').a).to.equal(3)
-    expect(store.state.$('nested').$('one').a).to.equal(4)
-    expect(store.state.$('nested').$('nested').$('two').a).to.equal(5)
-    expect(store.state.$('nested').$('nested').$('three').a).to.equal(6)
-    expect(store.state.$('four').a).to.equal(7)
+    expect(store.state.nested.a).to.equal(3)
+    expect(store.state.nested.one.a).to.equal(4)
+    expect(store.state.nested.nested.two.a).to.equal(5)
+    expect(store.state.nested.nested.three.a).to.equal(6)
+    expect(store.state.four.a).to.equal(7)
   })
 
   it('module: action', () => {
@@ -365,7 +365,7 @@ describe('Kilimanjaro', () => {
       test = n
       calls++
     })
-    store.watch(s => s.$('nested').a, (n, o) => {
+    store.watch(s => s.nested.a, (n, o) => {
       nested = n
       calls++
     })

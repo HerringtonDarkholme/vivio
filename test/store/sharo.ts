@@ -46,7 +46,7 @@ var allCoffeeShop = create()
     // dispatch returns a promise
     store.dispatch('order_anko', 2).then(() => console.log('done!'))
     // get sub state
-    store.state.$('rabbitHouse')
+    store.state.rabbitHouse
   })
   .plugin(s => {
     s.subscribe(cmt => {

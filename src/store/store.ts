@@ -5,7 +5,6 @@ import {
   MutationHandler0, F01,
 } from './interface'
 import OptImpl, {ActDefs, RawGetters, MutateDefs} from './opt'
-import State from './state'
 import devtoolPlugin from './devtool'
 import Vue = require('vue')
 import {createMap} from 'av-ts/dist/src/util'
@@ -60,7 +59,7 @@ export default class StoreImpl implements BaseStore {
   }
 
   /** @internal */ constructor(opt: OptImpl) {
-    let state = new State(opt._state)
+    let state = opt._state
     installModules(this, opt, state)
     initVM(this, state)
     opt._plugins.concat(devtoolPlugin).forEach(p => p(this))
@@ -91,11 +90,11 @@ export default class StoreImpl implements BaseStore {
 }
 
 
-function installModules(store: StoreImpl, opt: OptImpl, state: State) {
+function installModules(store: StoreImpl, opt: OptImpl, state: {}) {
   const modules = opt._modules
   for (let key in modules) {
     let moduleOpt = modules[key]
-    let subState = state.avtsModuleState[key] = new State(moduleOpt._state)
+    let subState = state[key] = moduleOpt._state
     installModules(store, moduleOpt, subState)
   }
   registerGetters(store, opt._getters, state)
@@ -103,7 +102,7 @@ function installModules(store: StoreImpl, opt: OptImpl, state: State) {
   registerActions(store, opt._actions, state)
 }
 
-function registerGetters(store: StoreImpl, getters: RawGetters, state: State) {
+function registerGetters(store: StoreImpl, getters: RawGetters, state: {}) {
   for (let key in getters) {
     store._getters[key] = () => getters[key](state, store.getters)
     Object.defineProperty(store.getters, key, {
@@ -112,7 +111,7 @@ function registerGetters(store: StoreImpl, getters: RawGetters, state: State) {
   }
 }
 
-function registerMutations(store: StoreImpl, mutations: MutateDefs, state: State) {
+function registerMutations(store: StoreImpl, mutations: MutateDefs, state: {}) {
   const _mutations = store._mutations
   for (let key in mutations) {
     _mutations[key] = _mutations[key] || []
@@ -121,7 +120,7 @@ function registerMutations(store: StoreImpl, mutations: MutateDefs, state: State
   }
 }
 
-function registerActions(store: StoreImpl, actions: ActDefs, state: State) {
+function registerActions(store: StoreImpl, actions: ActDefs, state: {}) {
   const _actions = store._actions
   for (let key in actions) {
     _actions[key] = _actions[key] || []
@@ -135,7 +134,7 @@ function registerActions(store: StoreImpl, actions: ActDefs, state: State) {
   }
 }
 
-function initVM(store: StoreImpl, state: State) {
+function initVM(store: StoreImpl, state: {}) {
   // feed getters to vm as getters
   // this enable lazy-caching
   const silent = Vue.config.silent
