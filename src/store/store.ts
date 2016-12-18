@@ -115,7 +115,7 @@ function registerMutations(store: StoreImpl, mutations: MutateDefs, state: {}) {
   const _mutations = store._mutations
   for (let key in mutations) {
     _mutations[key] = _mutations[key] || []
-    const mutation = mutations[key](state)
+    const mutation = mutations[key].bind(null, state)
     _mutations[key].push(mutation)
   }
 }

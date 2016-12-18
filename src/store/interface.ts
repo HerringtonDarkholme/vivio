@@ -50,10 +50,10 @@ export type Getter<K extends string, T> = {
 
 // mutation definition
 export interface MD0<S, T> {
-  (s: S): F0<void> & F01<T, void>
+  (s: S, t?: T): void
 }
 export interface MD1<S, T> {
-  (s: S): F1<T, void>
+  (s: S, t: T): void
 }
 export interface MutationHandler0<T> {
   (this: void, t?: T, opt?: CommitOption): void

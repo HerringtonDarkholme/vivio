@@ -54,7 +54,7 @@ describe('Kilimanjaro', () => {
     const store = create({
       a: 1
     })
-    .mutationWithArg(TEST, s => (n: number) => {
+    .mutationWithArg(TEST, (s, n: number) => {
       s.a += n
     })
     .done()
@@ -67,7 +67,7 @@ describe('Kilimanjaro', () => {
     const store = create({
       a: 1
     })
-    .mutationWithArg(TEST, s => (n: number) => {
+    .mutationWithArg(TEST, (s, n: number) => {
       s.a += n
     })
     .action(TEST, ({commit}) => (n: number) => {
@@ -83,7 +83,7 @@ describe('Kilimanjaro', () => {
     const store = create({
       a: 1
     })
-    .mutationWithArg(TEST, s => (n: number) => {
+    .mutationWithArg(TEST, (s, n: number) => {
       s.a += n
     })
     .action(TEST, ({commit}) => (n: number) => new Promise(resolve => {
@@ -105,7 +105,7 @@ describe('Kilimanjaro', () => {
     const store = create({
       a: 1
     })
-    .mutationWithArg(TEST, s => (n: number) => {
+    .mutationWithArg(TEST, (s, n: number) => {
       s.a += n
     })
     .actionsWithArg({
@@ -148,7 +148,7 @@ describe('Kilimanjaro', () => {
   it('getters', () => {
      const store = create({a: 1})
       .getter('hasAny', s => s.a > 1)
-      .mutationWithArg(TEST, s => (n: number) => s.a += n)
+      .mutationWithArg(TEST, (s, n: number) => s.a += n)
       .action('check', ({getters}) => (v: boolean) => {
         expect(getters.hasAny).to.equal(v)
       })
@@ -218,7 +218,7 @@ describe('Kilimanjaro', () => {
   // })
 
   it('module: mutation', () => {
-    const mutation = (s: {a: number}) => (n: number) => {
+    const mutation = (s: {a: number}, n: number) => {
       s.a += n
     }
 
@@ -316,7 +316,7 @@ describe('Kilimanjaro', () => {
     let initState: any
     const mutations: any[] = []
     const store = create({a: 1})
-      .mutationWithArg(TEST, s => (n: number) => s.a += n)
+      .mutationWithArg(TEST, (s, n: number) => s.a += n)
       .plugin(store => {
         initState = store.state
         store.subscribe((mut, state) => {
@@ -335,7 +335,7 @@ describe('Kilimanjaro', () => {
   it('plugin ignore silent mutation', () => {
     const mutations: any[] = []
     const store = create({a: 1})
-      .mutationWithArg(TEST, s => (n: number) => s.a += n)
+      .mutationWithArg(TEST, (s, n: number) => s.a += n)
       .plugin(store => {
         store.subscribe((mut, state) => {
           expect(state).to.equal(store.state)
@@ -353,9 +353,9 @@ describe('Kilimanjaro', () => {
 
   it('watch change in vue', done => {
     const store = create({a: 1})
-      .mutation(TEST, s => () => s.a += 1)
+      .mutation(TEST, s => s.a += 1)
       .module('nested', create({a: 2})
-        .mutation('inner', s => () => s.a += 1))
+        .mutation('inner', s => s.a += 1))
       .done()
 
     let test = 0
