@@ -61,6 +61,9 @@ export default class OptImpl implements BaseOpt {
     this._mutations[key] = f
     return this
   }
+  mutationWithArg(key: string, f: BaseMutateDef) {
+    return this.mutation(key, f)
+  }
   mutations(opts: {}) {
     for (let key of Object.keys(opts)) {
       this._mutations[key] = (s: any) => (arg?: any) => opts[key](s, arg)

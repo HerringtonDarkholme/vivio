@@ -192,7 +192,7 @@ export interface Opt<S, G extends BG, C extends BC, D extends BD, P extends BP, 
   declareGetter<K extends string, T>(): Opt<S, Getter<K, T> & G, C, D, P, CH, DH>
 
   mutation<K extends string, T>(key: K, f: MD0<S, T>): Opt<S, G, C0<K, T> & C, D, P0<K, T> | P, CH0<K, T> & CH, DH>
-  mutation<K extends string, T>(key: K, f: MD1<S, T>): Opt<S, G, C1<K, T> & C, D, P1<K, T> | P, CH1<K, T> & CH, DH>
+  mutationWithArg<K extends string, T>(key: K, f: MD1<S, T>): Opt<S, G, C1<K, T> & C, D, P1<K, T> | P, CH1<K, T> & CH, DH>
 
   mutations<T extends {[k: string]: (s: S) => void}>(commits: T): Opt<S, G, CO0<T> & C, D, PO0<T> | P, COH0<T> & CH, DH>
   mutationsWithArg<T>(commits: MDO<S, T>  ): Opt<S, G, CO1<T> & C, D, P1<keyof T, T> | P, COH1<T> & CH, DH>

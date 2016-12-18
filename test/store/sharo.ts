@@ -10,7 +10,7 @@ var rabbitHouse = create({
   .getter('coffee', state => state.cappuccino)
   .mutation('pay_check0', state => () => state.order += 1)
   .mutation('pay_check', state => (n?: number) => state.order += 1)
-  .mutation('pay_check1', state => (n: number) => state.order += 1)
+  .mutationWithArg('pay_check1', state => (n: number) => state.order += 1)
   .mutation('pay_check2', state => (n = 2) => state.order += 1)
   .action('order', store => (kind?: string) => {
     if (kind === 'tea') console.log('ordered tea!')
@@ -26,7 +26,7 @@ var sweetRabbitCafe = create({
   })
   // we need leave enough anko for matcha dessert!
   .getter('remainingAnko', state => state.ankoAmount - state.matchaAmount)
-  .mutation('eat_sweet', state => (n: number) => state.ankoAmount -= n)
+  .mutationWithArg('eat_sweet', state => (n: number) => state.ankoAmount -= n)
   .action('order_anko', store => (n: number) => {
     if (store.getters.remainingAnko < n) return console.log('no enough anko!')
     store.commit('eat_sweet', n) // commit payload
