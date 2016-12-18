@@ -79,9 +79,12 @@ export default class OptImpl implements BaseOpt {
     this._actions[key] = f
     return this
   }
+  actionWithArg(key: string, f: BaseActDef) {
+    return this.action(key, f)
+  }
   actions(opts: {}) {
     for (let key of Object.keys(opts)) {
-      this._actions[key] = (s: any) => (arg?: any) => opts[key](s, arg)
+      this._actions[key] = opts[key]
     }
     return this
   }

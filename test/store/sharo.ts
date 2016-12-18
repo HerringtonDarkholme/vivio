@@ -8,11 +8,11 @@ var rabbitHouse = create({
     order: 0,
   })
   .getter('coffee', state => state.cappuccino)
-  .mutation('pay_check0', state => () => state.order += 1)
-  .mutation('pay_check', state => (n?: number) => state.order += 1)
-  .mutationWithArg('pay_check1', state => (n: number) => state.order += 1)
-  .mutation('pay_check2', state => (n = 2) => state.order += 1)
-  .action('order', store => (kind?: string) => {
+  .mutation('pay_check0', state => state.order += 1)
+  .mutation('pay_check', (state, n?: number) => state.order += 1)
+  .mutationWithArg('pay_check1', (state, n: number) => state.order += 1)
+  .mutation('pay_check2', (state, n:number = 2) => state.order += 1)
+  .action('order', (store, kind?: string) => {
     if (kind === 'tea') console.log('ordered tea!')
     store.commit('pay_check') // just call thunk for mutation without payload
   })
@@ -26,19 +26,19 @@ var sweetRabbitCafe = create({
   })
   // we need leave enough anko for matcha dessert!
   .getter('remainingAnko', state => state.ankoAmount - state.matchaAmount)
-  .mutationWithArg('eat_sweet', state => (n: number) => state.ankoAmount -= n)
-  .action('order_anko', store => (n: number) => {
+  .mutationWithArg('eat_sweet', (state, n: number) => state.ankoAmount -= n)
+  .actionWithArg('order_anko', (store, n: number) => {
     if (store.getters.remainingAnko < n) return console.log('no enough anko!')
     store.commit('eat_sweet', n) // commit payload
   })
-  .action('order0', store => () => {})
-  .action('order1', store => (kind: string) => {})
-  .action('order2', store => (kind = 'coffee') => {})
+  .action('order0', store => {})
+  .actionWithArg('order1', (store, kind: string) => {})
+  .action('order2', (store, kind:string = 'coffee') => {})
 
 var allCoffeeShop = create()
   .module('rabbitHouse', rabbitHouse)
   .module('sweetRabbitCafe', sweetRabbitCafe)
-  .action('order a rabbit', store => () => {
+  .action('order a rabbit', store => {
     // get all coffee from module
     store.getters.coffee
     // commit mutations defined in module

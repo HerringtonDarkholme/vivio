@@ -70,7 +70,7 @@ describe('Kilimanjaro', () => {
     .mutationWithArg(TEST, (s, n: number) => {
       s.a += n
     })
-    .action(TEST, ({commit}) => (n: number) => {
+    .actionWithArg(TEST, ({commit}, n: number) => {
       commit(TEST, n)
     })
 
@@ -86,7 +86,7 @@ describe('Kilimanjaro', () => {
     .mutationWithArg(TEST, (s, n: number) => {
       s.a += n
     })
-    .action(TEST, ({commit}) => (n: number) => new Promise(resolve => {
+    .actionWithArg(TEST, ({commit}, n: number) => new Promise(resolve => {
       setTimeout(() => {
         commit(TEST, n)
         resolve()
@@ -127,7 +127,7 @@ describe('Kilimanjaro', () => {
 
   it('detect promise error', done => {
     const store = create()
-    .action(TEST, _ => () => new Promise((_, reject) => {
+    .action(TEST, _ => new Promise((_, reject) => {
       reject('no')
     }))
     .done()
@@ -149,7 +149,7 @@ describe('Kilimanjaro', () => {
      const store = create({a: 1})
       .getter('hasAny', s => s.a > 1)
       .mutationWithArg(TEST, (s, n: number) => s.a += n)
-      .action('check', ({getters}) => (v: boolean) => {
+      .actionWithArg('check', ({getters}, v: boolean) => {
         expect(getters.hasAny).to.equal(v)
       })
       .done()
@@ -162,8 +162,8 @@ describe('Kilimanjaro', () => {
 
   // it('helper: mutation', () => {
   //   const store = create({count: 0})
-  //     .mutation('inc', s => () => s.count++)
-  //     .mutation('dec', s => () => s.count--)
+  //     .mutation('inc', s => s.count++)
+  //     .mutation('dec', s => s.count--)
   //     .done()
   //   const { commit } = getHelper(store)
   //   Component.inDefinition = true
@@ -176,8 +176,8 @@ describe('Kilimanjaro', () => {
 
   // it('helper: getter', () => {
   //   const store = create({count: 0})
-  //     .mutation('inc', s => () => s.count++)
-  //     .mutation('dec', s => () => s.count--)
+  //     .mutation('inc', s => s.count++)
+  //     .mutation('dec', s => s.count--)
   //     .getter('hasAny', s => s.count > 0)
   //     .getter('negative', ({count}) => count < 0)
   //     .done()
@@ -247,7 +247,7 @@ describe('Kilimanjaro', () => {
 
   it('module: action', () => {
     let calls = 0
-    const makeAction = (n: number) => ({state}: {state: {a: number}}) => () => {
+    const makeAction = (n: number) => ({state}: {state: {a: number}}) => {
       calls++
       expect(state.a).to.equal(n)
     }
@@ -300,9 +300,9 @@ describe('Kilimanjaro', () => {
   it('module: dispatch action across module', done => {
     const store = create()
       .module('a', create()
-        .action(TEST, s => () => 1))
+        .action(TEST, s => 1))
       .module('b', create()
-        .action(TEST, s => () => new Promise(r => r(2))))
+        .action(TEST, s => new Promise(r => r(2))))
       .done()
 
     store.dispatch(TEST).then(r => {

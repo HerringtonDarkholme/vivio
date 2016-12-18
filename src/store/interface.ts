@@ -95,21 +95,21 @@ export interface COH1<T> {
 
 // action definition
 export interface AD0<S, G, C, D, T, R> {
-  (s: ActionStore<S, G, C, D>): F0<Promise<R> | R> & F1<T, Promise<R>|R>
+  (s: ActionStore<S, G, C, D>, t?: T): Promise<R> | R
 }
 export type ADO0<S, G, C, D, R> = {
-  [K in keyof R]: (s: ActionStore<S, G, C, D>) => (Promise<R[K]> | R[K])
+  [K in keyof R]: (s: any) => (Promise<R[K]> | R[K])
 } & {
   [k: string]: (s: ActionStore<S, G, C, D>) => any
 }
 
 export interface AD1<S, G, C, D, T, R> {
-  (s: ActionStore<S, G, C, D>): F1<T, Promise<R> | R>
+  (s: ActionStore<S, G, C, D>, t: T): Promise<R> | R
 }
 export type ADO1<S, G, C, D, T, R> = {
-  [K in keyof R]: (s: ActionStore<S, G, C, D>, t: any) => Promise<R[K]> | R[K]
+  [K in keyof R]: (s: any, t: any) => Promise<R[K]> | R[K]
 } & {
-  [K in keyof T]: (s: ActionStore<S, G, C, D>, t: T[K]) => any
+  [K in keyof T]: (s: any, t: T[K]) => any
 } & {
   [k: string]: (s: ActionStore<S, G, C, D>, t: any) => any
 }
@@ -200,7 +200,7 @@ export interface Opt<S, G extends BG, C extends BC, D extends BD, P extends BP, 
   declareMutation<K extends string, T>(): Opt<S, G, C1<K, T> & C, D, P1<K, T> | P, CH1<K, T> & CH, DH>
 
   action<K extends string, T, R>(key: K, f: AD0<S, G, C, D, T, R>): Opt<S, G, C, D0<K, T, R> & D,  P, CH, DH0<K, T, R> & DH>
-  action<K extends string, T, R>(key: K, f: AD1<S, G, C, D, T, R>): Opt<S, G, C, D1<K, T, R> & D,  P, CH, DH1<K, T, R> & DH>
+  actionWithArg<K extends string, T, R>(key: K, f: AD1<S, G, C, D, T, R>): Opt<S, G, C, D1<K, T, R> & D,  P, CH, DH1<K, T, R> & DH>
 
   actions<R>(dispatchs: ADO0<S, G, C, D, R>): Opt<S, G, C, DO0<R> & D, P, CH, DHO0<R> & DH>
   actionsWithArg<T, R>(dispatchs: ADO1<S, G, C, D, T, R>): Opt<S, G, C, DO1<T, R> & D, P, CH, DHO1<T, R> & DH>
