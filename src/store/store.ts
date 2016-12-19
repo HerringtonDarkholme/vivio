@@ -1,13 +1,13 @@
 import {
   VueGetter, CommitOption,
   WatchHandler, WatchOption, Unsubscription,
-  BaseStore, BaseSubscriber, BaseHelper,
-  MutationHandler0, F01,
+  BaseStore, BaseSubscriber,
+  MutationHandler0, F01, BaseHelper
 } from './interface'
 import OptImpl, {ActDefs, RawGetters, MutateDefs} from './opt'
 import devtoolPlugin from './devtool'
 import Vue = require('vue')
-import {createMap} from 'av-ts/dist/src/util'
+import {createMap, helperImpl} from './helper'
 
 const dispatchImpl = (store: StoreImpl) => (type: string, payload?: {}) => {
   let handlers = store._actions[type]
@@ -46,7 +46,6 @@ export default class StoreImpl implements BaseStore {
    _mutations = createMap<MutationHandler0<{}>[]>()
    _actions = createMap<F01<{}, {} | Promise<{}>>[]>()
    _subscribers: BaseSubscriber[] = []
-   _helper: BaseHelper
 
    _devtoolHook?: {emit: Function}
 
@@ -87,12 +86,10 @@ export default class StoreImpl implements BaseStore {
     recursiveAssign(this._vm['state'], state)
   }
 
-  getHelper() {
-    // TODO
-    return null as any
-  }
-
+  helper: BaseHelper
 }
+
+StoreImpl.prototype.helper = helperImpl
 
 
 function installModules(store: StoreImpl, opt: OptImpl, state: {}) {

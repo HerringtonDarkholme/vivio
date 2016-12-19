@@ -160,62 +160,57 @@ describe('Kilimanjaro', () => {
     store.dispatch('check', true)
   })
 
-  // it('helper: mutation', () => {
-  //   const store = create({count: 0})
-  //     .mutation('inc', s => s.count++)
-  //     .mutation('dec', s => s.count--)
-  //     .done()
-  //   const { commit } = getHelper(store)
-  //   Component.inDefinition = true
-  //   commit('inc')()
-  //   expect(store.state.count).to.equal(1)
-  //   commit('dec')()
-  //   expect(store.state.count).to.equal(0)
-  //   Component.inDefinition = false
-  // })
+  it('helper: mutation', () => {
+    const store = create({count: 0})
+      .mutation('inc', s => s.count++)
+      .mutation('dec', s => s.count--)
+      .done()
+    const {inc, dec} = store.helper.mapMutations('inc', 'dec')
+    const mock = {$store: store}
+    inc.call(mock)
+    expect(store.state.count).to.equal(1)
+    dec.call(mock)
+    expect(store.state.count).to.equal(0)
+  })
 
-  // it('helper: getter', () => {
-  //   const store = create({count: 0})
-  //     .mutation('inc', s => s.count++)
-  //     .mutation('dec', s => s.count--)
-  //     .getter('hasAny', s => s.count > 0)
-  //     .getter('negative', ({count}) => count < 0)
-  //     .done()
-  //   const { commit, getters } = getHelper(store)
-  //   Component.inDefinition = true
-  //   let hasAnyImpl: any = getters('hasAny')
-  //   let negativeImpl: any = getters('negative')
-  //   expect(hasAnyImpl.__isgetter).to.equal(true)
-  //   expect(negativeImpl.__isgetter).to.equal(true)
-  //   expect(hasAnyImpl()).to.equal(false)
-  //   expect(negativeImpl()).to.equal(false)
-  //   commit('inc')()
-  //   expect(hasAnyImpl()).to.equal(true)
-  //   expect(negativeImpl()).to.equal(false)
-  //   commit('dec')()
-  //   commit('dec')()
-  //   expect(hasAnyImpl()).to.equal(false)
-  //   expect(negativeImpl()).to.equal(true)
-  //   Component.inDefinition = false
-  // })
+  it('helper: getter', () => {
+    const store = create({count: 0})
+      .mutation('inc', s => s.count++)
+      .mutation('dec', s => s.count--)
+      .getter('hasAny', s => s.count > 0)
+      .getter('negative', ({count}) => count < 0)
+      .done()
+    const mock = {$store: store}
+    const { mapMutations, mapGetters } = store.helper
+    let {hasAny, negative} = mapGetters('hasAny', 'negative')
+    let {inc, dec} = mapMutations('inc', 'dec')
+    expect(hasAny.call(mock)).to.equal(false)
+    expect(negative.call(mock)).to.equal(false)
+    inc.call(mock)
+    expect(hasAny.call(mock)).to.equal(true)
+    expect(negative.call(mock)).to.equal(false)
+    dec.call(mock)
+    dec.call(mock)
+    expect(hasAny.call(mock)).to.equal(false)
+    expect(negative.call(mock)).to.equal(true)
+  })
 
-  // it('helper: action', () => {
-  //   let a = sinon.spy()
-  //   let b = sinon.spy()
-  //   const store = create()
-  //     .action('a', s => a)
-  //     .action('b', s => b)
-  //     .done()
+  it('helper: action', () => {
+    let a = sinon.spy()
+    let b = sinon.spy()
+    const store = create()
+      .action('a', s => a())
+      .action('b', s => b())
+      .done()
 
-  //   const {dispatch} = getHelper(store)
-  //   Component.inDefinition = true
-  //   dispatch('a')()
-  //   expect(a).to.have.been.called
-  //   expect(b).not.to.have.been.called
-  //   dispatch('b')()
-  //   expect(b).to.have.been.called
-  //   Component.inDefinition = false
-  // })
+    const mock = {$store: store}
+    const {a: $a, b: $b} = store.helper.mapActions('a', 'b')
+    $a.call(mock)
+    expect(a).to.have.been.called
+    expect(b).not.to.have.been.called
+    $b.call(mock)
+    expect(b).to.have.been.called
+  })
 
   it('module: mutation', () => {
     const mutation = (s: {a: number}, n: number) => {

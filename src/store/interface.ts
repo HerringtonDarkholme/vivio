@@ -1,8 +1,6 @@
 // utility
-export type F0<R> = (this: void) => R
 export type F01<T, R> = (this: void, t?: T) => R
 export type F1<A, R> = (this: void, a: A) => R
-
 export type _ = {}
 
 // vue related types
@@ -80,17 +78,17 @@ export interface CO1<T> {
   <K extends keyof T>(k: K, t: T[K], opt?: CommitOption): void
 }
 
-export interface CH0<K, T> {
-  (k: K): MutationHandler0<T>
+export type CH0<K extends string, T> = {
+  [k in K]: MutationHandler0<T>
 }
-export interface COH0<T> {
-  (k: keyof T): MutationHandler0<undefined>
+export type COH0<T> = {
+  [k in keyof T]: MutationHandler0<undefined>
 }
-export interface CH1<K, T> {
-  (k: K): MutationHandler1<T>
+export type CH1<K extends string, T> = {
+  [k in K]: MutationHandler1<T>
 }
-export interface COH1<T> {
-  <K extends keyof T>(k: K): MutationHandler1<T[K]>
+export type COH1<T> = {
+  [K in keyof T]: MutationHandler1<T[K]>
 }
 
 // action definition
@@ -166,9 +164,9 @@ export interface Plugin<Str extends BaseStore> {
 }
 
 export interface Helper<G, CH extends BCH, DH extends BDH> {
-  mapGetters: {[K in keyof G]: () => G[K]}
-  mapCommit: {<K extends keyof CH>(...keys: K[]): {[k in K]: CH[k]}}
-  mapDispatch: {<K extends keyof DH>(...keys: K[]): {[k in K]: DH[k]}}
+  mapGetters<K extends keyof G>(...keys: K[]): {[k in K]: () => G[K]}
+  mapMutations<K extends keyof CH>(...keys: K[]): {[k in K]: CH[k]}
+  mapActions<K extends keyof DH>(...keys: K[]): {[k in K]: DH[k]}
 }
 
 
@@ -225,7 +223,8 @@ export interface Store<S, G extends BG, C extends BC, D extends BD, P extends BP
   readonly commit: C
   readonly dispatch: D
 
-  getHelper(): Helper<G, CH, DH>
+  readonly helper: Helper<G, CH, DH>
+
   subscribe(fn: Subscriber<P, S>): Unsubscription
   watch<R>(getter: VueGetter<S, R>, cb: WatchHandler<never, R>, options?: WatchOption<never, R>): Function
   replaceState(state: S): void

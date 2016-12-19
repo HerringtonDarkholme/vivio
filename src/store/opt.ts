@@ -4,7 +4,7 @@ import {
   GetDef, MD0, AD0,
 } from './interface'
 import StoreImpl from './store'
-import {createMap} from 'av-ts/dist/src/util'
+import {createMap} from './helper'
 const m = createMap
 
 type BaseActDef = AD0<{}, BG, BC, BD, {}, {}>
