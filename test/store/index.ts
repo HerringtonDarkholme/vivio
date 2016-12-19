@@ -382,29 +382,29 @@ describe('Kilimanjaro', () => {
     })
   })
 
-  // it('should annotate component', () => {
-  //   let changed =false
-  //   const store = create({
-  //     a: 1
-  //   })
-  //   .getter('getter', s => s.a + 1)
-  //   .mutation(TEST, s => (n: number) => {
-  //     changed = true
-  //   })
-  //   .done()
+  it('should annotate component', () => {
+    let changed =false
+    const store = create({
+      a: 1
+    })
+    .getter('getter', s => s.a + 1)
+    .mutation(TEST, (s, n: number) => {
+      changed = true
+    })
+    .done()
 
-  //   const { getters, commit } = getHelper(store)
+    const { mapGetters, mapMutations } = store.helper
 
-  //   @Component
-  //   class Test extends Vue {
-  //     @Store getter = getters('getter')
-  //     @Store mut = commit(TEST)
-  //   }
+    let Test: any = Vivio.component()
+    .computed(mapGetters('getter'))
+    .methods(mapMutations(TEST))
+    .done()
 
-  //   let tst = new Test()
-  //   expect(tst.getter).to.equal(2)
-  //   tst.mut(12)
-  //   expect(changed).to.equal(true)
-  // })
+    let tst: any = new (Vue.extend(Test as any))
+    tst.$store = store
+    expect(tst.getter).to.equal(2)
+    tst.TEST(12)
+    expect(changed).to.equal(true)
+  })
 
 })

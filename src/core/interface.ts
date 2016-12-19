@@ -79,7 +79,7 @@ export type Lifecycle<V> = {
   [K in Lifecycles]: (this: V) => void
 }
 
-export interface Other<P, D, C, M, K, E, S, T> extends Comp<P, D, C, M, K, E, S, T>{
+export interface Other<P, D, C, M, K, E, S, T> {
   watch(opt: Watch<P&D&C,Vueify<P,D,C,M,E,S,T>>): this
   lifecycle(opt: Lifecycle<Vueify<P,D,C,M,E,S,T>>): this
   options(opt: ComponentOptions<Vue>): this
@@ -87,11 +87,11 @@ export interface Other<P, D, C, M, K, E, S, T> extends Comp<P, D, C, M, K, E, S,
 }
 
 export interface Comp<P, D, C, M, K, E, S, T> extends Special<E, S, T> {
-  _props: P
-  _data(): D
-  _computed: C
-  _methods: M
-  _components: K
+  props: P
+  data(): D
+  computed: C
+  methods: M
+  components: K
 }
 
 export interface Special<E, S, T>  {

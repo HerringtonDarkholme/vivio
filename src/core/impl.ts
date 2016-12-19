@@ -83,12 +83,4 @@ export class Core implements Extends<{}, {}, {}, {}, {}, {}, {}, {}> {
   done() {
     return this._options as any
   }
-  _props: {}
-  _data: () => {}
-  _computed: {}
-  _methods: {}
-  _components: {}
-  $emit: {}
-  $scopedSlots: {}
-  $slots: {}
 }
