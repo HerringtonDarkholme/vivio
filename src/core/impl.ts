@@ -1,7 +1,7 @@
 import {Extends} from './interface'
 import {ComponentOptions} from 'vue/types/options'
-// import {getResult, setRenderContext} from '../template/implementation'
-// import {html} from '../template'
+import {getResult, setRenderContext} from '../template/implementation'
+import {html} from '../template'
 import * as Vue from 'vue'
 
 export class Core implements Extends<{}, {}, {}, {}, {}, {}, {}, {}> {
@@ -53,12 +53,12 @@ export class Core implements Extends<{}, {}, {}, {}, {}, {}, {}, {}> {
     return this
   }
   render(fn: any) {
-    // let h = (html as any)({})
-    // this._options.render = function(this: any) {
-    //   setRenderContext(this)
-    //   let ret = fn.call(this, h, this)
-    //   return getResult(ret)
-    // }
+    let h = html()
+    this._options.render = function(this: any) {
+      setRenderContext(this)
+      let ret = fn.call(this, h, this)
+      return getResult(ret)
+    }
     return this
   }
   watch(opt: {}) {

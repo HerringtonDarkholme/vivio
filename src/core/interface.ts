@@ -1,8 +1,6 @@
 import {HTML, HTMLBrand} from '../template/interface'
-import {ComputedOptions, WatchOptions, ComponentOptions} from 'vue/types/options'
+import {WatchOptions, ComponentOptions} from 'vue/types/options'
 import * as Vue from 'vue'
-// TODO: encoding computed readonly, by overloading
-// encoding prop readonly
 
 // props, data, computed, methods, komponent, Emit, Scoped, sloT
 export interface Extends<P, D, C, M, K, E, S, T> extends Mixin<P, D, C, M, K, E, S, T> {
@@ -13,7 +11,7 @@ export interface Mixin<P, D, C, M, K, E, S, T> extends Prop<P, D, C, M, K, E, S,
   mixin<P1, D1, C1, M1, K1>(m: Comp<P1, D1, C1, M1, K1, E, S, T>): Mixin<P1&P, D1&D, C1&C, M1&M, K1&K, E, S, T>
 }
 export interface Prop<P, D, C, M, K, E, S, T> extends Data<P, D, C, M, K, E, S, T> {
-  props<P1>(props: P1): Data<P1&P, D, C, M, K, E, S, T>
+  props<P1>(props: P1): Data<Readonly<P1>&P, D, C, M, K, E, S, T>
 }
 export interface Data<P, D, C, M, K, E, S, T> extends Declare<P, D, C, M, K, E, S, T> {
   data<D1>(init: (this: P&D, p: P&D) => D1): Declare<P, D1&D, C, M, K, E, S, T>
@@ -29,14 +27,19 @@ export type ComputedOpt<T, V> = {
   get?(this: V): T;
   set?(this: V, value: T): void;
   cache?: boolean;
-} | (
-  (this: V) => T
-)
+}
+
+export type ComputedFunc<T, V> = (this: V) => T
 
 export type Computed<C, V> = {
   [K in keyof C]: ComputedOpt<C[K], V>
 } & {
-  [k: string]: ComputedOptions<V>
+  [k: string]: ComputedOpt<any, V>
+}
+export type ComputedFuncs<C, V> = {
+  [K in keyof C]: ComputedFunc<C[K], V>
+} & {
+  [k: string]: ComputedFunc<any, V>
 }
 
 export type Methods<V> = {
@@ -48,6 +51,7 @@ export type Vueify<P,D,C,M,E,S,T> =
 
 
 export interface Repeatable<P, D, C, M, K, E, S, T> extends Render<P, D, C, M, K, E, S, T> {
+  computed<C1>(opt: ComputedFuncs<C1, P&D&C&M>): Repeatable<P, D, Readonly<C1>&C, M, K, E, S, T>
   computed<C1>(opt: Computed<C1, P&D&C&M>): Repeatable<P, D, C1&C, M, K, E, S, T>
   methods<M1 extends Methods<Vueify<P,D,C,M,E,S,T>>>(opt: M1): Repeatable<P, D, C, M1&M, K, E, S, T>
 }

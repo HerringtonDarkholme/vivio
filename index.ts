@@ -1,25 +1,24 @@
 import * as VueRouter from 'vue-router'
 import * as Vue from 'vue'
-import {create} from './src/store/opt'
-import * as StoreInterface from './src/store/interface'
-import {RouterOptions} from 'vue-router/types/router'
-import {Core} from './src/core/impl'
-import {Extends} from './src/core/interface'
+import {store} from './src/store/opt'
+import {vuexInit} from './src/store/helper'
+import {component} from './src/core'
 
-export type ComponentDef = Extends<never, never, never, never, never, never, never, never>
 Vue.use(VueRouter)
+Vue.mixin({ beforeCreate: vuexInit })
 
 export default {
   router(options?: VueRouter.RouterOptions) {
     return new VueRouter(options)
   },
-  store: create,
-  component(): ComponentDef {
-    return new Core as any
-  }
+  store,
+  component,
 }
 
-
 // workaround
-StoreInterface
+import {Extends} from './src/core/interface'
+import {Opt} from './src/store/interface'
+import {RouterOptions} from 'vue-router/types/router'
 export {RouterOptions}
+export {Opt}
+export {Extends}

@@ -109,8 +109,8 @@ export default class OptImpl implements BaseOpt {
   }
 }
 
-export function create(): Opt<never, never, never, never, never, never, never>
-export function create<S>(s: S): Opt<S, never, never, never, never, never, never>
-export function create(s = {}): BaseOpt {
+export function store(): Opt<never, never, never, never, never, never, never>
+export function store<S>(s: S): Opt<S, never, never, never, never, never, never>
+export function store(s = {}): BaseOpt {
   return new OptImpl(s)
 }
