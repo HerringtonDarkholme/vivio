@@ -1,11 +1,10 @@
 import {B} from './block'
+import {Comp} from '../core/interface'
 
-export type Class<C> = {
-  new(): C
-}
+export type BaseComp = Comp<{}, {}, {}, {}, {}, {}, {}, {}>
 
-export type Classes<T> = {
-  [K in keyof T]: Class<T[K]>
+export type Comps = {
+  [k: string]: BaseComp
 }
 
 export declare class HTMLBrand {

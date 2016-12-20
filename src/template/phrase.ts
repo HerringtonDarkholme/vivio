@@ -3,7 +3,7 @@ import {ComponentP} from './component'
 import {Text} from './text'
 import {Literal, Common, Close, WithElse, Else, For, Interpolate} from './basic'
 import {Media, ObjectP, Select} from './special'
-import {Class, HTMLBrand} from './interface'
+import {BaseComp, HTMLBrand} from './interface'
 
 // export type PhraseTags =
 //   'abbr' | 'b' | 'cite' | 'code' | 'em' | 'i' |
@@ -56,9 +56,9 @@ export type PP<EndTag, Comps> = {
 
   // for programmatic usage
   for: For<P<EndTag, Comps>>
-  tag<C>(this: {tag: {else: any}}, comp: Class<C>): Else<ComponentP<P<EndTag, Comps>, 'tag', C, Comps>>
+  tag<C extends BaseComp>(this: {tag: {else: any}}, comp: C): Else<ComponentP<P<EndTag, Comps>, 'tag', C, Comps>>
   tag(this: {tag: {else: any}}, str: string): Else<Phrase<P<EndTag, Comps>, 'tag', Comps>>
-  tag<C>(comp: Class<C>): ComponentP<P<EndTag, Comps>, 'tag', C, Comps>
+  tag<C extends BaseComp>(comp: C): ComponentP<P<EndTag, Comps>, 'tag', C, Comps>
   tag(str: string): Phrase<P<EndTag, Comps>, 'tag', Comps>
   children(...children: Array<string|HTMLBrand>): P<EndTag, Comps>
   template: Phrase<P<EndTag, Comps>, 'template',Comps>

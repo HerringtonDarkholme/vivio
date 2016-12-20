@@ -2,8 +2,8 @@ import {Literal, Close, WithElse} from './basic'
 import {B} from './block'
 import {P} from './phrase'
 import {HTMLBrand} from './interface'
+import {Emitter} from '../core/interface'
 
-export type Emitter<T> = <K extends keyof T>(key: K, payload: T[K]) => void
 
 export type ComponentEventAux<T> = {
   'componentTag': {

@@ -1,6 +1,7 @@
 import {setRenderContext} from '../../src/template/implementation'
 export {getResult, getResults} from '../../src/template/implementation'
 export {html as _h} from '../../src/template/index'
+import {Comp} from '../../src/core/interface'
 
 setRenderContext({
   _c: r,
@@ -9,7 +10,7 @@ setRenderContext({
   _v: (d: any) => d,
 })
 
-export function r(tag: string | Function, prop?: any, children?: any) {
+export function r(tag: string | Comp<{},{},{},{},{},{},{},{}>, prop?: any, children?: any) {
   return {tag, prop, children}
 }
 

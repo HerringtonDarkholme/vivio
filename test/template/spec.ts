@@ -1,26 +1,31 @@
-import {Emitter} from '../../src/template/component'
 import {expect} from 'chai'
 import {r, _h as h, getResult} from './index'
+import Vivio, {p} from '../../index'
 
-class elInput {
-  $emit: Emitter<{
-    change: string,
-    focus: boolean
-  }>
-  props: {
-    disabled: boolean
-  }
-}
+// class elInput {
+//   $emit: Emitter<{
+//     change: string,
+//     focus: boolean
+//   }>
+//   props: {
+//     disabled: boolean
+//   }
+// }
 
-class CustomIndex {
-  $emit: Emitter<{
-    click: number
-  }>
-  props: {
-    item: {}
-    index: number
-  }
-}
+const elInput = Vivio.component()
+.props({
+  disabled: p(Boolean)
+})
+.emit<{ change: string, focus: boolean}>()
+.done()
+
+const CustomIndex = Vivio.component()
+.props({
+  item: p({}),
+  index: p(Number)
+})
+.emit<{ click: number }>()
+.done()
 
 var s = {
   handleChange(s: string) {},

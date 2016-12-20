@@ -4,7 +4,7 @@ import {Text} from './text'
 import {ComponentB} from './component'
 import {Literal, Common, Close, WithElse, Else, For, Interpolate} from './basic'
 import {List, Media, ObjectP, Select, Table, Dl} from './special'
-import {Class, HTMLBrand} from './interface'
+import {BaseComp, HTMLBrand} from './interface'
 
 // export type BlockTags =
 //   'a' | 'article' | 'aside' | 'blockquote' |
@@ -82,9 +82,9 @@ export type BB<EndTag, Comps> = {
 
   // copmonents for programmatic usage
   for: For<B<EndTag, Comps>>
-  tag<C>(this: {tag: {else: any}}, comp: Class<C>): Else<ComponentB<B<EndTag, Comps>, 'tag', C, Comps>>
+  tag<C extends BaseComp>(this: {tag: {else: any}}, comp: C): Else<ComponentB<B<EndTag, Comps>, 'tag', C, Comps>>
   tag(this: {tag: {else: any}}, str: string): Else<Block<B<EndTag, Comps>, 'tag', Comps>>
-  tag<C>(comp: Class<C>): ComponentB<B<EndTag, Comps>, 'tag', C, Comps>
+  tag<C extends BaseComp>(comp: C): ComponentB<B<EndTag, Comps>, 'tag', C, Comps>
   tag(str: string): Block<B<EndTag, Comps>, 'tag', Comps>
   children(...children: Array<string|HTMLBrand>): B<EndTag, Comps>
   template: Block<B<EndTag, Comps>, 'template',Comps>

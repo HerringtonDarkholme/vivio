@@ -1,5 +1,6 @@
 import {r, t, _h, getResult} from './index'
 import {expect} from 'chai'
+import Vivio from '../../index'
 
 var h = _h({})
 
@@ -54,7 +55,7 @@ describe('special tags', () => {
   })
 
   it('dynamic component constructor', () => {
-    class Test {}
+    const Test = Vivio.component().done()
     h = h.div.if(false).div()
       .tag(Test).else.tag()
     var ret = getResult(h)
@@ -77,11 +78,7 @@ describe('special tags', () => {
   })
 
   it('scoped slot', () => {
-    class Comp {
-      $scopedSlots: {
-        default: (test: number) => any
-      }
-    }
+    const Comp = Vivio.component().scopedSlots<{ default(test: number): any }>().done()
     var func = (test: number) => h
       .div
         .$(test)
@@ -109,11 +106,9 @@ describe('special tags', () => {
   })
 
   it('named scoped slot', () => {
-    class Comp {
-      $scopedSlots: {
-        name: (test: number) => any
-      }
-    }
+    const Comp = Vivio.component()
+    .scopedSlots<{ name(test: number): any }>()
+    .done()
     var func = (test: number) => h
       .div
         .$(test)

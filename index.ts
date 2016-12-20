@@ -3,6 +3,7 @@ import * as Vue from 'vue'
 import {store} from './src/store/opt'
 import {vuexInit} from './src/store/helper'
 import {component} from './src/core'
+export {p} from './src/core'
 
 Vue.use(VueRouter)
 Vue.mixin({ beforeCreate: vuexInit })
@@ -22,3 +23,4 @@ import {RouterOptions} from 'vue-router/types/router'
 export {RouterOptions}
 export {Opt}
 export {Extends}
+

@@ -1,5 +1,6 @@
 import {expect} from 'chai'
 import {r, _h, getResult, getResults} from './index'
+import Vivio from '../../index'
 
 var h = _h({})
 
@@ -56,7 +57,7 @@ describe('simple tag tree', () => {
   })
 
   it('should resolve component', () => {
-    class TestComponent {}
+    const TestComponent = Vivio.component().done()
     var k = _h({test: TestComponent}).test.test()
     var ret = getResult(k)
     expect(ret).to.deep.equal(r(TestComponent))

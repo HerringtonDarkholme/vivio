@@ -2,6 +2,8 @@ import {HTML, HTMLBrand} from '../template/interface'
 import {WatchOptions, ComponentOptions} from 'vue/types/options'
 import * as Vue from 'vue'
 
+export type Emitter<T> = <K extends keyof T>(key: K, payload: T[K]) => void
+
 // props, data, computed, methods, komponent, Emit, Scoped, sloT
 export interface Extends<P, D, C, M, K, E, S, T> extends Mixin<P, D, C, M, K, E, S, T> {
   extends<P1, D1, C1, M1, K1>(m: Comp<P1, D1, C1, M1, K1, E, S, T>): Mixin<P1&P, D1&D, C1&C, M1&M, K1&K, E, S, T>
@@ -99,7 +101,7 @@ export interface Comp<P, D, C, M, K, E, S, T> extends Special<E, S, T> {
 }
 
 export interface Special<E, S, T>  {
-  $emit: E
+  $emit: Emitter<E>
   $scopedSlots: S
   $slots: T
 }
