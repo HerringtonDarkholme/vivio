@@ -23,4 +23,3 @@ import {RouterOptions} from 'vue-router/types/router'
 export {RouterOptions}
 export {Opt}
 export {Extends}
-

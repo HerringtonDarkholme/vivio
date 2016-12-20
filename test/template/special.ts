@@ -2,7 +2,7 @@ import {r, t, _h, getResult} from './index'
 import {expect} from 'chai'
 import Vivio from '../../index'
 
-var h = _h({})
+var h = _h()
 
 describe('special tags', () => {
   it('children declared inline', () => {
@@ -78,7 +78,7 @@ describe('special tags', () => {
   })
 
   it('scoped slot', () => {
-    const Comp = Vivio.component().scopedSlots<{ default(test: number): any }>().done()
+    const Comp = Vivio.component().scopedSlots<{ default: number }>().done()
     var func = (test: number) => h
       .div
         .$(test)
@@ -107,7 +107,7 @@ describe('special tags', () => {
 
   it('named scoped slot', () => {
     const Comp = Vivio.component()
-    .scopedSlots<{ name(test: number): any }>()
+    .scopedSlots<{ name: number }>()
     .done()
     var func = (test: number) => h
       .div

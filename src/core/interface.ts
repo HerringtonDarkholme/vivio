@@ -3,6 +3,7 @@ import {WatchOptions, ComponentOptions} from 'vue/types/options'
 import * as Vue from 'vue'
 
 export type Emitter<T> = <K extends keyof T>(key: K, payload: T[K]) => void
+export type ScopedSlot<T> = {[K in keyof T]: (scope: T[K]) => HTMLBrand}
 
 // props, data, computed, methods, komponent, Emit, Scoped, sloT
 export interface Extends<P, D, C, M, K, E, S, T> extends Mixin<P, D, C, M, K, E, S, T> {
@@ -82,7 +83,7 @@ export type Lifecycles =
   | 'beforeUpdate' | 'updated' | 'activated' | 'deactivated'
 
 export type Lifecycle<V> = {
-  [K in Lifecycles]: (this: V) => void
+  [K in Lifecycles]?: (this: V) => void
 }
 
 export interface Other<P, D, C, M, K, E, S, T> {
@@ -102,6 +103,6 @@ export interface Comp<P, D, C, M, K, E, S, T> extends Special<E, S, T> {
 
 export interface Special<E, S, T>  {
   $emit: Emitter<E>
-  $scopedSlots: S
+  $scopedSlots: ScopedSlot<S>
   $slots: T
 }

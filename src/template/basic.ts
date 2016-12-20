@@ -14,14 +14,28 @@ export type Close<Parent, End extends string> = {
   parent: Parent
 }
 
+export type ComponentSlotAux<T> = {
+  parent: {
+    'componentTag': {
+      $slots: T
+    }
+  }
+}
+
+export type RecurseRef<K extends string, T> = {
+  __ref: {
+    [k in K]: T
+  }
+} | {parent: RecurseRef<K, T>}
+
 export type Common<T> = {
   class(nameHash: {[k: string]: boolean}): Common<T>
   on(handlerHash: {[k: string]: Function}): Common<T>
   props(nameHash: {[k: string]: any}): Common<T>
   style(nameHash: {[k: string]: any}): Common<T>
   attrs(nameHash: {[k: string]: any}): Common<T>
-  asSlot(name: string): Common<T>
-  ref(name: string): Common<T>
+  asSlot<T>(this: ComponentSlotAux<T>, name: keyof T): Common<T>
+  ref<K extends string>(this: RecurseRef<K, HTMLElement>, name: K): Common<T>
   key(k: any): Common<T>
   directives(d: any): Common<T>
 } & T

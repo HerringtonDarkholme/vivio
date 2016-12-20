@@ -1,4 +1,4 @@
-import {Literal, Close, WithElse} from './basic'
+import {Literal, Close, WithElse, ComponentSlotAux} from './basic'
 import {B} from './block'
 import {P} from './phrase'
 import {HTMLBrand} from './interface'
@@ -17,7 +17,7 @@ export type ComponentPropAux<C> = {
 export type ComponentScopedSlot<T, Slots extends string> = {
   'componentTag': {
     $scopedSlots: {
-      [K in Slots]: (t: T) => {}
+      [K in Slots]: (t: T) => HTMLBrand
     }
   }
 }
@@ -34,13 +34,14 @@ export type Common<T> = {
   domProps(nameHash: {[k: string]: any}): Common<T>
   style(nameHash: {[k: string]: any}): Common<T>
   attrs(nameHash: {[k: string]: any}): Common<T>
-  slotName(name: string): Common<T>
+  asSlot<T>(this: ComponentSlotAux<T>, name: keyof T): Common<T>
   ref(name: string): Common<T>
   key(k: any): Common<T>
   directives(d: any): Common<T>
+  // we can introduce another type parameter for better error report
+  // not now for less memory consumption
   scopedSlot<S>(this: ComponentScopedSlot<S, 'default'>, fn: (k: S) => HTMLBrand): Common<T>
   scopedSlot<S, K extends string>(this: ComponentScopedSlot<S, K>, key: K, fn: (k: S) => HTMLBrand): Common<T>
- // 'componentTag': Comp
 } & T
 
 

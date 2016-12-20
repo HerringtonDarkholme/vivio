@@ -50,4 +50,4 @@ export type BuiltinComponents = {
   }
 }
 
-export type HTML<Comps> = B<HTMLBrand, Comps & BuiltinComponents>
+export type HTML<Comps> = B<HTMLBrand, Comps&BuiltinComponents>
