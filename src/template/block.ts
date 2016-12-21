@@ -98,12 +98,13 @@ export type BC<EndTag, Comps> = {
 export type B<EndTag, Comps> =
   BB<EndTag, Comps> & BC<EndTag, Comps> & EndTag
 
-export type If<Parent, End extends string, Comps> = {
+export interface If<End extends string, Comps> {
   if<P>(this: {parent: P}, condition: boolean): Common<B<Close<WithElse<P>, End>, Comps>>
-} & Common<B<Close<Parent, End>, Comps>>
+}
+export type _If<Parent, End extends string, Comps> = If<End, Comps> & Common<B<Close<Parent, End>, Comps>>
 
 // Literal > If > Start > For
 export type Block<Parent, End extends string, Comps> =
   Literal<
-    If< Parent, End, Comps >
+    _If< Parent, End, Comps >
   >

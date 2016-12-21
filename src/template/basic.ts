@@ -29,7 +29,7 @@ export interface ComponentSlotAux<T> {
 //   __ref: T
 // } | {parent: RecurseRef<T>}
 
-export type Common<T> = {
+export interface VDom<T> {
   class(nameHash: {[k: string]: boolean}): Common<T>
   on(handlerHash: {[k: string]: Function}): Common<T>
   props(nameHash: {[k: string]: any}): Common<T>
@@ -39,7 +39,9 @@ export type Common<T> = {
   ref(name: string): Common<T>
   key(k: any): Common<T>
   directives(d: any): Common<T>
-} & T
+}
+
+export type Common<T> = VDom<T> & T
 
 export type If<Original, Enhanced> = {
   if(condition: boolean): Enhanced

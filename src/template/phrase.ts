@@ -71,11 +71,13 @@ export type PC<EndTag, Comps> = {
 
 export type P<EndTag, Comps> = PC<EndTag, Comps> & PP<EndTag, Comps> &  EndTag
 
-export type If<Parent, End extends string, Comps> = {
+export interface If<End extends string, Comps> {
   if<Pt>(this: {parent: Pt}, condition: boolean): Common<P<Close<WithElse<Pt>, End>, Comps>>
-} & Common<P<Close<Parent, End>, Comps>>
+}
+export type _If<Parent, End extends string, Comps> =
+  If<End, Comps> & Common<P<Close<Parent, End>, Comps>>
 
 export type Phrase<Parent, End extends string, Comps> =
   Literal<
-    If<Parent, End, Comps>
+    _If<Parent, End, Comps>
   >
