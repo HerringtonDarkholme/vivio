@@ -1,9 +1,9 @@
 import {B} from './block'
 import {Comp} from '../core/interface'
 
-export type BaseComp = Comp<{}, {}, {}, {}, {}, {}, {}, {}>
+export interface BaseComp extends Comp<{}, {}, {}, {}, {}, {}, {}, {}> {}
 
-export type Comps = {
+export interface Comps {
   [k: string]: BaseComp
 }
 
@@ -27,18 +27,15 @@ export interface Transition {
 
 export interface BuiltinComponents {
   keepAlive: {
-    $emit: {},
     props: {
       include: string | RegExp,
       exclude: string | RegExp
     }
   },
   transition: {
-    $emit: {}
     props:  Transition
   }
   transitionGroup: {
-    $emit: {},
     props: Transition & { tag: string, moveClass: string },
   },
   // slot: {
