@@ -2,7 +2,10 @@ import {HTML, HTMLBrand} from '../template/interface'
 import {WatchOptions, ComponentOptions} from 'vue/types/options'
 import * as Vue from 'vue'
 
-export type Emitter<T> = <K extends keyof T>(key: K, payload: T[K]) => void
+export interface Emitter<T> {
+  <K extends keyof T>(key: K, payload: T[K]): void
+}
+
 export type ScopedSlot<T> = {[K in keyof T]: (scope: T[K]) => HTMLBrand}
 
 // props, data, computed, methods, komponent, Emit, Scoped, sloT
@@ -26,13 +29,15 @@ export interface Declare<P, D, C, M, K, E, S, T> extends Repeatable<P, D, C, M, 
   slots<T1>(): Declare<P, D, C, M, K, E, S, T1>
 }
 
-export type ComputedOpt<T, V> = {
+export interface ComputedOpt<T, V> {
   get?(this: V): T;
   set?(this: V, value: T): void;
   cache?: boolean;
 }
 
-export type ComputedFunc<T, V> = (this: V) => T
+export interface ComputedFunc<T, V> {
+  (this: V): T
+}
 
 export type Computed<C, V> = {
   [K in keyof C]: ComputedOpt<C[K], V>
@@ -45,7 +50,7 @@ export type ComputedFuncs<C, V> = {
   [k: string]: ComputedFunc<any, V>
 }
 
-export type Methods<V> = {
+export interface Methods<V> {
   [k: string]: (this: V, ...args: any[]) => any
 }
 
@@ -59,7 +64,9 @@ export interface Repeatable<P, D, C, M, K, E, S, T> extends Render<P, D, C, M, K
   methods<M1 extends Methods<Vueify<P,D,C,M,E,S,T>>>(opt: M1): Repeatable<P, D, C, M1&M, K, E, S, T>
 }
 
-export type Async<K> = () => (Promise<K> | K)
+export interface Async<K> {
+  (): Promise<K> | K
+}
 
 export type Components<K> = {
   [k in keyof K]: K[k] | Async<K[k]>
@@ -70,29 +77,36 @@ export type RenderComp<S, T, K> = {
   }
 } & K
 
-export type RenderFunc<P,D,C,M,E,S,T, K> =
-  (this: Vueify<P,D,C,M,E,S,T>, h: HTML<RenderComp<S,T,K>>, vm: Vueify<P,D,C,M,E,S,T>) => HTMLBrand
+export interface RenderFunc<P,D,C,M,E,S,T, K> {
+  (this: Vueify<P,D,C,M,E,S,T>, h: HTML<RenderComp<S,T,K>>, vm: Vueify<P,D,C,M,E,S,T>): HTMLBrand
+}
 
 export interface Render<P, D, C, M, K, E, S, T> extends Other<P, D, C, M, K, E, S, T> {
   components<K1>(opt: Components<K1>): Render<P, D, C, M, K1&K, E, S, T>
   render(f: RenderFunc<P,D,C,M,E,S,T,K>): Other<P, D, C, M, K, E, S, T>
 }
 
-export type WatchHandler<T, V> = (this: V, val: T, oldVal: T) => void;
-export type WatchOpt<T, V> = {
+export interface WatchHandler<T, V> {
+  (this: V, val: T, oldVal: T): void
+}
+export interface WatchOpt<T, V> extends WatchOptions {
   handler: WatchHandler<T, V>
-} & WatchOptions
+}
 
 export type Watch<T, V> = {
   [K in keyof T]?: WatchHandler<T[K], V> | WatchOpt<T[K], V>
 }
 
-export type Lifecycles =
-  | 'beforeCreate' | 'created' | 'destroyed' | 'beforeMount' | 'mounted'
-  | 'beforeUpdate' | 'updated' | 'activated' | 'deactivated'
-
-export type Lifecycle<V> = {
-  [K in Lifecycles]?: (this: V) => void
+export interface Lifecycle<V> {
+  beforeCreate?(this: V): void
+  created?(this: V): void
+  destroyed?(this: V): void
+  beforeMount?(this: V): void
+  mounted?(this: V): void
+  beforeUpdate?(this: V): void
+  updated?(this: V): void
+  activated?(this: V): void
+  deactivated?(this: V): void
 }
 
 export interface Other<P, D, C, M, K, E, S, T> {

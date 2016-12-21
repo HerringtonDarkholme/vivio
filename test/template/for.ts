@@ -1,7 +1,7 @@
 import {r, _h, getResult} from './index'
 import {expect} from 'chai'
 
-var h = _h({})
+var h = _h()
 
 describe('for', () => {
   it('simple for', () => {

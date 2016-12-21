@@ -6,7 +6,7 @@ export function component(): ComponentDef {
   return new Core as ComponentDef
 }
 
-export type Class<T> = {new (...args: {}[]): T}
+export interface Class<T> {new (...args: {}[]): T}
 
 export interface PlainProp<T> {
   type?: Class<T>

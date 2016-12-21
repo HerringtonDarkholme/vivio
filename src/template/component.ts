@@ -14,7 +14,7 @@ export interface ComponentPropAux<C> {
   'componentTag': {props: C}
 }
 
-export type ComponentScopedSlot<T, Slots extends string> = {
+export interface ComponentScopedSlot<T, Slots extends string> {
   'componentTag': {
     $scopedSlots: {
       [K in Slots]: (t: T) => HTMLBrand

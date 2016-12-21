@@ -14,7 +14,7 @@ export type Close<Parent, End extends string> = {
   parent: Parent
 }
 
-export type ComponentSlotAux<T> = {
+export interface ComponentSlotAux<T> {
   parent: {
     'componentTag': {
       $slots: T
@@ -43,13 +43,13 @@ export type If<Original, Enhanced> = {
   if(condition: boolean): Enhanced
 } & Original
 
-export type For<P> = {
+export interface For<P> {
   <A>(list: A[], func: (h: P, t: A, i: number) => P): P
 }
 
 export type Basic = string | number | boolean
 
-export type Interpolate<T> = {
+export interface Interpolate<T> {
   (str: TemplateStringsArray, ...args: any[]): T
   (...strings: Basic[]): T
 }
