@@ -22,11 +22,10 @@ export type ComponentSlotAux<T> = {
   }
 }
 
-export type RecurseRef<K extends string, T> = {
-  __ref: {
-    [k in K]: T
-  }
-} | {parent: RecurseRef<K, T>}
+// useful for finding ROOT, not used for compile time performance
+// export type RecurseRef<T> = {
+//   __ref: T
+// } | {parent: RecurseRef<T>}
 
 export type Common<T> = {
   class(nameHash: {[k: string]: boolean}): Common<T>
@@ -35,7 +34,7 @@ export type Common<T> = {
   style(nameHash: {[k: string]: any}): Common<T>
   attrs(nameHash: {[k: string]: any}): Common<T>
   asSlot<T>(this: ComponentSlotAux<T>, name: keyof T): Common<T>
-  ref<K extends string>(this: RecurseRef<K, HTMLElement>, name: K): Common<T>
+  ref(name: string): Common<T>
   key(k: any): Common<T>
   directives(d: any): Common<T>
 } & T

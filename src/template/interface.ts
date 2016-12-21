@@ -41,13 +41,13 @@ export type BuiltinComponents = {
     $emit: {},
     props: Transition & { tag: string, moveClass: string },
   },
-  slot: {
-    $emit: {},
-    props: {
-      name: string,
-      [k: string]: any
-    },
-  }
+  // slot: {
+  //   $emit: {},
+  //   props: {
+  //     name: string,
+  //     [k: string]: any
+  //   },
+  // }
 }
 
 export type HTML<Comps> = B<HTMLBrand, Comps&BuiltinComponents>

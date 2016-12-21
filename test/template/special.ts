@@ -2,7 +2,10 @@ import {r, t, _h, getResult} from './index'
 import {expect} from 'chai'
 import Vivio from '../../index'
 
-var h = _h()
+var slot = Vivio.component()
+.props({test: 'www', name: 'eeee'})
+.done()
+var h = _h({slot})
 
 describe('special tags', () => {
   it('children declared inline', () => {

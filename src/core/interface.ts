@@ -64,9 +64,18 @@ export type Async<K> = () => (Promise<K> | K)
 export type Components<K> = {
   [k in keyof K]: K[k] | Async<K[k]>
 }
+export type RenderComp<S, T, K> = {
+  slot: {
+    props: {name: keyof (S&T)} & (S[keyof S]|{})
+  }
+} & K
+
+export type RenderFunc<P,D,C,M,E,S,T, K> =
+  (this: Vueify<P,D,C,M,E,S,T>, h: HTML<RenderComp<S,T,K>>, vm: Vueify<P,D,C,M,E,S,T>) => HTMLBrand
+
 export interface Render<P, D, C, M, K, E, S, T> extends Other<P, D, C, M, K, E, S, T> {
   components<K1>(opt: Components<K1>): Render<P, D, C, M, K1&K, E, S, T>
-  render(f: (this: Vueify<P,D,C,M,E,S,T>, h: HTML<K>, vm: Vueify<P,D,C,M,E,S,T>) => HTMLBrand): Other<P, D, C, M, K, E, S, T>
+  render(f: RenderFunc<P,D,C,M,E,S,T,K>): Other<P, D, C, M, K, E, S, T>
 }
 
 export type WatchHandler<T, V> = (this: V, val: T, oldVal: T) => void;
