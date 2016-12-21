@@ -14,7 +14,7 @@ import {BaseComp, HTMLBrand} from './interface'
 //   'bdo' | 'dfn'   | 'kbd' |
 //   'ins' | 'del' // actually transparent content, put in phrase
 
-export type PP<EndTag, Comps> = {
+export interface PP<EndTag, Comps> {
   // [K in PhraseTags]: Phrase<P<EndTag, Comps>, K, Comps>
   abbr: Phrase<P<EndTag, Comps>, 'abbr', Comps>
   b: Phrase<P<EndTag, Comps>, 'b', Comps>

@@ -13,7 +13,7 @@ import {BaseComp, HTMLBrand} from './interface'
 //   'h6' | 'iframe' | 'nav' | 'p' | 'section'
 //    | 's' | 'address' | 'map' | 'u'
 
-export type BB<EndTag, Comps> = {
+export interface BB<EndTag, Comps> {
   // [K in BlockTags]: Block<B<EndTag, Comps>, K, Comps>
   a: Block<B<EndTag, Comps>, 'a', Comps>
   article: Block<B<EndTag, Comps>, 'article', Comps>

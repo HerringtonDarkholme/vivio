@@ -15,7 +15,11 @@ export type If<Parent> = {
   if<P>(this: {parent: P}, condition: boolean): Common<V<WithElse<P>>, V<WithElse<P>>>
 } & Common<V<Parent>, V<Parent>>
 
-export type V<Parent> = (() => Parent) & {parent: Parent}
+export interface V<Parent> {
+  (): Parent
+  parent: Parent
+}
+
 export type Void<Parent> =
   Literal<
     If< Parent >

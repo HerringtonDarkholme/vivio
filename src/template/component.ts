@@ -5,12 +5,12 @@ import {HTMLBrand} from './interface'
 import {Emitter} from '../core/interface'
 
 
-export type ComponentEventAux<T> = {
+export interface ComponentEventAux<T> {
   'componentTag': {
     $emit: Emitter<T>
   }
 }
-export type ComponentPropAux<C> = {
+export interface ComponentPropAux<C> {
   'componentTag': {props: C}
 }
 

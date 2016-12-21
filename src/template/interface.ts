@@ -11,7 +11,7 @@ export declare class HTMLBrand {
   htmlBrand: {}
 }
 
-export type Transition = {
+export interface Transition {
     name: string,
     appear: boolean,
     css: boolean,
@@ -25,7 +25,7 @@ export type Transition = {
     appearActiveClass: string,
 }
 
-export type BuiltinComponents = {
+export interface BuiltinComponents {
   keepAlive: {
     $emit: {},
     props: {
