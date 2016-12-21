@@ -1,6 +1,11 @@
-export type Literal<Tag> = {
+export interface _Literal<Tag> {
   (str: TemplateStringsArray, ...args: any[]): Tag
-} & Tag
+}
+export type Literal<Tag> = _Literal<Tag> & Tag
+
+export interface ComponentTag<Comp> {
+  componentTag: Comp
+}
 
 export type Else<T> = T & { else: T }
 
@@ -15,11 +20,7 @@ export type Close<Parent, End extends string> = {
 }
 
 export interface ComponentSlotAux<T> {
-  parent: {
-    'componentTag': {
-      $slots: T
-    }
-  }
+  parent: ComponentTag<{$slots: T}>
 }
 
 // useful for finding ROOT, not used for compile time performance

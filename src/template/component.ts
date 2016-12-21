@@ -1,32 +1,27 @@
-import {Literal, Close, WithElse, ComponentSlotAux} from './basic'
+import {Literal, Close, WithElse, ComponentSlotAux, ComponentTag} from './basic'
 import {B} from './block'
 import {P} from './phrase'
 import {HTMLBrand} from './interface'
 import {Emitter} from '../core/interface'
 
-
-export interface ComponentEventAux<T> {
-  'componentTag': {
-    $emit: Emitter<T>
-  }
-}
-export interface ComponentPropAux<C> {
-  'componentTag': {props: C}
-}
-
-export interface ComponentScopedSlot<T, Slots extends string> {
-  'componentTag': {
+export interface $ScopedSlots<T, Slots extends string> {
     $scopedSlots: {
       [K in Slots]: (t: T) => HTMLBrand
     }
-  }
 }
+
+export interface ComponentEventAux<T> extends
+  ComponentTag<{$emit: Emitter<T>}> {}
+export interface ComponentPropAux<C> extends
+  ComponentTag<{props: C}> {}
+export interface ComponentScopedSlot<T, Slots extends string> extends
+  ComponentTag<$ScopedSlots<T, Slots>> {}
 
 export type Handlers<T> = {
   [K in keyof T]: (t: T[K]) => void
 }
 
-export type Common<T> = {
+export interface VDom<T> {
   class(nameHash: {[k: string]: boolean}): Common<T>
   on<E>(this: ComponentEventAux<E>, handlerHash: Handlers<E>): Common<T>
   props<C>(this: ComponentPropAux<C>, nameHash: Partial<C>): Common<T>
@@ -42,26 +37,30 @@ export type Common<T> = {
   // not now for less memory consumption
   scopedSlot<S>(this: ComponentScopedSlot<S, 'default'>, fn: (k: S) => HTMLBrand): Common<T>
   scopedSlot<S, K extends string>(this: ComponentScopedSlot<S, K>, key: K, fn: (k: S) => HTMLBrand): Common<T>
-} & T
+}
 
+export type Common<T> = T & VDom<T>
 
 export type CloseC<Parent, End extends string, Comp> =
-  Close<Parent, End> & {componentTag: Comp}
+  Close<Parent, End> & ComponentTag<Comp>
 
-export type BIf<Parent, End extends string, Comps, Comp> = {
+export interface BIf<End extends string, Comps, Comp> {
   if<Pt>(this: {parent: Pt}, condition: boolean): Common<B<CloseC<WithElse<Pt>, End, Comp>, Comps>>
-} & Common<B<CloseC<Parent, End, Comp>, Comps>>
+}
+export type _BIf<Parent, End extends string, Comps, Comp> = BIf<End, Comps, Comp> & Common<B<CloseC<Parent, End, Comp>, Comps>>
 
 export type ComponentB<Parent, End extends string, Comp, Comps> =
   Literal<
-    BIf<Parent, End, Comps, Comp>
+    _BIf<Parent, End, Comps, Comp>
   >
 
-export type PIf<Parent, End extends string, Comps, Comp> = {
+export interface PIf<End extends string, Comps, Comp> {
   if<Pt>(this: {parent: Pt}, condition: boolean): Common<P<CloseC<WithElse<Pt>, End, Comp>, Comps>>
-} & Common<P<CloseC<Parent, End, Comp>, Comps>>
+}
+export type _PIf<Parent, End extends string, Comps, Comp> =
+  PIf<End, Comps, Comp> & Common<P<CloseC<Parent, End, Comp>, Comps>>
 
 export type ComponentP<Parent, End extends string, Comp, Comps> =
   Literal<
-    PIf<Parent, End, Comps, Comp >
+    _PIf<Parent, End, Comps, Comp >
   >
