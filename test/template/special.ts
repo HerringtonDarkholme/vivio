@@ -5,7 +5,7 @@ import Vivio from '../../index'
 var slot = Vivio.component()
 .props({test: 'www', name: 'eeee'})
 .done()
-var h = _h({slot})
+var h = _h<{slot: typeof slot}>(undefined as any)
 
 describe('special tags', () => {
   it('children declared inline', () => {
