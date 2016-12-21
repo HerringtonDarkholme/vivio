@@ -13,11 +13,12 @@ export type WithElse<Parent> = {
   [K in keyof Parent]: Else<Parent[K]>
 }
 
-export type Close<Parent, End extends string> = {
-  [K in End]: () => Parent
-} & {
+export interface WithParent<Parent> {
   parent: Parent
 }
+export type Close<Parent, End extends string> = {
+  [K in End]: () => Parent
+} & WithParent<Parent>
 
 export interface ComponentSlotAux<T> {
   parent: ComponentTag<{$slots: T}>
