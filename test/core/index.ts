@@ -39,7 +39,7 @@ Vivio.component()
   .div
     .h1.$`hello world`.h1()
     .test.props({test: 33}).test()
-    .slot.props({name: 'scopedSlot1', eee: {}}).slot()
+    .slot.props({name: 'scopedSlot1', eee: '33'}).slot()
   .div()
 )
 .watch({

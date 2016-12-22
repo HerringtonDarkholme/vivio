@@ -24,7 +24,7 @@ export type Handlers<T> = {
 export interface VDom<T> {
   class(nameHash: {[k: string]: boolean}): Common<T>
   on<E>(this: ComponentEventAux<E>, handlerHash: Handlers<E>): Common<T>
-  props<C>(this: ComponentPropAux<C>, nameHash: Partial<C>): Common<T>
+  props<C, C1 extends C>(this: ComponentPropAux<C>, nameHash: C1): Common<T>
   nativeOn(handlerHash: {[k: string]: Function}): Common<T>
   domProps(nameHash: {[k: string]: any}): Common<T>
   style(nameHash: {[k: string]: any}): Common<T>

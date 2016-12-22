@@ -73,7 +73,7 @@ export type Components<K> = {
 }
 export type RenderComp<S, T, K> = {
   slot: {
-    props: {name: keyof (S&T)} & (S[keyof S]|{})
+    props: ({name: keyof S} & S[keyof S]) | {name: keyof T}
   }
 } & K
 
