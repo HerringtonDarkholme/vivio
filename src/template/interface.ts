@@ -25,6 +25,12 @@ export interface Transition {
     appearActiveClass: string,
 }
 
+export interface VueLocation {
+  path?: string
+  name?: string
+  params?: any
+}
+
 export interface BuiltinComponents {
   keepAlive: {
     props: {
@@ -38,13 +44,22 @@ export interface BuiltinComponents {
   transitionGroup: {
     props: Transition & { tag: string, moveClass: string },
   },
-  // slot: {
-  //   $emit: {},
-  //   props: {
-  //     name: string,
-  //     [k: string]: any
-  //   },
-  // }
+  routerLink: {
+    props: {
+      to: string | VueLocation,
+      replace: boolean,
+      append: boolean,
+      tag: string,
+      activeClass: string,
+      exact: boolean,
+      events: string[],
+    }
+  },
+  routerView: {
+    props: {
+      name: string,
+    }
+  }
 }
 
 export type HTML<Comps> = B<HTMLBrand, Comps&BuiltinComponents>
