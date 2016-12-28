@@ -12,17 +12,17 @@ export declare class HTMLBrand {
 }
 
 export interface Transition {
-    name: string,
-    appear: boolean,
-    css: boolean,
-    mode: string,
-    type: string,
-    enterClass: string,
-    leaveClass: string,
-    enterActiveClass: string,
-    leaveActiveClass: string,
-    appearClass: string,
-    appearActiveClass: string,
+    name?: string,
+    appear?: boolean,
+    css?: boolean,
+    mode?: string,
+    type?: string,
+    enterClass?: string,
+    leaveClass?: string,
+    enterActiveClass?: string,
+    leaveActiveClass?: string,
+    appearClass?: string,
+    appearActiveClass?: string,
 }
 
 export interface VueLocation {
@@ -34,30 +34,30 @@ export interface VueLocation {
 export interface BuiltinComponents {
   keepAlive: {
     props: {
-      include: string | RegExp,
-      exclude: string | RegExp
+      include?: string | RegExp,
+      exclude?: string | RegExp
     }
   },
   transition: {
     props:  Transition
   }
   transitionGroup: {
-    props: Transition & { tag: string, moveClass: string },
+    props: Transition & { tag?: string, moveClass?: string },
   },
   routerLink: {
     props: {
       to: string | VueLocation,
-      replace: boolean,
-      append: boolean,
-      tag: string,
-      activeClass: string,
-      exact: boolean,
-      events: string[],
+      replace?: boolean,
+      append?: boolean,
+      tag?: string,
+      activeClass?: string,
+      exact?: boolean,
+      events?: string[],
     }
   },
   routerView: {
     props: {
-      name: string,
+      name?: string,
     }
   }
 }
