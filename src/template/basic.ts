@@ -31,6 +31,7 @@ export interface ComponentSlotAux<T> {
 
 export interface VDom<T> {
   class(nameHash: {[k: string]: boolean}): Common<T>
+  class(...names: string[]): Common<T>
   on(handlerHash: {[k: string]: Function}): Common<T>
   props(nameHash: {[k: string]: any}): Common<T>
   style(nameHash: {[k: string]: any}): Common<T>

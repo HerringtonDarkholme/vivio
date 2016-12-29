@@ -252,6 +252,17 @@ var proxyHandler = {
         return receiver
       }
     }
+    if (name === 'class') {
+      return (...content: any[]) => {
+        if (typeof content[0] === 'string') {
+          addProps.call(target, 'class', content.join(' '))
+        } else {
+          addProps.call(target, 'class', content[0])
+        }
+        return receiver
+      }
+    }
+
     if (vnodekeys.indexOf(name) >= 0) {
       return (content: any) => {
         addProps.call(target, name, content)

@@ -33,6 +33,18 @@ describe('simple tag tree', () => {
     )
   })
 
+  it('should render class', () => {
+    h = h
+      .div.class('vnode1', 'vnode2')
+      .div()
+    var ret = getResult(h)
+    expect(ret).to.deep.equal(
+      r('div', {
+        class: 'vnode1 vnode2'
+      })
+    )
+  })
+
   it('should render nested props', () => {
     h = h
       .div.props({test: '1232'})
