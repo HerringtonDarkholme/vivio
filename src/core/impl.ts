@@ -1,11 +1,15 @@
-import {Extends} from './interface'
+import {Extends, HotModule} from './interface'
 import {ComponentOptions} from 'vue/types/options'
 import {getResult, setRenderContext} from '../template/implementation'
 import {html} from '../template'
 import * as Vue from 'vue'
 
+declare var require: any
+declare var process: any
+
 export class Core implements Extends<{}, {}, {}, {}, {}, {}, {}, {}> {
   _options: ComponentOptions<Vue> = {}
+  constructor(private module?: HotModule) {}
   extends(opt: {}) {
     this._options.extends = opt
     return this
@@ -81,6 +85,21 @@ export class Core implements Extends<{}, {}, {}, {}, {}, {}, {}, {}> {
     return this
   }
   done() {
-    return this._options as any
+    let option: any = this._options
+    let module = this.module
+    if (process.env.NODE_ENV !== 'production') {
+      if (module && module.hot) {
+        var hotAPI = require("vue-hot-reload-api")
+        hotAPI.install(require("vue"), false)
+        module.hot.accept()
+        if (!module.hot.data) {
+          hotAPI.createRecord(module.id, option)
+        } else {
+          hotAPI.reload(module.id, option)
+          hotAPI.rerender(module.id, option)
+        }
+      }
+    }
+    return option
   }
 }

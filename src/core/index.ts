@@ -1,9 +1,9 @@
 import {Core} from './impl'
-import {Extends} from './interface'
+import {Extends, HotModule} from './interface'
 export type ComponentDef = Extends<never, never, never, never, never, never, never, never>
 
-export function component(): ComponentDef {
-  return new Core as ComponentDef
+export function component(module?: HotModule): ComponentDef {
+  return new Core(module) as ComponentDef
 }
 
 export interface Class<T> {new (...args: {}[]): T}

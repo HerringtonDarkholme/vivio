@@ -8,6 +8,14 @@ export interface Emitter<T> {
 
 export type ScopedSlot<T> = {[K in keyof T]: (scope: T[K]) => HTMLBrand}
 
+export interface HotModule {
+  hot: {
+    accept(): void
+    data?: {}
+  }
+  id: {}
+}
+
 // props, data, computed, methods, komponent, Emit, Scoped, sloT
 export interface Extends<P, D, C, M, K, E, S, T> extends Mixin<P, D, C, M, K, E, S, T> {
   extends<P1, D1, C1, M1, K1>(m: Comp<P1, D1, C1, M1, K1, E, S, T>): Mixin<P1&P, D1&D, C1&C, M1&M, K1&K, E, S, T>

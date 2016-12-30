@@ -52,11 +52,11 @@ export default {
 
 // workaround
 import * as CoreInterface from './src/core'
-import {Extends} from './src/core/interface'
+import {Extends, HotModule} from './src/core/interface'
 import {RouterOptions} from 'vue-router/types/router'
 import * as StoreInterface from './src/store/interface'
-export {Extends}
-export {CoreInterface}
-export {StoreInterface}
-export {RouterOptions}
-export {p}
+export {
+  Extends, HotModule,
+  CoreInterface, StoreInterface, RouterOptions,
+  p, Vue
+}
