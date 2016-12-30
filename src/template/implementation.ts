@@ -15,7 +15,7 @@ const vnodekeys = [
   'domProps',
   'style',
   'attrs',
-  'slotName',
+  'asSlot',
   'ref',
   'key',
   'directives',
@@ -75,6 +75,7 @@ export function startTag(this: {__tagTree: TagTree}, tag: string) {
 export function addProps(this: {__tagTree: TagTree}, key: string, content: any) {
   let tagTree = this.__tagTree
   if (!tagTree.shouldRender) return
+  if (key === 'asSlot') key = 'slot'
   if (tagTree.currentTag.props) {
     tagTree.currentTag.props[key] = content
   } else {

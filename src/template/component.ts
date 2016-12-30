@@ -30,7 +30,7 @@ export interface VDom<T> {
   domProps(nameHash: {[k: string]: any}): Common<T>
   style(nameHash: {[k: string]: any}): Common<T>
   attrs(nameHash: {[k: string]: any}): Common<T>
-  asSlot<T>(this: ComponentSlotAux<T>, name: keyof T): Common<T>
+  asSlot<S>(this: ComponentSlotAux<S>, name: keyof S): Common<T>
   ref(name: string): Common<T>
   key(k: any): Common<T>
   directives(d: any): Common<T>

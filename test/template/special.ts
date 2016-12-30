@@ -108,6 +108,24 @@ describe('special tags', () => {
     ])
   })
 
+  it('asSlot call', () => {
+    const Comp = Vivio.component()
+    .slots<{ name: number }>()
+    .done()
+
+    var k = _h({comp: Comp})
+    .comp
+      .h1.asSlot('name').h1()
+    .comp()
+
+    var ret = getResult(k)
+    expect(ret).to.deep.equal(
+      r(Comp, undefined, [
+        r('h1', {slot: 'name'})
+      ])
+    )
+  })
+
   it('named scoped slot', () => {
     const Comp = Vivio.component()
     .scopedSlots<{ name: number }>()
