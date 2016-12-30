@@ -130,7 +130,7 @@ export function closeTag(this: {__tagTree: TagTree}, template: TemplateStringsAr
   }
 
   let ret
-  if (t.tag === 'template') {
+  if (t.tag === 'template' && !(t.props && t.props.slot)) {
     ret = t.children || []
   } else if (t.tag === 'slot') {
     let props = t.props && t.props.props
