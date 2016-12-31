@@ -11,7 +11,7 @@ export declare class HTMLBrand {
   htmlBrand: {}
 }
 
-export interface Transition {
+export interface TransitionProp {
     name?: string,
     appear?: boolean,
     css?: boolean,
@@ -31,20 +31,14 @@ export interface VueLocation {
   params?: any
 }
 
-export interface BuiltinComponents {
-  keepAlive: {
+export interface KeepAlive {
     props: {
       include?: string | RegExp,
       exclude?: string | RegExp
     }
-  },
-  transition: {
-    props:  Transition
-  }
-  transitionGroup: {
-    props: Transition & { tag?: string, moveClass?: string },
-  },
-  routerLink: {
+}
+
+export interface RouterLink {
     props: {
       to: string | VueLocation,
       replace?: boolean,
@@ -54,12 +48,28 @@ export interface BuiltinComponents {
       exact?: boolean,
       events?: string[],
     }
-  },
-  routerView: {
+}
+
+export interface RouterView {
     props: {
       name?: string,
     }
-  }
+}
+
+export interface Transition {
+    props:  TransitionProp
+}
+
+export interface TransitionGroup {
+    props: TransitionProp & { tag?: string, moveClass?: string },
+}
+
+export interface BuiltinComponents {
+  keepAlive: KeepAlive,
+  transition: Transition
+  transitionGroup: TransitionGroup
+  routerLink: RouterLink
+  routerView: RouterView
 }
 
 export type HTML<Comps> = B<HTMLBrand, Comps&BuiltinComponents>
