@@ -1,4 +1,4 @@
-import {Literal, WithElse} from './basic'
+import {Literal, WithElse, For, ForTag} from './basic'
 
 export type VoidTags =
   'br' | 'embed' | 'hr' | 'img' | 'input'
@@ -8,7 +8,7 @@ export type Common<T, EndTag> = {
   class(nameHash: {[k: string]: boolean}): Common<T, EndTag>
   on(handlerHash: {[k: string]: Function}): Common<T, EndTag>
   props(nameHash: {[k: string]: any}): Common<T, EndTag>
-  for<A>(list: A[], func: (h: Common<T, EndTag>, t: A, i: number) => T): EndTag
+  for: For<Common<T, ForTag<EndTag>>>
 } & T
 
 export type If<Parent> = {

@@ -48,8 +48,9 @@ export type If<Original, Enhanced> = {
   if(condition: boolean): Enhanced
 } & Original
 
+export type ForTag<T> = {'@forTag': any} & T
 export interface For<P> {
-  <A>(list: A[], func: (h: P, t: A, i: number) => P): P
+  <A>(list: A[], func: (h: P, t: A, i: number) => ForTag<never>): P
 }
 
 export type Basic = string | number | boolean

@@ -1,13 +1,13 @@
 import {Void} from './void'
 import {Block} from './block'
 import {Text} from './text'
-import {Literal, If, Common, Close, WithElse, For} from './basic'
+import {Literal, If, Common, Close, WithElse, For, ForTag} from './basic'
 import {HTMLBrand} from './interface'
 
 // export type ListTags = 'ul' | 'ol'
 export type L<EndTag, Comps> = {
   li: Block<L<EndTag, Comps>, 'li', Comps>
-  for: For<L<EndTag, Comps>>
+  for: For<L<ForTag<EndTag>, Comps>>
 } & EndTag
 export type List<Parent, End extends string, Comps> =
   Literal<
@@ -40,7 +40,7 @@ export type ObjectP<Parent> =
 
 export type _optgroup<EndTag> = {
   option: Text<Optgroup<EndTag>, 'option'>
-  for: For<_optgroup<EndTag>>
+  for: For<_optgroup<ForTag<EndTag>>>
 }
 export type Optgroup<Parent> =
   Literal<
@@ -52,7 +52,7 @@ export type Optgroup<Parent> =
 export type S<EndTag> = {
   optgroup: Optgroup<EndTag>,
   option: Text<S<EndTag>, 'option'>
-  for: For<S<EndTag>>
+  for: For<S<ForTag<EndTag>>>
 } & EndTag
 export type Select<Parent> =
   Literal<
@@ -67,7 +67,7 @@ export type TC<EndTag, Comps> = {
   // [K in CellTags]: Block<TC<EndTag, Comps>, K, Comps>
   td: Block<TC<EndTag, Comps>, 'td', Comps>
   th: Block<TC<EndTag, Comps>, 'th', Comps>
-  for: For<TC<EndTag, Comps>>
+  for: For<TC<ForTag<EndTag>, Comps>>
 } & EndTag
 export type TR<Parent, Comps> =
   Literal<
@@ -78,7 +78,7 @@ export type TR<Parent, Comps> =
   >
 export type TP<EndTag, Comps> = {
   tr: TR<TP<EndTag, Comps>, Comps>
-  for: For<TP<EndTag, Comps>>
+  for: For<TP<ForTag<EndTag>, Comps>>
 } & EndTag
 export type TabelPart<Parent, End extends string, Comps> =
   Literal<
@@ -101,7 +101,7 @@ export type Table<Parent, Comps> =
 export type D<EndTag, Comps> = {
   dt: Block<D<EndTag, Comps>, 'dt', Comps>,
   dd: Block<D<EndTag, Comps>, 'dd', Comps>
-  for: For<D<EndTag, Comps>>
+  for: For<D<ForTag<EndTag>, Comps>>
 } & EndTag
 export type Dl<Parent, Comps> =
   Literal<

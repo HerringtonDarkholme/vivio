@@ -1,7 +1,7 @@
 import {Void} from './void'
 import {ComponentP} from './component'
 import {Text} from './text'
-import {Literal, Common, Close, WithElse, Else, For, Interpolate} from './basic'
+import {Literal, Common, Close, WithElse, Else, For, Interpolate, ForTag} from './basic'
 import {Media, ObjectP, Select} from './special'
 import {BaseComp, HTMLBrand} from './interface'
 
@@ -55,7 +55,7 @@ export interface PP<EndTag, Comps> {
   select: Select<P<EndTag, Comps>>
 
   // for programmatic usage
-  for: For<P<EndTag, Comps>>
+  for: For<P<ForTag<EndTag>, Comps>>
   tag<C extends BaseComp>(this: {tag: {else: any}}, comp: C): Else<ComponentP<P<EndTag, Comps>, 'tag', C, Comps>>
   tag(this: {tag: {else: any}}, str: string): Else<Phrase<P<EndTag, Comps>, 'tag', Comps>>
   tag<C extends BaseComp>(comp: C): ComponentP<P<EndTag, Comps>, 'tag', C, Comps>
