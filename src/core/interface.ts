@@ -79,11 +79,13 @@ export interface Async<K> {
 export type Components<K> = {
   [k in keyof K]: K[k] | Async<K[k]>
 }
-export type RenderComp<S, T, K> = {
+
+export type SlotComp<S, T> = {
   slot: {
     props: ({name: keyof S} & S[keyof S]) | {name: keyof T}
   }
-} & K
+}
+export type RenderComp<S, T, K> = SlotComp<S, T> & K
 
 export interface RenderFunc<P,D,C,M,E,S,T, K> {
   (this: Vueify<P,D,C,M,E,S,T>, h: HTML<RenderComp<S,T,K>>, vm: Vueify<P,D,C,M,E,S,T>): HTMLBrand
