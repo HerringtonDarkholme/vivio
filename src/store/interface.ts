@@ -38,7 +38,7 @@ export interface GetDef<S, G, T> {
   (s: S, g: G): T
 }
 export type GetDefs<S, G, T> = {
-  [K in keyof T]: (s: _, g: _) => T[K]
+  [K in keyof T]: (s: S, g: G) => T[K]
 } & {
   [k: string]: (s: S, g: G) => _
 }
