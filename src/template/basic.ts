@@ -1,3 +1,5 @@
+import {HTMLBrand} from './interface'
+
 export interface _Literal<Tag> {
   (str: TemplateStringsArray, ...args: any[]): Tag
 }
@@ -48,9 +50,9 @@ export type If<Original, Enhanced> = {
   if(condition: boolean): Enhanced
 } & Original
 
-export type ForTag<T> = {forTag: any} & T
+export type ForTag<T> = HTMLBrand & T
 export interface For<P> {
-  <A, T>(this: T, list: A[], func: (h: P, t: A, i: number) => ForTag<never>): T
+  <A, T>(this: T, list: A[], func: (h: P, t: A, i: number) => HTMLBrand): T
 }
 
 export type Basic = string | number | boolean
