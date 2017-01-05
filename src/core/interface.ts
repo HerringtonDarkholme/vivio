@@ -3,7 +3,8 @@ import {WatchOptions, ComponentOptions} from 'vue/types/options'
 import * as Vue from 'vue'
 
 export interface Emitter<T> {
-  <K extends keyof T>(key: K, payload: T[K]): void
+  // we don't support multiple arguments due to TS limitation
+  <K extends keyof T>(key: K, payload: T[K], ...args: any[]): void
 }
 
 export type ScopedSlot<T> = {[K in keyof T]: (scope: T[K]) => HTMLBrand}

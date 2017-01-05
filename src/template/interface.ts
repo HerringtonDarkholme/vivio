@@ -1,5 +1,5 @@
 import {B} from './block'
-import {Comp} from '../core/interface'
+import {Comp, Emitter} from '../core/interface'
 
 export interface BaseComp extends Comp<{}, {}, {}, {}, {}, {}, {}, {}> {}
 
@@ -26,15 +26,15 @@ export interface TransitionProp {
 }
 
 export interface TransitionEvent {
-  beforeEnter(el: HTMLElement, done: () => void): void
-  enter(el: HTMLElement, done: () => void): void
-  afterEnter(el: HTMLElement, done: () => void): void
-  beforeLeave(el: HTMLElement, done: () => void): void
-  leave(el: HTMLElement, done: () => void): void
-  afterLeave(el: HTMLElement, done: () => void): void
-  beforeAppear(el: HTMLElement, done: () => void): void
-  appear(el: HTMLElement, done: () => void): void
-  afterAppear(el: HTMLElement, done: () => void): void
+  beforeEnter: HTMLElement
+  enter: HTMLElement
+  afterEnter: HTMLElement
+  beforeLeave: HTMLElement
+  leave: HTMLElement
+  afterLeave: HTMLElement
+  beforeAppear: HTMLElement
+  appear: HTMLElement
+  afterAppear: HTMLElement
 }
 
 export interface VueLocation {
@@ -75,7 +75,7 @@ export interface Transition {
 
 export interface TransitionGroup {
     props: TransitionProp & { tag?: string, moveClass?: string },
-    $emit: TransitionEvent
+    $emit: Emitter<TransitionEvent>
 }
 
 export interface BuiltinComponents {
