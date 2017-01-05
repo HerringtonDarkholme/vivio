@@ -179,10 +179,11 @@ describe('Kilimanjaro', () => {
       .mutation('dec', s => s.count--)
       .getter('hasAny', s => s.count > 0)
       .getter('negative', ({count}) => count < 0)
+      .getter('str', ({count}) => count + '')
       .done()
     const mock = {$store: store}
     const { mapMutations, mapGetters } = store.helper
-    let {hasAny, negative} = mapGetters('hasAny', 'negative')
+    let {hasAny, negative} = mapGetters('hasAny', 'negative', 'str')
     let {inc, dec} = mapMutations('inc', 'dec')
     expect(hasAny.call(mock)).to.equal(false)
     expect(negative.call(mock)).to.equal(false)

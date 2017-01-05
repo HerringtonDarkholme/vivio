@@ -164,7 +164,7 @@ export interface Plugin<Str extends BaseStore> {
 }
 
 export interface Helper<G, CH extends BCH, DH extends BDH> {
-  mapGetters<K extends keyof G>(...keys: K[]): {[k in K]: () => G[K]}
+  mapGetters<K extends keyof G>(...keys: K[]): {[k in K]: () => G[k]}
   mapMutations<K extends keyof CH>(...keys: K[]): {[k in K]: CH[k]}
   mapActions<K extends keyof DH>(...keys: K[]): {[k in K]: DH[k]}
 }
