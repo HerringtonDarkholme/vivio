@@ -25,6 +25,18 @@ export interface TransitionProp {
     appearActiveClass?: string,
 }
 
+export interface TransitionEvent {
+  beforeEnter(el: HTMLElement, done: () => void): void
+  enter(el: HTMLElement, done: () => void): void
+  afterEnter(el: HTMLElement, done: () => void): void
+  beforeLeave(el: HTMLElement, done: () => void): void
+  leave(el: HTMLElement, done: () => void): void
+  afterLeave(el: HTMLElement, done: () => void): void
+  beforeAppear(el: HTMLElement, done: () => void): void
+  appear(el: HTMLElement, done: () => void): void
+  afterAppear(el: HTMLElement, done: () => void): void
+}
+
 export interface VueLocation {
   path?: string
   name?: string
@@ -58,10 +70,12 @@ export interface RouterView {
 
 export interface Transition {
     props:  TransitionProp
+    $emit: TransitionEvent
 }
 
 export interface TransitionGroup {
     props: TransitionProp & { tag?: string, moveClass?: string },
+    $emit: TransitionEvent
 }
 
 export interface BuiltinComponents {
