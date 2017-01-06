@@ -1,3 +1,4 @@
+import {HotModule} from '../core/interface'
 import {
   Opt, BaseOpt,
   BG, BC, BD, BasePlugin, BP,
@@ -104,7 +105,7 @@ export default class OptImpl implements BaseOpt {
     return this
   }
 
-  done() {
+  done(module?: HotModule) {
     return new StoreImpl(this)
   }
 }

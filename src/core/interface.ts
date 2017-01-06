@@ -1,5 +1,5 @@
 import {HTML, HTMLBrand} from '../template/interface'
-import {WatchOptions, ComponentOptions} from 'vue/types/options'
+import {WatchOptions} from 'vue/types/options'
 import * as Vue from 'vue'
 
 export interface Emitter<T> {
@@ -123,8 +123,7 @@ export interface Lifecycle<V> {
 export interface Other<P, D, C, M, K, E, S, T> {
   watch(opt: Watch<P&D&C,Vueify<P,D,C,M,E,S,T>>): this
   lifecycle(opt: Lifecycle<Vueify<P,D,C,M,E,S,T>>): this
-  options(opt: ComponentOptions<Vue>): this
-  done(): Comp<P, D, C, M, K, E, S, T>
+  done(module?: HotModule): Comp<P, D, C, M, K, E, S, T>
 }
 
 export interface Comp<P, D, C, M, K, E, S, T> extends Special<E, S, T> {

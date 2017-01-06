@@ -19,6 +19,9 @@ export function vuexInit (this: any) {
   }
 }
 
+const state = memoize(k => function(this: any) {
+  return this.$store.state[k]
+})
 const getters = memoize(k => function(this: any) {
   return this.$store.getters[k]
 })
@@ -38,6 +41,9 @@ function map(keys: string[], mapper: (k: string) => any) {
 }
 
 export const helperImpl: BaseHelper = {
+  mapState(...keys: string[]) {
+    return map(keys, state)
+  },
   mapGetters(...keys: string[]) {
     return map(keys, getters)
   },

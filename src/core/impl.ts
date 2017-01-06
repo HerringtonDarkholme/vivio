@@ -8,8 +8,7 @@ declare var require: any
 declare var process: any
 
 export class Core implements Extends<{}, {}, {}, {}, {}, {}, {}, {}> {
-  _options: ComponentOptions<Vue> = {}
-  constructor(private module?: HotModule) {}
+  constructor(private _options: ComponentOptions<Vue> = {}) {}
   extends(opt: {}) {
     this._options.extends = opt
     return this
@@ -78,15 +77,8 @@ export class Core implements Extends<{}, {}, {}, {}, {}, {}, {}, {}> {
     }
     return this
   }
-  options(opt: {}) {
-    for (let key of Object.keys(opt)) {
-      this._options[key] = opt[key]
-    }
-    return this
-  }
-  done() {
+  done(module?: HotModule) {
     let option: any = this._options
-    let module = this.module
     if (process.env.NODE_ENV !== 'production') {
       if (module && module.hot) {
         var hotAPI = require("vue-hot-reload-api")

@@ -1,3 +1,4 @@
+import {HotModule} from '../core/interface'
 // utility
 export type F01<T, R> = (this: void, t?: T) => R
 export type F1<A, R> = (this: void, a: A) => R
@@ -163,7 +164,8 @@ export interface Plugin<Str extends BaseStore> {
   (s: Str): void
 }
 
-export interface Helper<G, CH extends BCH, DH extends BDH> {
+export interface Helper<S, G, CH extends BCH, DH extends BDH> {
+  mapState<K extends keyof S>(...keys: K[]): {[k in K]: () => S[k]}
   mapGetters<K extends keyof G>(...keys: K[]): {[k in K]: () => G[k]}
   mapMutations<K extends keyof CH>(...keys: K[]): {[k in K]: CH[k]}
   mapActions<K extends keyof DH>(...keys: K[]): {[k in K]: DH[k]}
@@ -181,7 +183,7 @@ export type BaseOpt = Opt<{}, BG, BC, BD, BP, BCH, BDH>
 export type BaseStore = Store<{}, BG, BC, BD, BP, BCH, BDH>
 export type BasePlugin = Plugin<BaseStore>
 export type BaseSubscriber = Subscriber<BP, {}>
-export type BaseHelper = Helper<BG, BCH, BDH>
+export type BaseHelper = Helper<{}, BG, BCH, BDH>
 
 // type level wizardry
 export interface Opt<S, G extends BG, C extends BC, D extends BD, P extends BP, CH extends BCH, DH extends BDH> {
@@ -208,7 +210,7 @@ export interface Opt<S, G extends BG, C extends BC, D extends BD, P extends BP, 
   module<K extends string, S1, G1 extends BG, C1 extends BC, D1 extends BD, P1 extends BP, CH1 extends BCH, DH1 extends BDH>(key: K, o: Opt<S1, G1, C1, D1, P1, CH1, DH1>): Opt<S & ModuleState<K, S1>, G1 & G, C1 & C, D1 & D, P1 | P, CH1 & CH, DH1 & DH>
 
   plugin(...plugins: Plugin<Store<S, G, C, D, P, CH, DH>>[]): this
-  done(): Store<S, G, C, D, P, CH, DH>
+  done(module?: HotModule): Store<S, G, C, D, P, CH, DH>
 
   state_t: S
   getters_t: G
@@ -223,7 +225,7 @@ export interface Store<S, G extends BG, C extends BC, D extends BD, P extends BP
   readonly commit: C
   readonly dispatch: D
 
-  readonly helper: Helper<G, CH, DH>
+  readonly helper: Helper<S, G, CH, DH>
 
   subscribe(fn: Subscriber<P, S>): Unsubscription
   watch<R>(getter: VueGetter<S, R>, cb: WatchHandler<never, R>, options?: WatchOption<never, R>): Function
