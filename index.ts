@@ -37,7 +37,7 @@ function start(initDef: InitDef = {}) {
   if (router) {
     comp['router'] = router
   }
-  new Vue(comp)
+  return new Vue(comp)
 }
 
 export default {

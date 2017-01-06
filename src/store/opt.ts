@@ -1,3 +1,5 @@
+declare var process: any
+
 import {HotModule} from '../core/interface'
 import {
   Opt, BaseOpt,
@@ -106,7 +108,20 @@ export default class OptImpl implements BaseOpt {
   }
 
   done(module?: HotModule) {
-    return new StoreImpl(this)
+    let store = new StoreImpl(this);
+    if (process.env.NODE_ENV !== 'production') {
+      if (module && module.hot) {
+        if (module.hot.data) {
+          store = module.hot.data.store
+          store.hotUpdate(this)
+        }
+        module.hot.accept();
+        module.hot.dispose((data: any) => {
+          data.store = store
+        })
+      }
+    }
+    return store;
   }
 }
 

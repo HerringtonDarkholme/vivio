@@ -87,6 +87,15 @@ export default class StoreImpl implements BaseStore {
   }
 
   hotUpdate(newOption: OptImpl) {
+    this._getters = createMap<() => {}>()
+    this._mutations = createMap<MutationHandler0<{}>[]>()
+    this._actions = createMap<F01<{}, {} | Promise<{}>>[]>()
+    this[<string>'getters'] = createMap()
+    let state = this.state
+    this._vm.$destroy()
+    installModules(this, newOption, state)
+    initVM(this, state)
+    recursiveAssign(state, newOption._state)
   }
 
   helper: BaseHelper
