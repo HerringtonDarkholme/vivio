@@ -83,7 +83,7 @@ export default class StoreImpl implements BaseStore {
   }
 
   replaceState(state: {}): void {
-    this._vm['state'] = state
+    recursiveAssign(this._vm['state'], state)
   }
 
   helper: BaseHelper
@@ -147,4 +147,24 @@ function initVM(store: StoreImpl, state: {}) {
   })
   Vue.config.silent = silent
 
+}
+
+function keysOf(obj: {}): string[] {
+  return Object.keys(obj)
+}
+
+function recursiveAssign(o: Object, n: Object) {
+  for (let key of keysOf(o)) {
+    let oVal = o[key]
+    let nVal = n[key]
+    if (isObj(oVal) && isObj(nVal)) {
+      recursiveAssign(oVal, nVal)
+    } else {
+      o[key] = n[key]
+    }
+  }
+}
+
+function isObj(o: any) {
+  return o !== null && typeof o === 'object'
 }
