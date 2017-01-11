@@ -189,8 +189,14 @@ var proxyHandler = {
 
     if (name === 'for') {
       return (list: Array<{}>, cb: Function) => {
+        if (!tagTree.shouldRender) return receiver
+        if (!tagTree.currentTag.children) {
+          tagTree.currentTag.children = []
+        }
         for (let i = 0, l = list.length; i < l; i++) {
-          cb(receiver, list[i], i)
+          const root = new Proxy(tagTree, rootProxy)
+          const ret = getResults(cb(root, list[i], i))
+          tagTree.currentTag.children.push(...ret)
         }
         return receiver
       }
