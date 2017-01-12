@@ -12,7 +12,7 @@ export type ScopedSlot<T> = {[K in keyof T]: (scope: T[K]) => HTMLBrand}
 export interface HotModule {
   hot: {
     accept(): void
-    data?: {store: any}
+    data?: any
     dispose(fn: Function): void
   }
   id: {}
