@@ -1,33 +1,64 @@
 Vivio
 =========
 
-A DSL alternative for JSX.
+A TypeScript expedient for Vue. It provides native-like API to use Vue in TypeScript
 
-Why?
-=====
-
-Because I want type safety in Vue's template and tsx does not support Vue compatible format. Period.
-
-Example
-====
-
-Should be self explanatory.
-
+Component
+======
 
 ```ts
-// component definition
-class elInput {
-  disabled: boolean
-  $emit: Emitter<{
-    change: string,
-    focus: boolean
-  }>
-  props: 'disabled'
-}
+// component.ts
+import vivio, {p} from 'vivio'
+import child from './child-component'
 
-h({elInput}) // register components
+export default
+vivio
+.component({
+  delimiter: ['{', '}'],
+  newOption: 'new option which has no method'
+})
+.props({
+  numProp: p(Number), // simple propperty with type `number`
+  myProp: p({ // object style property
+    type: p(String),
+    default: 'hello world',
+  }),
+})
+.data(vm => ({
+  someData: 42, // direct define
+  useProp: vm.numProp, // use property defined before
+}))
+.computed({
+  sum() {
+    // this is set to vue
+    return this.someData + this.numProp
+  }
+})
+.methods({
+  alert() {
+    // this is set to vue
+    alert(this.someData + this.numProp)
+  }
+})
+.component({
+  child: child // import child component
+})
+.render(h => h // render function definition, see below
+  .h1
+    .$`Hello world`
+    .child.child() // use child component
+  .h1())
+.done(module) // get the component definition object
+// you can pass webpack module object to done to enable HotModule reload
+```
+
+Render function
+=======
+
+```ts
+h
 .div`.el-autocomponet` // staticClass in tagged template
-  .elInput // component
+  .elInput // registred component
     .props(s.extract('value', 'disabled', 'placeholder', 'name', 'size')) // pass props by special method
     .on({change: s.handleChange, focus: s.handleFocus}) // the same for event
     .nativeOn({
@@ -59,18 +90,3 @@ h({elInput}) // register components
   .transition()
 .div()
 ```
-
-Should I use it in ....?
-=====
-
-No. The API design and implemenation is too experimental and heretic.
-It might even harm your feeling when making a new toy.
-
-TODO
-====
-
-- [x] for
-- [x] $
-- [x] tag
-- [x] children
-- [x] scoped template
