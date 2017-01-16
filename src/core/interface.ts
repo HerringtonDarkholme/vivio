@@ -26,8 +26,16 @@ export interface Extends<P, D, C, M, K, E, S, T> extends Mixin<P, D, C, M, K, E,
 export interface Mixin<P, D, C, M, K, E, S, T> extends Prop<P, D, C, M, K, E, S, T> {
   mixin<P1, D1, C1, M1, K1>(m: Comp<P1, D1, C1, M1, K1, E, S, T>): Mixin<P1&P, D1&D, C1&C, M1&M, K1&K, E, S, T>
 }
+
+export interface PropDef<T> {
+  _definition: T
+}
+
+export type PropertyDefinition<T> = {
+  [K in keyof T]: PropDef<T[K]>
+}
 export interface Prop<P, D, C, M, K, E, S, T> extends Data<P, D, C, M, K, E, S, T> {
-  props<P1>(props: P1): Data<Partial<Readonly<P1>>&P, D, C, M, K, E, S, T>
+  props<P1>(props: PropertyDefinition<P1>): Data<Partial<Readonly<P1>>&P, D, C, M, K, E, S, T>
 }
 export interface Data<P, D, C, M, K, E, S, T> extends Declare<P, D, C, M, K, E, S, T> {
   data<D1>(init: (this: P&D, p: P&D) => D1): Declare<P, D1&D, C, M, K, E, S, T>

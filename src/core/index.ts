@@ -1,5 +1,5 @@
 import {Core} from './impl'
-import {Extends, HotModule} from './interface'
+import {Extends, HotModule, PropDef} from './interface'
 export type ComponentDef = Extends<never, never, never, never, never, never, never, never>
 
 export function component(module?: HotModule): ComponentDef {
@@ -33,15 +33,15 @@ export interface FuncProp<T extends Function> {
 // we cast arugment's config object type into plain data object type
 // say, p(Number) has a return type of `number`, but at runtime it is
 // {type: Number}. This is solely for API user's conciseness
-export function p<T>(tpe: NumberConstructor): number | undefined
-export function p<T>(tpe: StringConstructor): string | undefined
-export function p<T>(tpe: BooleanConstructor): boolean | undefined
-export function p<T>(tpe: Class<T>): T | undefined
-export function p<T>(conf: RequiredProp<T>): T
-export function p<T>(conf: DefaultProp<T>): T
-export function p<T>(conf: PlainProp<T>): T | undefined
-export function p<T extends Function>(conf: FuncProp<T>): T
-export function p<T>(confOrType: Class<T> | PlainProp<T>): T {
+export function p<T>(tpe: NumberConstructor): PropDef<number | undefined>
+export function p<T>(tpe: StringConstructor): PropDef<string | undefined>
+export function p<T>(tpe: BooleanConstructor): PropDef<boolean | undefined>
+export function p<T>(tpe: Class<T>): PropDef<T | undefined>
+export function p<T>(conf: RequiredProp<T>): PropDef<T>
+export function p<T>(conf: DefaultProp<T>): PropDef<T>
+export function p<T>(conf: PlainProp<T>): PropDef<T | undefined>
+export function p<T extends Function>(conf: FuncProp<T>): PropDef<T>
+export function p<T>(confOrType: Class<T> | PlainProp<T>): PropDef<T> {
   if (typeof confOrType === 'function') {
     let tpe = confOrType
     return {type: tpe} as any
