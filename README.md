@@ -3,6 +3,8 @@ Vivio
 
 A TypeScript expedient for Vue. It provides native-like API to use Vue in TypeScript
 
+Example project: https://github.com/HerringtonDarkholme/dogfood
+
 Component
 ======
 
